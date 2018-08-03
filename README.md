@@ -8,8 +8,6 @@ Here are some examples/use cases of custom fields that can be created using Exte
 [Color Picker](./color-picker):  
 A native color picker polyfill that allows users to select color as input value and saves the color code in the backend.
 
-[Shopify](./shopify):  
-This extension lets you load products of your Shopify store into the field of your content type.  
 
 [Ace Editor](./ace-editor):  
 A code editor written in JavaScript, allowing you to edit HTML, PHP, JavaScript and other with ease.
@@ -25,6 +23,18 @@ It lets you display a progress bar as input field. Users can set value by slidin
 
 [Star Ratings](./ratings):   
 This extension lets you display five stars as an input field. Users can select one or more stars, and a corresponding value will be saved in Contentstack.  
+
+[Brightcove](./brigtcove):  
+This extension lets you fetch and display your Brightcove videos into a field of your content type.
+
+[Shopify](./shopify):  
+This extension lets you load products of your Shopify store into the field of your content type.
+
+[Egnyte](./Egnyte):  
+This extension lets you fetch files of your Egnyte account and display them into a field of your content type.
+
+[Ooyala](./ooyala):  
+This extension lets you fetch and display your Ooyala videos into a field of your content type.
 
 
 #### Other Documentation
