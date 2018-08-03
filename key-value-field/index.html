@@ -1,0 +1,105 @@
+<!doctype html>
+<html ng-app="keyValuePair">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.4/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-tree/2.22.6/angular-ui-tree.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-tree/2.22.6/angular-ui-tree.min.css"/>
+    <script src="https://www.contentstack.com/sdks/contentstack-ui-extensions/dist/latest/ui-extension-sdk.js"></script>
+    <link href="https://www.contentstack.com/sdks/contentstack-ui-extensions/dist/latest/ui-extension-sdk.css" rel="stylesheet" type="text/css" media="all">
+    <style>
+        .cs-text-box {
+            margin-bottom: 5px;
+            margin-left: 10px;
+        }
+
+        .sort-list {
+            display: inline-block;
+            width: 100%;
+            position: relative;
+        }
+
+        .sort-list:hover>.drag-icon {
+            visibility: visible;
+        }
+
+        .main-div {
+            width: 450px;
+        }
+        .ml-0 {
+           margin-left: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div ng-controller="keyValueCtrl">
+        <div ui-tree="treeOptions">
+            <div ui-tree-nodes ng-model="list.value" class="main-div">
+                <div ui-tree-node data-ng-repeat="x in list.value" class="sort-list">
+                    <input type="text" class="cs-text-box" ng-model="x.key" ng-change="setValue()" ng-focus="setFocus()" placeholder="Key" ng-value="x.key"
+                    /> :
+                    <input type="text" class="cs-text-box ml-0" ng-model="x.value" ng-change="setValue()" ng-focus="setFocus()" placeholder="Value"
+                        ng-value="x.value" />
+                    <i ng-click="removeKey($index);setFocus()" class="minus-sign" ng-show="list.value.length !== 1"></i>
+                    <i ng-click="addMoreKey();setFocus()" class="plus-sign" ng-show="$last"></i>
+                    <div class="drag-icon" ng-show="list.value.length !== 1" ui-tree-handle></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script>
+        var app = angular.module("keyValuePair", ['ui.tree']);
+        app.controller("keyValueCtrl", function ($scope, $timeout) {
+
+            $scope.addMoreKey = function () {
+                $scope.list.value.push({ "key": "", "value": "" });
+                $scope.setValue();
+            };
+
+            $scope.removeKey = function (index) {
+                $scope.list.value.splice(index, 1);
+                $scope.setValue();
+            };
+
+            $scope.setFocus = function () {
+                extensionField.field.setFocus();
+            };
+
+            $scope.setValue = function () {
+                extensionField.field.setData($scope.list);
+
+            };
+
+            $scope.treeOptions = {
+                dragStop: function () {
+                    $timeout(function () {
+                        $scope.setValue();
+                    }, 10);
+                }
+            };
+
+
+
+            ContentstackUIExtension.init().then(function (extension) {
+                extensionField = extension;
+                $scope.$apply(function () {
+                    $scope.list = (extension && extension.field && extension.field.getData()) ? extension.field.getData() : {};
+                    if (angular.equals($scope.list, {})) {
+                        $scope.list = {
+                            "value": [{ "key": "", "value": "" }]
+                        }
+                    }
+                })
+
+                extensionField.window.updateHeight();
+                extensionField.window.enableAutoResizing();
+            })
+        });
+
+    </script>
+</body>
+
+</html>

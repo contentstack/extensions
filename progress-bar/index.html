@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <script src="https://www.contentstack.com/sdks/contentstack-ui-extensions/dist/latest/ui-extension-sdk.js"></script>
+  <link href="https://www.contentstack.com/sdks/contentstack-ui-extensions/dist/latest/ui-extension-sdk.css" rel="stylesheet" type="text/css" media="all">
+<style>
+body{
+overflow: hidden;
+}
+</style>
+</head>
+<body>
+  <input type="range" name="rangeField" min="20" max="100" id="progress" onchange="progressChange()"/>
+  <label id="lbl"></label>
+  <script>
+    // find Progress input element 
+    var progressBar = document.getElementById("progress");
+    
+    // initialise Field Extension 
+     var extensionField;
+    
+     ContentstackUIExtension.init().then(function(extension) {
+         
+        // make extension object globally available
+        extensionField = extension;
+        
+        // Get current Progress field value from Contentstack and update the element
+        var initialValue = (extension && extension.field && extension.field.getData()) ? extension.field.getData() : 75;
+        progressBar.value = initialValue;
+        
+        //Update Extension height
+        extension.window.updateHeight();
+        
+        progressChange();
+    })
+    
+    // On Progress change event, pass new value to Contentstack
+     function progressChange(){
+            document.getElementById('lbl').innerHTML = progressBar.value;
+            var progressValue = parseInt(progressBar.value);
+            extensionField.field.setData(progressValue).then(function(){    
+      }).catch(function(error){
+          
+      })
+    }
+        
+  </script>
+</body>
+</html>
