@@ -1,0 +1,39 @@
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<script src="https://www.contentstack.com/sdks/contentstack-ui-extensions/dist/latest/ui-extension-sdk.js"></script>
+<link href="https://www.contentstack.com/sdks/contentstack-ui-extensions/dist/latest/ui-extension-sdk.css" rel="stylesheet" type="text/css" media="all">
+</head>
+<body>
+    <input type="color" id="html5colorpicker" onchange="colorChange()" onclick="setFocus()">
+    <script>
+        // initialise Field Extension
+        window.extensionField = {};
+        
+        // find color input element
+        var colorPickerElement = document.getElementById("html5colorpicker");
+        
+        ContentstackUIExtension.init().then(function(extension) {
+            // make extension object globally available
+            extensionField = extension;
+            
+            // update the field height 
+            extensionField.window.updateHeight();
+            
+            // Get current color field value from Contentstack and update the color picker input element
+            colorPickerElement.value = extensionField.field.getData();
+        })
+        
+        // on click of element we will set setFocus on field
+        function setFocus(){
+            extensionField.field.setFocus();
+        }
+        
+        // On color change event, pass new value to Contentstack
+        function colorChange(){
+            extensionField.field.setData(colorPickerElement.value);
+        }
+        
+    </script>
+</body>
+</html>

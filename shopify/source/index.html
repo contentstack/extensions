@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Shopify</title>
+  <link href="./style.css" rel="stylesheet" type="text/css" media="all">
+  <link href="https://www.contentstack.com/sdks/contentstack-ui-extensions/dist/latest/ui-extension-sdk.css" rel="stylesheet" type="text/css" media="all">
+ <script src="https://www.contentstack.com/sdks/contentstack-ui-extensions/dist/latest/ui-extension-sdk.js"></script>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-1.x-git.min.js"></script>
+  <script src="https://sdks.shopifycdn.com/js-buy-sdk/v1/latest/index.umd.min.js"></script>
+</head>
+
+<body>
+  <div class="wrapper">
+    <div class="container">
+      <div class="discription_box">
+        <ul>
+            <h3>No Product Selected</h3>
+        </ul>
+        <a  class="btn cs-btn-success choose_video">Choose Product</a>
+      </div>
+      <!-- list section start  here -->
+      <div class="list_section">
+        <form action="">
+          <input type="search" class="cs-text-box w-100 searchInpput" placeholder="Search ..." />
+        </form>
+        <ul id="products">
+        </ul>
+      </div>
+      <!-- list section start  here -->
+    </div>
+  </div>
+  <script src="./shopify.js"></script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "name": "contentstack_brightcove_extension",
+  "version": "1.0.0",
+  "description": "Contentstack brightcove extension to lookup videos from brightcove in a contentstack field and save video id.",
+  "main": "gulpfile.js",
+  "scripts": {
+    "build": "gulp build"
+  },
+  "author": "Contentstack",
+  "license": "ISC",
+  "devDependencies": {
+    "gulp": "3.9.1",
+    "gulp-babel": "7.0.1",
+    "gulp-inline": "0.1.3",
+    "gulp-inline-source": "3.2.0",
+    "gulp-minify-css": "1.2.4",
+    "gulp-uglify": "3.0.0"
+  }
+}

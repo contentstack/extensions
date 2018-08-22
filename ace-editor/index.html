@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <title>Ace Editor Extension</title>
+    <style>
+      body { margin: 0; }
+      #editor {
+        min-height: 300px;
+      }
+    </style>
+    <!--
+    Load the Extensions API that is used to communicate with the containing app.
+    -->
+    <script src="https://www.contentstack.com/sdks/contentstack-ui-extensions/dist/latest/ui-extension-sdk.js"></script>
+    <!--
+    We use lodash.throttle to avoid spamming the API with changes
+    -->
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.4/lodash.min.js"></script>
+    <!--
+    Include ace editor core script.
+    -->
+    <script src="https://cdn.jsdelivr.net/npm/ace-builds@1.2.9/src-min-noconflict/ace.js"></script>
+    <!--
+    Add editor theme and syntax highlighting mode scripts.
+    Find more here: https://www.jsdelivr.com/package/npm/ace-builds?path=src-min
+    -->
+    <script src="https://cdn.jsdelivr.net/npm/ace-builds@1.2.9/src-min-noconflict/mode-handlebars.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ace-builds@1.2.9/src-min-noconflict/theme-monokai.js"></script>
+  </head>
+  <body>
+    <pre id="editor"></pre>
+    <script>
+        // initialise Field Extension
+        window.extensionField = {};
+        
+        // find editor element
+        var editorElement = document.getElementById("editor");
+        
+        // initialise variable for ace editor plugin
+        var editor = {};
+    
+        
+        ContentstackUIExtension.init().then(function(extension) {
+            
+            // make extension object globally available
+            extensionField = extension;
+            
+            
+            // update the field height 
+            extensionField.window.updateHeight();
+            
+            // Get current ace editor field value from Contentstack and update the element
+            var value = extensionField.field.getData() || '';
+            editorElement.innerText = value
+    
+            // Configure Ace editor
+            editor = ace.edit('editor')
+            editor.setTheme('ace/theme/monokai')
+            editor.session.setMode('ace/mode/handlebars')
+            
+            //
+            editor.on('focus', function(event, editor) {
+                 extensionField.field.setFocus();
+            });
+    
+            // Listen to change events and fire an update every 500ms
+            editor.on('change', _.throttle(updateFieldValue, 500, { leading: false }))
+        })
+        
+        
+        function updateFieldValue () {
+          var value = editor.getValue()
+          extensionField.field.setData(value).then(function(){
+            		console.log('data set on child')
+            	}).catch(function(error){
+            		console.log('error in setting data',error)
+            	})
+        }
+    </script>
+  </body>
+</html>
