@@ -1,8 +1,8 @@
 # Contentstack Extensions 
 
-Contentstack provides Extensions that let you extend its UI. It provides two types of extensions: Custom Field and Custom Field.
+Contentstack provides Extensions that let you extend its UI. It provides two types of extensions: Custom Fields and Custom Widgets.
 
-The **Custom Field** extension lets you create custom fields that you can use in your content types, such as a color picker, code editor, video selector, and more. The **Custom Widgets** extension lets you add widgets that help you analyze the content of an entry and recommend content ideas. Examples of custom widgets are SEO recommendations, sentiment analysis, and content translation in different languages.
+The **Custom Fields** extension lets you create custom fields that you can use in your content types, such as a color picker, code editor, video selector, and more. The **Custom Widgets** extension lets you add widgets that help you analyze the content of an entry and recommend content ideas. Examples of custom widgets are SEO recommendations, sentiment analysis, and content translation in different languages.
 
 This is a repository of example extensions created using Contentstack’s [Extensions SDK](https://github.com/contentstack/ui-extensions-sdk).
 
