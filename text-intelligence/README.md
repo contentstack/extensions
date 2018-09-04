@@ -6,7 +6,7 @@
 
   
 
-![https://images.contentstack.io/v3/assets/bltf2fb14dd3176c6f6/bltded6d9c11acc8c58/5b7d67bbab8179d74832ac3e/download](https://images.contentstack.io/v3/assets/bltf2fb14dd3176c6f6/bltded6d9c11acc8c58/5b7d67bbab8179d74832ac3e/download)
+![https://images.contentstack.io/v3/assets/bltf2fb14dd3176c6f6/blt4d4805cdc3f6166e/5b87e52852308f4f0be57296/download](https://images.contentstack.io/v3/assets/bltf2fb14dd3176c6f6/blt4d4805cdc3f6166e/5b87e52852308f4f0be57296/download)
 
 
   
