@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link href="https://www.contentstack.com/sdks/contentstack-ui-extensions/dist/1.1.0/ui-extension-sdk.min.css" rel="stylesheet" type="text/css" media="all">
+  <link href="./style.css" rel="stylesheet" type="text/css" media="all">
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <script src="https://www.contentstack.com/sdks/contentstack-ui-extensions/dist/1.1.0/ui-extension-sdk.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="cs-form-group">
+      <label for="models" class="field-label">Select Model</label>
+      <select class="form-control" id="models"></select>
+    </div>
+    <div class="cs-form-group">
+      <label for="field" class="field-label">Field</label>
+      <select class="form-control" id="field"></select>
+    </div>
+    <button type="submit" id="run-btn" class="btn cs-btn-primary"><img src="https://images.contentstack.io/v3/assets/bltc249966903dc3407/blt40a60d26b3d8095f/5b7660b25b9f14da0eb07a34/operation.svg" alt="run-icon">Run</button>
+  </div>
+  <div class="container" id="result-container">
+    <ul class="list-group" id="result-list">
+    </ul>
+  </div>
+  <script src="./intelligence.js"></script>
+</body>
+</html>

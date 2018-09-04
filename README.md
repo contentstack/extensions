@@ -1,6 +1,10 @@
 # Contentstack Extensions 
 
-Contentstack provides Extensions that let you create custom fields. This is a repository of example extensions created using Contentstack’s Extensions SDK. 
+Contentstack provides Extensions that let you extend its UI. It provides two types of extensions: Custom Field and Custom Field.
+
+The **Custom Field** extension lets you create custom fields that you can use in your content types, such as a color picker, code editor, video selector, and more. The **Custom Widgets** extension lets you add widgets that help you analyze the content of an entry and recommend content ideas. Examples of custom widgets are SEO recommendations, sentiment analysis, and content translation in different languages.
+
+This is a repository of example extensions created using Contentstack’s [Extensions SDK](https://github.com/contentstack/ui-extensions-sdk).
 
 ### Examples of custom fields created using Extensions
 Here are some examples/use cases of custom fields that can be created using Extensions. These examples come with readme files that explain how to install and get started with these fields.   
@@ -36,8 +40,10 @@ This extension lets you fetch files of your Egnyte account and display them into
 [Ooyala](./ooyala):  
 This extension lets you fetch and display your Ooyala videos into a field of your content type.
 
+[Text Intelligence](./text-intelligence): 
+This extension (custom widget) uses MonekyLearn APIs to provide helpful recommendations such as content summarizer, keyword extractor, retail classifier, etc.
 
 #### Other Documentation
 - [What are Extensions](https://www.contentstack.com/docs/guide/extensions)
-- [Create a new Extension](https://www.contentstack.com/docs/guide/extensions#create-new-extensions)
 - [Extensions SDK](https://github.com/contentstack/ui-extensions-sdk)
+-  [Extensions FAQs](https://www.contentstack.com/docs/faqs#extensions)
