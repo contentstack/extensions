@@ -10,15 +10,14 @@ The Marketo Forms extension lets you fetch and display the list of your existing
 
 #### How to create this extension
 
-We have created a step-by-step guide on how to create a Marketo Forms extension for your content types. You can refer the Marketo Forms extension guide on our documentation site for more info.
+We have created a step-by-step guide on how to create a Marketo Forms extension for your content types. You can refer the [Marketo Forms extension guide](https://www.contentstack.com/docs/guide/extensions/custom-fields/marketo-forms-extension-setup-guide) on our documentation site for more info.
 
   
 
 ####  Other Documentation
 
-[Extensions guide](http://www.contentstack.com/docs/guide/extensions)
-
-[Common questions about extensions](https://www.contentstack.com/docs/faqs#extensions)
+- [Extensions guide](http://www.contentstack.com/docs/guide/extensions)
+- [Common questions about extensions](https://www.contentstack.com/docs/faqs#extensions)
 
 #### Modifying Extension
 
