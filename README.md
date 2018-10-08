@@ -28,6 +28,9 @@ It lets you display a progress bar as input field. Users can set value by slidin
 [Star Ratings](./ratings):   
 This extension lets you display five stars as an input field. Users can select one or more stars, and a corresponding value will be saved in Contentstack.  
 
+[Marketo Forms](./marketo-forms):  
+This extension lets you fetch and display the list of your existing Marketo forms into the field of your content type.
+
 [Brightcove](./brightcove):  
 This extension lets you fetch and display your Brightcove videos into a field of your content type.
 
