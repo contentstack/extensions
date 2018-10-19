@@ -1,0 +1,15 @@
+{
+  "name": "googla-analytics-widget-lambda-function",
+  "version": "1.0.0",
+  "description": "Contentstack Google Analytics Widget Lambda Function",
+  "main": "index.js",
+  "dependencies": {
+    "googleapis": "34.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Contentstack",
+  "license": "ISC"
+}
