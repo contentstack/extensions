@@ -8,9 +8,8 @@ The ‘Google Analytics’ widget extension retrieves the Google Analytics data 
 
 ##  How to create this extension
 
-We have created a step-by-step guide on how to create a Google Analytics widget extension for your content types. You can refer to the Google Analytics extension guide on our documentation site for more info.
+We have created a step-by-step guide on how to create a Google Analytics widget extension for your entries. You can refer to the [Google Analytics extension guide](https://www.contentstack.com/docs/guide/extensions/custom-widgets/google-analytics-extension-setup-guide) on our documentation site for more info.
 
-Learn how to [add this prebuilt extension](https://www.contentstack.com/docs/guide/extensions/custom-widgets/google-analytics-extension-setup-guide) to your stack.
 ##  Other Documentation
 
 - [Extensions guide](http://www.contentstack.com/docs/guide/extensions)
