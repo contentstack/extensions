@@ -1,0 +1,21 @@
+{
+  "name": "contentstack_external_api_lookup_template",
+  "version": "1.0.0",
+  "description": "The External API Lookup Template extension is an example of a custom field extension that lets you fetch data from an external API and display the data as possible values for the field on an entry page in Contentstack",
+  "main": "gulpfile.js",
+  "scripts": {
+    "build": "gulp build"
+  },
+  "author": "Contentstack",
+  "license": "ISC",
+  "devDependencies": {
+    "gulp": "4.0.0",
+    "gulp-babel": "7.0.1",
+    "gulp-inline": "0.1.3",
+    "gulp-inline-source": "3.2.0",
+    "gulp-minify-css": "1.2.4",
+    "gulp-uglify": "3.0.0",
+    "babel-cli": "6.26.0",
+    "babel-preset-es2015": "6.24.1"
+  }
+}
