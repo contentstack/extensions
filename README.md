@@ -1,3 +1,4 @@
+
 # Contentstack Extensions 
 
 Contentstack provides Extensions that let you extend its UI. It provides two types of extensions: Custom Fields and Custom Widgets.
@@ -37,11 +38,17 @@ This extension lets you fetch and display your Brightcove videos into a field of
 [Shopify](./shopify):  
 This extension lets you load products of your Shopify store into the field of your content type.
 
-[Egnyte](./Egnyte):  
+[Egnyte](./egnyte):  
 This extension lets you fetch files of your Egnyte account and display them into a field of your content type.
 
 [Ooyala](./ooyala):  
 This extension lets you fetch and display your Ooyala videos into a field of your content type.
+
+[Optimizely](./optimizely):  
+This extension lets you serve personalized content by allowing you to select the audience for each entry.
+
+[External API Lookup](./external-api-lookup-template):
+This extension lets you fetch data from an external API and display the data as possible values for the field on an entry page in Contentstack.
 
 ###  Examples of custom widgets created using Extensions
 Here are some examples/use cases of custom widgets that can be created using Extensions. These examples come with readme files that explain how to install and get started with these widgets.

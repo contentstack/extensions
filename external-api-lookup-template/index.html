@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>External API Lookup Template</title>
+    <style media="all">
+body{line-height:1}
+</style>
+    <link href="https://www.contentstack.com/sdks/contentstack-ui-extensions/dist/latest/ui-extension-sdk.css" rel="stylesheet" type="text/css" media="all">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://www.contentstack.com/sdks/contentstack-ui-extensions/dist/latest/ui-extension-sdk.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.x-git.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</head>
+<body>
+    <form>
+        <div class="form-group">
+            <select class="form-control" id="resource-select">
+            </select>
+        </div>
+    </form>
+    <script>
+"use strict";var _createClass=function(){function r(e,n){for(var t=0;t<n.length;t++){var r=n[t];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}return function(e,n,t){return n&&r(e.prototype,n),t&&r(e,t),e}}();function _classCallCheck(e,n){if(!(e instanceof n))throw new TypeError("Cannot call a class as a function")}var extensionField=void 0,Request=function(){function r(e){var n=e.configArg1,t=e.configArg2;_classCallCheck(this,r),this.configArg1=n,this.configArg2=t}return _createClass(r,[{key:"get",value:function(){var e=this,r=void 0;return new Promise(function(n,t){fetch("https://reqres.in/api/users?$configArg1={request.configArg1}&configArg2="+e.configArg2,{method:"GET"}).then(function(e){return r=e.status,e.json()}).then(function(e){throw 200===r&&n(e),Error("Failed to fetch resource")}).catch(function(e){t(e)})})}},{key:"search",value:function(e){var r=this,i=void 0;return new Promise(function(n,t){fetch("https://reqres.in/api/users?$keyword="+e+"&configArg2="+r.configArg2,{method:"GET"}).then(function(e){return i=e.status,e.json()}).then(function(e){throw 200===i&&n(e),Error("Failed to fetch resource")}).catch(function(e){t(e)})})}}]),r}();function domChangeListner(){$("#resource-select").on("change",function(){var e=$("#resource-select").val();return extensionField.field.setData(e)})}function render(e){var t=extensionField.field.getData();e.data.forEach(function(e){var n=$("<option></option>").attr("value",e.id).text(e.first_name+" "+e.last_name);t===e.id.toString()&&n.attr("selected","selected"),$("#resource-select").append(n)}),domChangeListner()}$(document).ready(function(){ContentstackUIExtension.init().then(function(e){new Request((extensionField=e).config).get().then(function(e){render(e)}),extensionField.window.enableAutoResizing()})});
+</script>
+</body>
+
+</html>
