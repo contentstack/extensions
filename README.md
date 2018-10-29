@@ -47,6 +47,9 @@ This extension lets you fetch and display your Ooyala videos into a field of you
 [Optimizely](./optimizely):  
 This extension lets you serve personalized content by allowing you to select the audience for each entry.
 
+[Youtube](./youtube):
+This extension lets you fetch and display Youtube videos into a field of your content type.
+
 [External API Lookup](./external-api-lookup-template):
 This extension lets you fetch data from an external API and display the data as possible values for the field on an entry page in Contentstack.
 
