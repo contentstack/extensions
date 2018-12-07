@@ -1,0 +1,187 @@
+body {
+  line-height: 1;
+}
+.container{
+	display: none;
+}
+.container, .row{
+      margin-top: 10px;
+  }
+ 
+  .edit-container, .delete-container, .experiment-container, .new-experiment-container{
+      display: none;
+  }
+
+  .new-experiment{
+       padding-right: 5px;
+        padding-top: 5px;
+  }
+
+
+  .details, .edit, .result, .key, .weight, .keyName{
+  	color: #748590;
+  	font-size: 14px;
+  }
+  .details:hover{
+     cursor: pointer;
+  }
+  .labell{
+  
+    padding: 10px 15px 0px 15px;
+    color: #474747;
+    font-size: 20px;
+   
+  }
+ .table-responsive{
+     margin-top: 10px;
+     border-left: none !important;
+     border-right: none !important;
+ }
+ thead tr th{
+ 	color: #4f6471;;
+    font-size: 15px;
+    font-weight: 100;
+    	vertical-align: middle !important;
+
+ }
+ .table>tbody>tr>td{
+ 	vertical-align: middle;
+ }
+ .table>tbody>tr>td>p{
+ 	margin-bottom: 0px !important;
+ }
+ .fa:hover {
+ 	opacity: 1 !important;
+ 	background: #f5fbfc !important;
+ 	
+ }
+ .experiment-list tr:hover, .experiment-data tr:hover{
+ 	/*font-weight: 700;*/
+ 	background: #f5fbfc !important;
+ }
+ 
+ .action, .result-icon, .cpbtn{
+ 	  border: 1px solid #d1dfe2;
+    background: white;
+    text-decoration: none;
+ 	  color: #748590
+    background-color: rgb(255, 255, 255);
+    padding:10px;
+    font-weight: 400;
+    line-height: 1px;
+
+ }
+ 
+ .action:hover{
+ 	border-color: #c6d4d7;
+ }
+ 
+ .fa{
+ 	    color: #748590 !important;
+    background-color: rgb(255, 255, 255) !important;
+ 	font-size: 14px !important;
+ 	opacity: 0.7;
+ }
+
+ .disabled{
+ 	opacity: 0.5
+ }
+ .goBack{
+ 	float: left;
+ 	margin-left: -15px; 
+ 	padding-right: 8px;
+
+ }
+ .goBack, .add{
+ 	background-color: #FFFFFF;
+ 	cursor: pointer;
+    /*color: #fff;
+    
+    border-radius: 3px;
+    background-clip: padding-box;
+    border: 1px solid transparent;*/
+ }
+ .goBack:hover, .add:hover{
+ 	/*background-color: #25c2a3;
+    color: #fff;
+  border: 1px solid transparent;*/
+  background-color: #FFFFFF;
+ 	cursor: pointer;
+ }
+ .key{
+ 	max-width: 150px;
+ 	white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 70%;
+ }
+ .refresh{
+ 	font-size: 17px !important;
+ }
+ .plus{
+  font-size: 16px !important;
+ } 
+ .refresh-btn{
+ 	float: right;
+    padding-top: 5px;
+ }
+ .details{
+ 	white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+ 	max-width: 170px;
+ }
+ .experiment-key, .variations, .audiences{
+ 	margin:30px 0px;
+ }
+ .keyLabel, .variationLabel, .audienceLabel{
+ 	margin: 10px 0px;
+ 	color: #4f6471;;
+    font-size: 15px;
+ }
+ .audienceLabel{
+     margin: 10px 0px 15px 0px;
+ }
+ .keyLabel{
+   font-size: 20px;
+ }
+ .keyName{
+ 	margin: 10px 0px;
+ }
+ .table-striped>tbody>tr:nth-child(odd) {
+    background-color: #FFFFFF;
+}
+.experiment-key{
+	display: inline;
+}
+
+#loader {
+  display: none;
+  margin-left: 45%;
+  margin-top: 50%;
+}
+.back{
+ font-size: 25px !important;
+ margin-right: 0px;
+}
+.keyLabel{
+	margin-top: 0px;
+    padding-top: 10px;
+}
+.audienceLabel a{
+	text-decoration: none !important;
+    color: #4f6471;
+}
+.user{
+	float: left;
+	border: none;
+    background: white;
+    padding: 0px 2px 0px 0px;
+    line-height: 1px; 
+}
+.link{
+    border: none;
+    background: white;
+    padding: 0px 2px 0px 4px;
+    line-height: 1px; 
+ }

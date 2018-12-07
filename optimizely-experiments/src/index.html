@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Optimizely Experiment</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <link href="https://www.contentstack.com/sdks/contentstack-ui-extensions/dist/latest/ui-extension-sdk.css" rel="stylesheet"
+        type="text/css" media="all">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script src="https://assets.contentstack.io/v3/assets/blte08a9a0af1c1320b/bltf24633929b28f9db/5b69788896ee083e4a2ce449/ui-extensions-sdk.js"></script>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <link href="./style.css" rel="stylesheet" type="text/css" media="all">
+</head>
+
+<body>
+    <div id="loader" class="reference-loading">
+        <div class="loading-flash">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="labell">List of Experiments</div>
+            <div class="new-experiment"><a href="" target="_blank"><button data-toggle="tooltip" title="Add/Edit Expeiment"
+                        type="button" class="btn add"><i class="plus fa fa-pencil" aria-hidden="true"></i></button></a></div>
+            <div class="refresh-btn"><button data-toggle="tooltip" title="Refresh" type="button" class="btn add"><i
+                        class="refresh fa fa-refresh"></i></i></button></div>
+            <div class="col-md-12">
+                <div class="table-responsive list">
+                    <table id="mytable" class="table table-bordred table-striped">
+                        <thead>
+                            <th>Expeiment Name</th>
+                            <th>Action</th>
+                            <th>Result</th>
+                        </thead>
+                        <tbody class="experiment-list">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="experiment-container" id="edit" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+            <div class="experiment-details">
+                <div class="experiment-key">
+                </div>
+                <div class="variations">
+                    <div class="variationLabel">Variations & Traffic Distribution</div>
+                    <div class="table-responsive detail">
+                        <table class="table table-bordred table-striped">
+                            <thead>
+                                <th>Key</th>
+                                <th></th>
+                                <th>Traffic <br> Distribution</th>
+                            </thead>
+                            <tbody class="experiment-data">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="audiences">
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="./optimizely-experiment.js"></script>
+</body>
+
+</html>
