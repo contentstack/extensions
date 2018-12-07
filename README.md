@@ -1,5 +1,3 @@
-
-
 # Contentstack Extensions 
 
 Contentstack provides Extensions that let you extend its UI. It provides two types of extensions: Custom Fields and Custom Widgets.
@@ -62,9 +60,6 @@ This extension (custom widget) uses MonekyLearn APIs to provide helpful recommen
 
 [Google Analytics](./google-analytics): 
 This widget uses the Google Analytics data to display the traffic analysis and statistics of your entry on the sidebar of the entry.
-
-[IBM Watson](./ibm-watson):
-The IBM Watson widget lets you analyze the content of an entry and extract meta-data from the content such as categories, concepts, emotions, entities, keywords, relations, semantic roles, and sentiment.
 
 [Optimizely Experiments](./optimizely-experiments):
 This extension lets you retrieve and display Optimizely Experiments and their details in your entry.
