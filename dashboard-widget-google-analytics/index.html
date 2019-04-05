@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
+<link href="https://www.contentstack.com/sdks/contentstack-ui-extensions/dist/1.1.0/ui-extension-sdk.css" rel="stylesheet" type="text/css" media="all">
+<style>
+.tbl{margin-left:0;margin-bottom:15px;padding-left:5px}.tbl ul{margin:0;padding:0;list-style:none}.tbl ul li{display:inline-block}.btn{border-radius:2px}.errormsg{font-family:Arial,Helvetica,sans-serif;font-weight:700;margin-left:0;margin-right:0;margin-top:0;background-color:#eff1f4;width:100%;height:auto;font-size:23px;text-align:center}#tag{margin:0 5px 7px 17px;background-color:#fff;width:85px}#loader{display:none;margin-left:0;margin-top:0;text-align:center;width:100%;position:absolute;top:50%;transform:translateY(-50%);z-index:1}.metric-details{margin:2px 2px 0 40px}.metric-details p{font-size:14px;color:#748590;line-height:22px;font-family:proximaNovaSemiBold}.metric-details h1{font-size:20px;color:#4f6471;line-height:22px;font-family:proximaNovaSemiBold}.line{height:2px;color:#efefef;margin-top:24px;margin-left:20px;margin-right:20px;margin-bottom:24px}#link{display:none}p{font-size:14px;margin:0}h1{color:#4f6471;font-size:24px;margin:0;line-height:1}a{text-decoration:none;color:#4f6471}a:hover{color:#25bd9f}.graph-wrap{width:49.9%;display:inline-block;position:relative;left:-15px}#canvasbody::after,#canvasbody::before{content:"";display:table}
+</style>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script src="https://assets.contentstack.io/v3/assets/blt4e38da5adaab83fb/bltace47052840d082e/5ca5e2dc49324e0c3a9922e2/ui-extension-sdk.js""></script>
+</head><body>
+<div class="tbl wrappper">
+  <ul>
+    <li>
+      <button type="button" id="tag" class="btn cs-btn-primary" onclick="loadIntervalData(1,this)">1 day</button>
+    </li>
+    <li>
+      <button type="button" id="tag" class="btn cs-btn-primary" onclick="loadIntervalData(7,this)">7 days</button>
+    </li>
+    <li>
+      <button type="button" id="tag" class="btn cs-btn-primary" onclick="loadIntervalData(15,this)">15 days</button>
+    </li>
+    <li>
+      <button type="button" id="tag" class="btn cs-btn-primary" onclick="loadIntervalData(30,this)">30 days</button>
+    </li>
+    <li>
+      <button type="button" id="tag" class="btn cs-btn-primary" onclick="loadIntervalData(180,this)">180 days</button>
+    </li>
+    <li>
+      <button type="button" id="tag" class="btn cs-btn-primary" onclick="loadIntervalData(365,this)">365 days</button>
+    </li>
+  </ul>
+</div>
+  <div id="error" class="errormsg">
+  </div>
+  <div id="loader" class="reference-loading">
+     <div class="loading-flash">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+  </div>
+ <div id="canvasbody">
+ </div>	
+ <script>
+"use strict";var _createClass=function(){function r(e,t){for(var a=0;a<t.length;a++){var r=t[a];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}return function(e,t,a){return t&&r(e.prototype,t),a&&r(e,a),e}}();function _classCallCheck(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}var extensionDashboardField=void 0,analytics=void 0,currentData=void 0,Analytics=function(){function n(e){var t=e.url,a=e.view_id,r=e["x-api-key"];_classCallCheck(this,n),this.baseUrl=t,this.viewId=a,this.xApiKey=r}return _createClass(n,[{key:"getData",value:function(){var e=0<arguments.length&&void 0!==arguments[0]?arguments[0]:30,t=this,a={};return t.xApiKey&&(a["x-api-key"]=t.xApiKey),fetch(t.baseUrl+"?view_id="+t.viewId+"&start_date="+e+"daysAgo&end_date=today&metrics=ga:pageviews,ga:uniquePageviews,ga:users,ga:newUsers,ga:avgTimeOnPage,ga:pageLoadTime,ga:bounceRate&dimensions=ga:date",{method:"GET",headers:a}).then(function(e){if(200===e.status)return e.json();throw new Error("Error in fetching data.</br>Please check extension configuration.")}).catch(function(e){return Promise.reject(e)})}}]),n}();function toggleLoader(e){document.getElementById("loader").style.display=e?"block":"none"}function toggleButtons(e){for(var t=document.getElementsByClassName("btn cs-btn-primary"),a=0;a<t.length;a+=1)t[a].disabled=e;toggleLoader(e)}function formatDate(e){return e[0]+e[1]+e[2]+e[3]+"-"+(e[4]+e[5])+"-"+(e[6]+e[7])}function addPadding(e){return 1===e.length?"0"+e:""+e}function formatTime(e){var t,a,r,n=e;return t=((n%=86400)/3600).toFixed(),a=((n%=3600)/60).toFixed(),r=(n%=60).toFixed(),addPadding(t)+":"+addPadding(a)+":"+addPadding(r)}function drawChart(e,t){var a=google.visualization.arrayToDataTable(e);new google.visualization.AreaChart(document.getElementById("chart_container_"+t)).draw(a,{hAxis:{textPosition:"none"},vAxis:{minValue:0},legend:"none",colors:["#098ec8"],backgroundColor:"#F8F8F8"})}function renderMetric(e,t,a,r){document.getElementById("canvasbody").innerHTML+='<div class="graph-wrap"><div class="metric-details"><p>'+r+"</p><h1>"+t+'</h1></div><div id="chart_container_'+a+'"></div></div>',drawChart(e,a)}function displayError(e){document.getElementById("error").innerHTML="<p>"+e+"</p>"}function renderData(e){document.getElementById("canvasbody").innerHTML=" ";var t,a=void 0,r=void 0,n=void 0,o=void 0,i=void 0,s=void 0,u=void 0,c=(currentData=e||currentData).totalsForAllResults["ga:pageviews"],d=currentData.totalsForAllResults["ga:uniquePageviews"],l=currentData.totalsForAllResults["ga:users"],g=currentData.totalsForAllResults["ga:newUsers"],m=currentData.totalsForAllResults["ga:avgTimeOnPage"],v=currentData.totalsForAllResults["ga:pageLoadTime"],h=currentData.totalsForAllResults["ga:bounceRate"];a=[["year","count"]],r=[["year","count"]],n=[["year","count"]],o=[["year","count"]],i=[["year","count"]],s=[["year","count"]],u=[["year","count"]],t=currentData.rows.length;for(var b=0;b<t;b+=1)a.push([formatDate(currentData.rows[b][0]),Number(currentData.rows[b][1])]),r.push([formatDate(currentData.rows[b][0]),Number(currentData.rows[b][2])]),n.push([formatDate(currentData.rows[b][0]),Number(currentData.rows[b][3])]),o.push([formatDate(currentData.rows[b][0]),Number(currentData.rows[b][4])]),i.push([formatDate(currentData.rows[b][0]),Number(currentData.rows[b][5])]),s.push([formatDate(currentData.rows[b][0]),Number(currentData.rows[b][6])]),u.push([formatDate(currentData.rows[b][0]),Number(currentData.rows[b][7])]);Number(c)||Number(d)||Number(l)||Number(g)||Number(m)||Number(v)||Number(h)?(document.getElementById("error").innerHTML="",renderMetric(a,c,1,"Pageviews"),renderMetric(r,d,2,"Unique Pageviews"),renderMetric(n,l,3,"Users"),renderMetric(o,g,4,"New Users"),renderMetric(i,formatTime(m),5,"Avg. Time on Page"),renderMetric(s,formatTime(v),6,"Page Load Time"),renderMetric(u,h+"%",7,"Bounce Rate")):(document.getElementById("canvasbody").innerHTML=" ",displayError("No data available")),"full_width"===extensionDashboardField.window.state&&extensionDashboardField.window.enableAutoResizing()}function loadIntervalData(e,t){document.getElementById("error").innerHTML=" ",document.getElementById("canvasbody").innerHTML="";for(var a=document.getElementsByClassName("btn cs-btn-primary"),r=t,n=0;n<a.length;n+=1)a[n].style.backgroundColor="white";r.style.backgroundColor="#e6eaf2",toggleButtons(!0),analytics.getData(e).then(function(e){renderData(currentData=e),toggleButtons(!1)}).catch(function(e){displayError(e.message),toggleButtons(!1)})}ContentstackUIExtension.init().then(function(e){var t=document.getElementsByClassName("btn cs-btn-primary");extensionDashboardField=e,google.charts.load("current",{packages:["corechart"]}),google.charts.setOnLoadCallback(loadIntervalData.bind(null,30,t[3])),e.window.onDashboardResize(function(){setTimeout(function(){renderData()},500)}),analytics=new Analytics(extensionDashboardField.config),extensionDashboardField.window.enableResizing()});
+</script>
+ </body>
+</html>

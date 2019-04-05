@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
+<link href="https://www.contentstack.com/sdks/contentstack-ui-extensions/dist/1.1.0/ui-extension-sdk.css" rel="stylesheet" type="text/css" media="all">
+<link rel="stylesheet" href="./style.css" type="text/css">
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script src=https://assets.contentstack.io/v3/assets/blt4e38da5adaab83fb/bltace47052840d082e/5ca5e2dc49324e0c3a9922e2/ui-extension-sdk.js"></script>
+<body>
+<div class="tbl wrappper">
+  <ul>
+    <li>
+      <button type="button" id="tag" class="btn cs-btn-primary" onclick="loadIntervalData(1,this)">1 day</button>
+    </li>
+    <li>
+      <button type="button" id="tag" class="btn cs-btn-primary" onclick="loadIntervalData(7,this)">7 days</button>
+    </li>
+    <li>
+      <button type="button" id="tag" class="btn cs-btn-primary" onclick="loadIntervalData(15,this)">15 days</button>
+    </li>
+    <li>
+      <button type="button" id="tag" class="btn cs-btn-primary" onclick="loadIntervalData(30,this)">30 days</button>
+    </li>
+    <li>
+      <button type="button" id="tag" class="btn cs-btn-primary" onclick="loadIntervalData(180,this)">180 days</button>
+    </li>
+    <li>
+      <button type="button" id="tag" class="btn cs-btn-primary" onclick="loadIntervalData(365,this)">365 days</button>
+    </li>
+  </ul>
+</div>
+  <div id="error" class="errormsg">
+  </div>
+  <div id="loader" class="reference-loading">
+     <div class="loading-flash">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+  </div>
+ <div id="canvasbody">
+ </div>	
+ <script src="./analytics.js"></script>
+ </body>
+</html>
