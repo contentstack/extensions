@@ -1,8 +1,12 @@
 # Contentstack Extensions 
 
-Contentstack provides Extensions that let you extend its UI. It provides two types of extensions: Custom Fields and Custom Widgets.
+Contentstack provides Extensions that let you extend its UI. It provides three types of extensions: Custom Fields, Custom Widgets, and Dashboard Widgets.
 
-The **Custom Fields** extension lets you create custom fields that you can use in your content types, such as a color picker, code editor, video selector, and more. The **Custom Widgets** extension lets you add widgets that help you analyze the content of an entry and recommend content ideas. Examples of custom widgets are SEO recommendations, sentiment analysis, and content translation in different languages.
+The **Custom Fields** extension lets you create custom fields that you can use in your content types, such as a color picker, code editor, video selector, and more.
+
+The **Custom Widgets** extension lets you add widgets that help you analyze the content of an entry and recommend content ideas. Examples of custom widgets are SEO recommendations, sentiment analysis, and content translation in different languages.
+
+The **Dashboard Widgets extension** allows you to add widgets to the dashboard of your stack. Using this extension, you can create useful widgets such as recently published content, to-do list, personal notes, stack summary, and more. 
 
 This is a repository of example extensions created using Contentstack’s [Extensions SDK](https://github.com/contentstack/ui-extensions-sdk).
 
@@ -63,6 +67,12 @@ This widget uses the Google Analytics data to display the traffic analysis and s
 
 [Optimizely Experiments](./optimizely-experiments):
 This extension lets you retrieve and display Optimizely Experiments and their details in your entry.
+
+###  Examples of dashboard widgets created using Extensions
+Here are some examples/use cases of dashboard widgets that can be created using Extensions. These examples come with readme files that explain how to install and get started with these widgets.
+
+[Google Analytics](./dashboard-widget-google-analytics): 
+This dashboard widget uses the Google Analytics data to display the traffic analysis and statistics of your site on the stack dashboard.
 
 ### Other Documentation
 - [What are Extensions](https://www.contentstack.com/docs/guide/extensions)
