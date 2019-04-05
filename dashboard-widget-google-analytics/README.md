@@ -8,7 +8,7 @@ The ‘Google Analytics’ Dashboard Widget extension retrieves the Google Analy
 
 ####  How to use this extension 
 
-We have created a step-by-step guide on how to create this extension for your stack. You can refer to the Google Analytics Dashboard Widget extension guide on our documentation site for more info. 
+We have created a [step-by-step guide](https://www.contentstack.com/docs/guide/extensions/dashboard-widget/adding-google-analytics-widget-to-stack-dashboard) on how to create this extension for your stack. You can refer to the Google Analytics Dashboard Widget extension guide on our documentation site for more info. 
 
 
 ####  Other Documentation
