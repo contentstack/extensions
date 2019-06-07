@@ -52,13 +52,13 @@
             
             // Get current ace editor field value from Contentstack and update the element
             var value = extensionField.field.getData() || '';
-            editorElement.innerText = value
-    
             // Configure Ace editor
             editor = ace.edit('editor')
             editor.setTheme('ace/theme/monokai')
             editor.session.setMode('ace/mode/handlebars')
             
+            if(value)
+                editor.setValue(value)
             //
             editor.on('focus', function(event, editor) {
                  extensionField.field.setFocus();
@@ -70,12 +70,10 @@
         
         
         function updateFieldValue () {
-          var value = editor.getValue()
-          extensionField.field.setData(value).then(function(){
-            		console.log('data set on child')
-            	}).catch(function(error){
-            		console.log('error in setting data',error)
-            	})
+            var value = editor.getValue()
+            extensionField.field.setData(value).catch(function(error){
+                    console.log('error in setting data',error)
+            })
         }
     </script>
   </body>
