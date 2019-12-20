@@ -82,6 +82,9 @@ function render(videos, initialRender) {
     var initialValue = (extensionField && extensionField.field && extensionField.field.getData()) ? extensionField.field.getData() : null;
 
     if (initialValue) {
+        if (initialValue.includes('blt'))
+            initialValue = initialValue.replace('blt', '');
+
         $('.discription_box ul').empty();
         request.getInitialVideo(initialValue).then((video) => {
             $('.discription_box ul').append(`<li id='${video.id}'>
@@ -95,7 +98,7 @@ function render(videos, initialRender) {
         });
         setTimeout(function () {
             if (!initialRender) {
-                extensionField.window.updateHeight();
+                extensionField.window.enableAutoResizing();
             }
         }, 1000);
     }
