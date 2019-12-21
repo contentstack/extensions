@@ -69,13 +69,17 @@ $(document).ready(function () {
 
 // render function for creating DOM structure
 function render(videos, initialRender) {
+    let thumbnail;
+    let description;
     msg.hide();
     videos.forEach(function (video, index) {
         if (video.state === 'ACTIVE') {
+            thumbnail = video.images.thumbnail ? video.images.thumbnail.src : video.images.poster.src;
+            description = video.description ? video.description : '';
             unorderedList.append(`<li id='${video.id}'>
-                <section class="img-wrapper"><img src='${video.images.thumbnail.src}' alt="image-6"></section>
+                <section class="img-wrapper"><img src='${thumbnail}' alt="image-6"></section>
                  <span class="title"> ${video.name}</span> 
-                <p>${video.description}</p></li>`);
+                <p>${description}</p></li>`);
         }
     });
 
@@ -87,10 +91,12 @@ function render(videos, initialRender) {
 
         $('.discription_box ul').empty();
         request.getInitialVideo(initialValue).then((video) => {
+            thumbnail = video.images.thumbnail ? video.images.thumbnail.src : video.images.poster.src;
+            description = video.description ? video.description : '';
             $('.discription_box ul').append(`<li id='${video.id}'>
-                <section class="img-wrapper"><img src='${video.images.thumbnail.src}' alt="image-6"></section>
+                <section class="img-wrapper"><img src='${thumbnail}' alt="image-6"></section>
                 <span class="title">${video.name}</span>
-                <p>${video.description}</p></li>`);
+                <p>${description}</p></li>`);
         });
 
         $('.discription_box ul li a').click(function (e) {
@@ -98,7 +104,7 @@ function render(videos, initialRender) {
         });
         setTimeout(function () {
             if (!initialRender) {
-                extensionField.window.enableAutoResizing();
+                extensionField.window.updateHeight();
             }
         }, 1000);
     }
