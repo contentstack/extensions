@@ -4,7 +4,7 @@
   "description": "Contentstack Google Analytics Widget Lambda Function",
   "main": "index.js",
   "dependencies": {
-    "googleapis": "34.0.0"
+    "googleapis": "59.0.0"
   },
   "devDependencies": {},
   "scripts": {
