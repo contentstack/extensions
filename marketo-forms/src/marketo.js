@@ -49,7 +49,7 @@ class Marketo {
           return response.json();
         })
         .then((response) => {
-          let forms = [{ id: 400, name: "none" }];
+          let forms = [{ id: 400, name: "None" }];
           forms = forms.concat(response);
           return resolve(forms);
         })
