@@ -6,17 +6,25 @@
   <title>Marketo</title>
   <link href="https://www.contentstack.com/sdks/contentstack-ui-extensions/dist/latest/ui-extension-sdk.css" rel="stylesheet" type="text/css" media="all">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-<!--   <link href="./style.css" rel="stylesheet" type="text/css" media="all">
- -->  <script src="https://www.contentstack.com/sdks/contentstack-ui-extensions/dist/latest/ui-extension-sdk.js"></script>
+  <style media="all">
+body{font-family:"proximaNovaRegular,Arial,Helvetica,Sans-Serif";font-size:14px;line-height:1.42857143;color:#758592}.selectdiv{position:relative}select::-ms-expand{display:none}.form-label{width:230px}.selectdiv select{-webkit-appearance:none;-moz-appearance:none;display:block;float:right;margin:5px 0;padding:2px 42px 2px 10px;border:1px solid #edf1f2;background-color:#fff;-ms-word-break:normal;word-break:normal}.form-clear-icon{display:none;position:absolute;top:14px;left:210px}
+</style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous">
+  <script src="https://www.contentstack.com/sdks/contentstack-ui-extensions/dist/latest/ui-extension-sdk.js"></script>
   <script type="text/javascript" src="https://code.jquery.com/jquery-1.x-git.min.js"></script>
 </head>
 
 <body>
-    <select class="form-control" id="form-select-field" style="display: none;">
-          <option value>-- Select a form --</option>
-    </select>
+  <div class="selectdiv">
+    <label class="form-label">
+      <select class="form-control" id="form-select-field" style="display: none;">
+        <option value>-- Select a form --</option>
+      </select>
+      <span class="form-clear-icon" id="clear-form"><i class="fas fa-times"></i></span>
+    </label>
+  </div>
   <script>
-"use strict";var _createClass=function(){function i(e,n){for(var t=0;t<n.length;t++){var i=n[t];i.enumerable=i.enumerable||!1,i.configurable=!0,"value"in i&&(i.writable=!0),Object.defineProperty(e,i.key,i)}}return function(e,n,t){return n&&i(e.prototype,n),t&&i(e,t),e}}();function _classCallCheck(e,n){if(!(e instanceof n))throw new TypeError("Cannot call a class as a function")}var extensionField=void 0,selectField=void 0,marketo={};function domChangeListner(t){selectField.on("change",function(){var n=$("#form-select-field").val(),e=t.find(function(e){return e.id.toString()===n});extensionField.field.setData(e)})}function render(e){var n=extensionField&&extensionField.field&&extensionField.field.getData()?extensionField.field.getData():{},t=$("select option:contains('-- Select a form --')"),i=n.id;e.forEach(function(e){var n=$("<option></option>").attr("value",e.id).text(e.name);e.id===i&&n.attr("selected","selected"),selectField.append(n)}),t.attr("disabled","disabled"),i||t.attr("selected","selected"),selectField.show(),domChangeListner(e)}var Marketo=function(){function t(e){var n=e.url,e=e.folder;_classCallCheck(this,t),this.url=n,this.folder=e}return _createClass(t,[{key:"getForms",value:function(){var i=this;return new Promise(function(t,n){var e=""+i.url;return i.folder&&(e=e+"?folder="+i.folder),fetch(e,{method:"GET"}).then(function(e){return e.json()}).then(function(e){var n=(n=[{id:400,name:"None"}]).concat(e);return t(n)}).catch(function(e){n(e)})})}}]),t}();$(document).ready(function(){selectField=$("#form-select-field"),ContentstackUIExtension.init().then(function(e){(marketo=new Marketo((extensionField=e).config)).getForms().then(function(e){render(e)}),extensionField.window.enableAutoResizing()})});
+"use strict";var _createClass=function(){function o(e,n){for(var t=0;t<n.length;t++){var o=n[t];o.enumerable=o.enumerable||!1,o.configurable=!0,"value"in o&&(o.writable=!0),Object.defineProperty(e,o.key,o)}}return function(e,n,t){return n&&o(e.prototype,n),t&&o(e,t),e}}();function _classCallCheck(e,n){if(!(e instanceof n))throw new TypeError("Cannot call a class as a function")}var extensionField=void 0,selectField=void 0,formList=void 0,marketo={};function domChangeListner(t){selectField.on("change",function(){$("#clear-form").css({display:"block"});var n=$("#form-select-field").val(),e=t.find(function(e){return e.id.toString()===n});extensionField.field.setData(e)})}function render(e,n){formList=e;var t=(extensionField&&extensionField.field&&extensionField.field.getData()?extensionField.field.getData():{}).id,o=$('select option:contains("-- Select a form --")');e.forEach(function(e){var n=$("<option></option>").attr("value",e.id).text(e.name);e.id===t&&(n.attr("selected","selected"),$("#clear-form").css({display:"block"})),selectField.append(n)}),o.attr("disabled","disabled"),t&&!n||(o.attr("selected","selected"),$("#clear-form").css({display:"none"})),selectField.show(),domChangeListner(e)}$(".form-clear-icon").on("click",function(){$("#clear-form").css({display:"none"}),$("#form-select-field").empty(),$("#form-select-field").append($("<option value>-- Select a form --</option>")),render(formList,!0)});var Marketo=function(){function t(e){var n=e.url,e=e.folder;_classCallCheck(this,t),this.url=n,this.folder=e}return _createClass(t,[{key:"getForms",value:function(){var o=this;return new Promise(function(n,t){var e=""+o.url;return o.folder&&(e=e+"?folder="+o.folder),fetch(e,{method:"GET"}).then(function(e){return e.json()}).then(function(e){return n(e)}).catch(function(e){t(e)})})}}]),t}();$(document).ready(function(){selectField=$("#form-select-field"),ContentstackUIExtension.init().then(function(e){(marketo=new Marketo((extensionField=e).config)).getForms().then(function(e){render(e,!1)}),extensionField.window.enableAutoResizing()})});
 </script>
 </body>
 
