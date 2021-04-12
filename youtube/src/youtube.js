@@ -14,32 +14,32 @@ let initialResponse;
 let currentVideoList = [];
 
 
-class Youtube {
-  constructor({ api_key: apiKey, channel_id: channelId }) {
-    this.apiKey = apiKey;
-    this.channelId = channelId;
-  }
+// class Youtube {
+//   constructor({ api_key: apiKey, channel_id: channelId }) {
+//     this.apiKey = apiKey;
+//     this.channelId = channelId;
+//   }
 
-  getVideos(query = '', limit = 6) {
-    let setting = this;
-    let statusCode;
-    return new Promise((resolve, reject) => {
-      fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=${limit}&key=${setting.apiKey}&channelId=${setting.channelId}&type=video${query ? `&q=${query}` : '&order=date'}&pageToken=${nextPageToken || ''}`, {
-        method: 'GET'
-      }).then((response) => {
-        statusCode = response.status;
-        return response.json();
-      }).then((response) => {
-        if (statusCode === 200) {
-          return resolve(response);
-        }
-        throw Error('Failed to fetch videos from Youtube');
-      }).catch((err) => {
-        reject(err);
-      });
-    });
-  }
-}
+//   getVideos(query = '', limit = 6) {
+//     let setting = this;
+//     let statusCode;
+//     return new Promise((resolve, reject) => {
+//       fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=${limit}&key=${setting.apiKey}&channelId=${setting.channelId}&type=video${query ? `&q=${query}` : '&order=date'}&pageToken=${nextPageToken || ''}`, {
+//         method: 'GET'
+//       }).then((response) => {
+//         statusCode = response.status;
+//         return response.json();
+//       }).then((response) => {
+//         if (statusCode === 200) {
+//           return resolve(response);
+//         }
+//         throw Error('Failed to fetch videos from Youtube');
+//       }).catch((err) => {
+//         reject(err);
+//       });
+//     });
+//   }
+// }
 
 function displayMessage(message = 'No videos found') {
   messageContainer.text(message);
@@ -55,22 +55,22 @@ function close() {
   videoListSection.hide();
 }
 
-function deselectVideo() { // eslint-disable-line no-unused-vars
-  $('#selected-video').html(' ');
-  extensionField.field.setData(null);
-}
+// function deselectVideo() { // eslint-disable-line no-unused-vars
+//   $('#selected-video').html(' ');
+//   extensionField.field.setData(null);
+// }
 
 
-function selectVideo(video) {
-  let selectedContainer = `<div class="col-xs-6 col-sm-4 col-md-3" title="${video.title}"><li>
-                              <div class="img-wrapper">
-                                  <img class="thumbnail"  src="${video.thumbnails.medium.url}">
-                              </div>
-                              <span class="title truncate">${video.title}</span>
-                              <span title="Remove video" onclick="deselectVideo()" id="close-button">×</span>
-                          </li></div>`;
-  $('#selected-video').html(selectedContainer);
-}
+// function selectVideo(video) {
+//   let selectedContainer = `<div class="col-xs-6 col-sm-4 col-md-3" title="${video.title}"><li>
+//                               <div class="img-wrapper">
+//                                   <img class="thumbnail"  src="${video.thumbnails.medium.url}">
+//                               </div>
+//                               <span class="title truncate">${video.title}</span>
+//                               <span title="Remove video" onclick="deselectVideo()" id="close-button">×</span>
+//                           </li></div>`;
+//   $('#selected-video').html(selectedContainer);
+// }
 
 // eventlistner function
 function domChangeListner() {
@@ -119,13 +119,13 @@ function render({ items: videos = [], nextPageToken: token }) {
   domChangeListner();
 }
 
-function loadMore() { // eslint-disable-line no-unused-vars
-  loadMoreButton.addClass('loadspin');
-  youtube.getVideos(previousQuery).then((response) => {
-    loadMoreButton.removeClass('loadspin');
-    render(response);
-  });
-}
+// function loadMore() { // eslint-disable-line no-unused-vars
+//   loadMoreButton.addClass('loadspin');
+//   youtube.getVideos(previousQuery).then((response) => {
+//     loadMoreButton.removeClass('loadspin');
+//     render(response);
+//   });
+// }
 
 function reset() {
   previousQuery = '';
@@ -135,45 +135,45 @@ function reset() {
   return render(initialResponse);
 }
 
-function intializeVideoList() {
-  messageContainer = $('#message-container');
-  loader = $('.reference-loading');
-  videoList = $('#video-list');
-  videoListSection = $('#choose-video-section');
-  youtube = new Youtube(extensionField.config);
+// function intializeVideoList() {
+//   messageContainer = $('#message-container');
+//   loader = $('.reference-loading');
+//   videoList = $('#video-list');
+//   videoListSection = $('#choose-video-section');
+//   youtube = new Youtube(extensionField.config);
 
-  youtube.getVideos().then((response) => { // get first six videos
-    initialResponse = response;
-    render(response);
-    chooseButton.show();
-  }).catch(displayMessage.bind(null, 'Error in fetching videos from Youtube'));
-}
+//   youtube.getVideos().then((response) => { // get first six videos
+//     initialResponse = response;
+//     render(response);
+//     chooseButton.show();
+//   }).catch(displayMessage.bind(null, 'Error in fetching videos from Youtube'));
+// }
 
-function initialzieSearchField() {
-  searchInput.on('keypress', (event) => { // prevent form submit
-    let value = searchInput.val().toLowerCase();
-    if (event.keyCode === 13) {
-      event.preventDefault();
-      if (value === previousQuery) {
-        return;
-      }
-      loader.show();
-      loadMoreButton.hide();
-      videoList.empty();
-      nextPageToken = '';
-      youtube.getVideos(value).then((response) => {
-        previousQuery = value;
-        render(response);
-      });
-    }
-  });
+// function initialzieSearchField() {
+//   searchInput.on('keypress', (event) => { // prevent form submit
+//     let value = searchInput.val().toLowerCase();
+//     if (event.keyCode === 13) {
+//       event.preventDefault();
+//       if (value === previousQuery) {
+//         return;
+//       }
+//       loader.show();
+//       loadMoreButton.hide();
+//       videoList.empty();
+//       nextPageToken = '';
+//       youtube.getVideos(value).then((response) => {
+//         previousQuery = value;
+//         render(response);
+//       });
+//     }
+//   });
 
-  searchInput.blur(() => {
-    if (searchInput.val().length === 0 && previousQuery) {
-      reset();
-    }
-  });
-}
+//   searchInput.blur(() => {
+//     if (searchInput.val().length === 0 && previousQuery) {
+//       reset();
+//     }
+//   });
+// }
 
 function initalizeButtons() {
   loadMoreButton = $('#load-more-button');
