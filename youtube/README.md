@@ -1,31 +1,70 @@
-#  Youtube – Contentstack Extension
+# Getting Started with Create React App
 
-## About this extension
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-The Youtube extension lets you fetch Youtube videos and display them into a field in your content type. Subsequently, while creating entries, content managers can select only one of the listed videos at a time as the input value for that field, and the details of the video will be saved as JSON in Contentstack. 
+## Available Scripts
 
-![contentstack youtube image extension](https://images.contentstack.io/v3/assets/bltf2fb14dd3176c6f6/blt9b65fe8bd67eee33/5bd6fb9734f567415a653668/download)
+In the project directory, you can run:
 
-## How to use this extension
+### `yarn start`
 
-We have created a step-by-step guide on how to create a Youtube extension for your content types. You can refer the [Youtube extension guide](https://www.contentstack.com/docs/guide/extensions/youtube-extension-setup-guide) on our documentation site for more info.
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-## Modifying this extension
+The page will reload if you make edits.\
+You will also see any lint errors in the console.
 
-To modify the extension, first clone this repo and install the dependencies. Then, edit the HTML, CSS and JS files from the source folder, and create a build using gulp task.
+### `yarn test`
 
-To install dependencies, run the following command in the root folder
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-    npm install gulp-cli -g 
-    npm install
-    
-To create new build for the extension, run the following command (index.html):
+### `yarn build`
 
-    gulp build
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-## Other Documentation
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
--   [Extensions guide](https://www.contentstack.com/docs/guide/extensions)
-    
--   [Common questions about extensions](https://www.contentstack.com/docs/faqs#extensions)
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
+### `yarn eject`
+
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+
+If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+
+You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+
+## Learn More
+
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+
+To learn React, check out the [React documentation](https://reactjs.org/).
+
+### Code Splitting
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+
+### Analyzing the Bundle Size
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+
+### Making a Progressive Web App
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+
+### Advanced Configuration
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+
+### Deployment
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+
+### `yarn build` fails to minify
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
