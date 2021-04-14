@@ -27,6 +27,6 @@ select::-ms-expand {
 .form-clear-icon {
     display: none;
     position: absolute;
-    top: 14px;
+    transform: translateY(60%);
     left: 207px;
 }
