@@ -1,6 +1,6 @@
 import React from "react";
 import Modal from "./components/modal";
-export class Son extends React.Component {
+export class Child extends React.Component {
   constructor(props) {
     super(props);
 
@@ -37,7 +37,6 @@ export class Son extends React.Component {
     window.addEventListener("message", receiveMessage, false);
   }
   onCloseWindow = (selectedVideos) => {
-    console.log("close window");
     selectedVideos.length > 0
       ? window.opener.postMessage(
           {

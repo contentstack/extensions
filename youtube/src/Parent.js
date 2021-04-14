@@ -2,9 +2,9 @@
 import React from "react";
 import "./styles/style.css";
 import Dragula from "react-dragula";
-import { WindowOpener } from "./window-opener";
+import { WindowOpener } from "./components/windowOpener";
 import ContentstackUIExtension from "@contentstack/ui-extensions-sdk";
-export class Home extends React.Component {
+export class Parent extends React.Component {
   constructor(props) {
     super(props);
     this.extension = {};
@@ -19,13 +19,18 @@ export class Home extends React.Component {
   componentDidMount() {
     ContentstackUIExtension.init().then((extension) => {
       const { items } = extension.field.getData();
-      this.setState({
-        config: extension.config,
-        videoList: items[0],
-      });
-      this.extension = extension;
-      extension.window.updateHeight(500);
-      extension.window.enableResizing();
+      this.setState(
+        {
+          config: extension.config,
+          videoList: items[0],
+        },
+        () => {
+          this.extension = extension;
+          extension.window.updateHeight(500);
+          extension.window.enableResizing();
+          window.addEventListener("message", receiveMessage, false);
+        }
+      );
     });
 
     const receiveMessage = (event) => {
@@ -46,7 +51,6 @@ export class Home extends React.Component {
         this.setState({ videoList: data.selectedVideosList });
       }
     };
-    window.addEventListener("message", receiveMessage, false);
   }
 
   sonResponse(err, res) {
@@ -64,7 +68,7 @@ export class Home extends React.Component {
   };
 
   render() {
-    const { videoList } = this.state;
+    const { videoList, config } = this.state;
     return (
       <header className="App-header">
         <div className="wrapper">
@@ -83,7 +87,7 @@ export class Home extends React.Component {
                   <ul className="drag1" ref={this.dragulaDecorator}>
                     {videoList?.map((video) => {
                       return (
-                        <li id={video.id.videoId}>
+                        <li id={video.id.videoId} key={video.id.videoId}>
                           <div className="file">
                             <a
                               href={video.snippet.thumbnails.default.url}
@@ -115,13 +119,13 @@ export class Home extends React.Component {
               </div>
             </div>
           </div>
-          <WindowOpener
-            url="http://localhost:3000/son"
+         {config && <WindowOpener
+            url={`${config.host_url}/child`}
             bridge={this.sonResponse}
             videos={videoList}
           >
             Choose Videos
-          </WindowOpener>
+          </WindowOpener>}
         </div>
       </header>
     );

@@ -65,9 +65,7 @@ export default class Modal extends React.PureComponent {
 
   componentDidUpdate(prevProps, prevState) {
     const { selectedVideos } = this.props;
-    console.log("checking videos", selectedVideos);
     if (prevProps.selectedVideos !== prevState.selectedVideoList) {
-      console.log("setting videos", selectedVideos);
       this.setState({
         selectedVideoList: selectedVideos,
       });
@@ -78,7 +76,6 @@ export default class Modal extends React.PureComponent {
     const { config } = this.props;
     Youtube.initalizingVideoList(config)
       .then((videoList) => {
-        console.log(videoList);
         this.setState({
           initialReqVideo: videoList.data,
           renderVideos: videoList.data.items,
@@ -90,7 +87,6 @@ export default class Modal extends React.PureComponent {
       });
   };
   loadMore = (event) => {
-    console.log(event);
     const { config } = this.props;
     const {
       searchQuery,
@@ -165,7 +161,6 @@ export default class Modal extends React.PureComponent {
 
   render() {
     const { renderVideos, selectedVideoList, initialReqVideo } = this.state;
-    console.log("render videos", selectedVideoList);
     return (
       <div className="modal display-block">
         <section className="modal-main">
