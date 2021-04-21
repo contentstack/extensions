@@ -72,12 +72,12 @@ function render(videos, initialRender) {
     let thumbnail;
     let description;
     msg.hide();
-    videos.forEach(function (video, index) {
+    videos.forEach(function (video) {
         if (video.state === 'ACTIVE') {
-            thumbnail = video.images.thumbnail ? video.images.thumbnail.src : video.images.poster.src;
+            thumbnail = (video.images.thumbnail || video.images.poster || {}).src;
             description = video.description ? video.description : '';
             unorderedList.append(`<li id='${video.id}'>
-                <section class="img-wrapper"><img src='${thumbnail}' alt="image-6"></section>
+                <section class="img-wrapper">${thumbnail ? `<img src='${thumbnail}' alt="image-6">` : ''}</section>
                  <span class="title"> ${video.name}</span> 
                 <p>${description}</p></li>`);
         }
@@ -91,10 +91,10 @@ function render(videos, initialRender) {
 
         $('.discription_box ul').empty();
         request.getInitialVideo(initialValue).then((video) => {
-            thumbnail = video.images.thumbnail ? video.images.thumbnail.src : video.images.poster.src;
+            thumbnail = (video.images.thumbnail || video.images.poster || {}).src;
             description = video.description ? video.description : '';
             $('.discription_box ul').append(`<li id='${video.id}'>
-                <section class="img-wrapper"><img src='${thumbnail}' alt="image-6"></section>
+                <section class="img-wrapper">${thumbnail ? `<img src='${thumbnail}' alt="image-6">` : ''}</section>
                 <span class="title">${video.name}</span>
                 <p>${description}</p></li>`);
         });
