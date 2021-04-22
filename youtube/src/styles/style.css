@@ -97,10 +97,13 @@ body {
   width: 75px;
   margin: 0 10px 0 0;
   background-color: #ccc;
-  background-size: 60px 60px;
   background-repeat: no-repeat;
   background-position: center center;
   display: inline-block;
+}
+
+.selected-list a .fileimg img {
+  height: inherit;
 }
 
 .selected-list span {
@@ -113,9 +116,10 @@ body {
   color: #748590;
   font-size: 14px;
   float: left;
+  text-align: left;
 }
 
-.selected-list .file-size {
+.selected-list .file-text {
   color: #aabac4;
   margin: 0;
   font-size: 12px;
@@ -142,7 +146,7 @@ body {
   color: #25c2a3 !important;
   font-size: 14px;
   line-height: 1.42857143;
-  margin: 15px 20px;
+  margin: 0 20px;
   text-align: center;
   text-decoration: none;
   width: 120px;
@@ -217,6 +221,10 @@ body {
   display: inline-block;
 }
 
+.gu-mirror .fileimg img{
+  height: inherit;
+}
+
 .gu-mirror span {
   margin: 5px 0 0;
   width: 70%;
@@ -229,7 +237,7 @@ body {
   float: left;
 }
 
-.gu-mirror .file-size {
+.gu-mirror .file-text {
   color: #aabac4;
   margin: 0;
   font-size: 12px;

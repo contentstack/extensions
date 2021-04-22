@@ -2,9 +2,9 @@
 import React from "react";
 import "./styles/style.css";
 import Dragula from "react-dragula";
-import { WindowOpener } from "./components/windowOpener";
+import { WindowOpener } from "./components/window-opener";
 import ContentstackUIExtension from "@contentstack/ui-extensions-sdk";
-export class Parent extends React.Component {
+export class Home extends React.Component {
   constructor(props) {
     super(props);
     this.extension = {};
@@ -14,23 +14,19 @@ export class Parent extends React.Component {
       config: {},
     };
     this.sonResponse = this.sonResponse.bind(this);
+    this.deleteVideo = this.deleteVideo.bind(this);
   }
 
   componentDidMount() {
     ContentstackUIExtension.init().then((extension) => {
       const { items } = extension.field.getData();
-      this.setState(
-        {
-          config: extension.config,
-          videoList: items[0],
-        },
-        () => {
-          this.extension = extension;
-          extension.window.updateHeight(500);
-          extension.window.enableResizing();
-          window.addEventListener("message", receiveMessage, false);
-        }
-      );
+      this.setState({
+        config: extension.config,
+        videoList: items,
+      });
+      this.extension = extension;
+      extension.window.updateHeight(500);
+      extension.window.enableResizing();
     });
 
     const receiveMessage = (event) => {
@@ -47,10 +43,24 @@ export class Parent extends React.Component {
           event.origin
         );
       } else if (data.selectedVideosList) {
-        this.extension.field.setData({ items: [data.selectedVideosList] });
+        this.extension.field.setData({ items: data.selectedVideosList });
         this.setState({ videoList: data.selectedVideosList });
       }
     };
+    window.addEventListener("message", receiveMessage, false);
+  }
+
+  deleteVideo(event) {
+    const videoId = event.target.parentNode.parentNode.parentNode.id;
+    const { videoList } = this.state;
+     videoList.splice(
+      videoList.findIndex((index) => index.id.videoId === videoId),
+      1
+    );
+    this.extension.field.setData({ items: videoList });
+    this.setState({
+      videoList: videoList,
+    });
   }
 
   sonResponse(err, res) {
@@ -87,27 +97,31 @@ export class Parent extends React.Component {
                   <ul className="drag1" ref={this.dragulaDecorator}>
                     {videoList?.map((video) => {
                       return (
-                        <li id={video.id.videoId} key={video.id.videoId}>
+                        <li id={video.id.videoId} title={video.snippet.title}>
                           <div className="file">
                             <a
-                              href={video.snippet.thumbnails.default.url}
+                              href={`https://www.youtube.com/embed/${video.id.videoId}`}
                               target="_blank"
                               className="fileimage"
                             >
-                              <span className="fileimg">
-                                <iframe
-                                  src={`https://www.youtube.com/embed/${video.id.videoId}`}
-                                  className="fileimg"
-                                  title={video.snippet.title}
-                                  target="_blank"
-                                ></iframe>
-                              </span>
+                              <span
+                                className="fileimg"
+                                style={{
+                                  backgroundImage: `url(${video.snippet.thumbnails.default.url})`,
+                                }}
+                              ></span>
                             </a>
                             <span>{video.snippet.title}</span>
-                            <span className="file-size">
+                            <span className="file-text">
                               Channel Name-{video.snippet.channelTitle}
                             </span>
-                            <div className="file-action trash">
+                            <span className="file-text">
+                              Description-{video.snippet.description}
+                            </span>
+                            <div
+                              className="file-action trash"
+                              onClick={this.deleteVideo}
+                            >
                               <span className="close-icon"></span>
                             </div>
                           </div>
@@ -119,13 +133,13 @@ export class Parent extends React.Component {
               </div>
             </div>
           </div>
-         {config && <WindowOpener
-            url={`${config.host_url}/child`}
+          <WindowOpener
+            url={`${config.host_url}/son`}
             bridge={this.sonResponse}
             videos={videoList}
           >
             Choose Videos
-          </WindowOpener>}
+          </WindowOpener>
         </div>
       </header>
     );

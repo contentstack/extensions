@@ -1,5 +1,5 @@
 import React from "react";
-import "./modal.css";
+import "../styles/modal.css";
 import gridIcon from "../images/grid.png";
 import refreshIcon from "../images/refresh.png";
 import listIcon from "../images/list.png";
@@ -8,13 +8,13 @@ import ListLayout from "./listLayout";
 import Youtube from "../helper/youtube";
 
 export default class Modal extends React.PureComponent {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       isGrid: false,
       searchQuery: "",
       renderVideos: [],
-      selectedVideoList: [],
+      selectedVideoList: props.selectedVideos,
       nextPageToken: undefined,
       initialReqVideo: undefined,
     };
@@ -32,14 +32,14 @@ export default class Modal extends React.PureComponent {
       (video) => video.id.videoId === selectedVideos.id.videoId
     );
     if (checkList) {
-      const newList = selectedVideoList.splice(
+      selectedVideoList.splice(
         selectedVideoList.findIndex(
           (index) => index.id.videoId === selectedVideos.id.videoId
         ),
         1
       );
       this.setState({
-        selectedVideoList: newList,
+        selectedVideoList: [...selectedVideoList]
       });
     } else {
       const newlist = [...selectedVideoList];
@@ -63,11 +63,11 @@ export default class Modal extends React.PureComponent {
       });
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentWillReceiveProps(newProps) {
     const { selectedVideos } = this.props;
-    if (prevProps.selectedVideos !== prevState.selectedVideoList) {
+    if (newProps.selectedVideos !== selectedVideos) {
       this.setState({
-        selectedVideoList: selectedVideos,
+        selectedVideoList: newProps.selectedVideos,
       });
     }
   }

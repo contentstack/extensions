@@ -86,5 +86,5 @@ WindowOpener.propTypes = {
 };
 WindowOpener.defaultProps = {
   name: "YouTube Popup",
-  opts: `dependent=${1}, alwaysOnTop=${1}, alwaysRaised=${1}, width=${800}, height=${500}`,
+  opts: `dependent=${1}, alwaysOnTop=${1}, alwaysRaised=${1}, width=${800}, height=${590}`,
 };

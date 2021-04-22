@@ -1,6 +1,6 @@
 import React from "react";
 import Modal from "./components/modal";
-export class Child extends React.Component {
+export class Son extends React.Component {
   constructor(props) {
     super(props);
 
@@ -12,7 +12,6 @@ export class Child extends React.Component {
     this.onCloseWindow = this.onCloseWindow.bind(this);
   }
   componentDidMount() {
-    // this route should only be avaleable from a popup
     if (!window.opener) {
       window.close();
     }

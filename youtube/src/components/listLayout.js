@@ -1,11 +1,9 @@
 import React from "react";
 import moment from "moment";
-import "./modal.css";
 
 export default class ListLayout extends React.PureComponent {
   render() {
-    const { videos, selectedVideoList, handleSelect, loadContent } = this.props;
-
+    const { videos,selectedVideoList, handleSelect, loadContent } = this.props;
     return (
       <ul className="list-layout">
         <li className="table-head">
@@ -17,21 +15,28 @@ export default class ListLayout extends React.PureComponent {
         <div className="table-body">
           <ul className="video-list">
             {videos?.map((video) => {
+              const checked = selectedVideoList.some(
+                (check) => check.id.videoId === video.id.videoId
+              );
               return (
                 <li
                   title={video.snippet.title}
                   id={video.id.videoId}
                   key={video.id.videoId}
+                  className={checked ? "selected-display-list" : ""}
                 >
                   <div className="cs-checkbox">
                     <label>
                       <input
                         type="checkbox"
                         className="cs"
-                        defaultChecked={selectedVideoList.some(
-                          (check) => check.id.videoId === video.id.videoId
-                        )}
-                        onChange={() => {
+                        defaultChecked={checked}
+                        onChange={(event) => {
+                          const style =
+                            event.target.parentNode.parentNode.parentNode;
+                          !checked && video.id.videoId === style.id
+                            ? style.classList.add("selected-display-list")
+                            : style.classList.remove("selected-display-list");
                           handleSelect(video);
                         }}
                       />

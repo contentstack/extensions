@@ -1,5 +1,4 @@
 import React from "react";
-import "./modal.css";
 
 export default class GridLayout extends React.PureComponent {
   render() {
@@ -9,21 +8,28 @@ export default class GridLayout extends React.PureComponent {
         <div className="grid-body">
           <ul>
             {videos?.map((video) => {
+              const checked = selectedVideoList.some(
+                (check) => check.id.videoId === video.id.videoId
+              );
               return (
                 <li
                   title={video.snippet.title}
                   id={video.id.videoId}
                   key={video.id.videoId}
+                  className={checked ? "selected-display-grid" : ""}
                 >
                   <div className="cs-checkbox">
                     <label>
                       <input
                         type="checkbox"
                         className="cs"
-                        defaultChecked={selectedVideoList.some(
-                          (check) => check.id.videoId === video.id.videoId
-                        )}
-                        onChange={() => {
+                        defaultChecked={checked}
+                        onChange={(event) => {
+                          const style =
+                            event.target.parentNode.parentNode.parentNode;
+                          !checked && video.id.videoId === style.id
+                            ? style.classList.add("selected-display-grid")
+                            : style.classList.remove("selected-display-grid");
                           handleSelect(video);
                         }}
                       />
