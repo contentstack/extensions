@@ -1,4 +1,4 @@
-[![Contentstack](/youtube-extension/public/contentstack.png)](https://www.contentstack.com/)
+[![Contentstack](/youtube/youtube-extension/public/contentstack.png)](https://www.contentstack.com/)
 
 ## Steps required to create new build
 
