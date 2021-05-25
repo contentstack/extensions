@@ -53,6 +53,10 @@ export default class Modal extends React.PureComponent {
     const { config } = this.props;
     Youtube.initalizingVideoList(config)
       .then((videoList) => {
+        videoList.data.items.length + 1 >=
+          videoList.data.pageInfo.totalResults &&
+          (document.getElementsByClassName("load-more")[0].style.display =
+            "none");
         this.setState({
           initialReqVideo: videoList.data,
           renderVideos: videoList.data.items,
@@ -89,17 +93,15 @@ export default class Modal extends React.PureComponent {
   };
   loadMore = (event) => {
     const { config } = this.props;
-    const {
-      searchQuery,
-      nextPageToken,
-      renderVideos,
-      initialReqVideo,
-    } = this.state;
+    const { searchQuery, nextPageToken, renderVideos, initialReqVideo } =
+      this.state;
     if (renderVideos.length !== initialReqVideo.pageInfo.totalResults) {
       Youtube.initalizingVideoList(config, searchQuery, nextPageToken)
         .then((videoList) => {
           let newVideos = this.state.renderVideos;
-          newVideos = videoList.data.items.concat(newVideos);
+          newVideos = newVideos.concat(videoList.data.items);
+          newVideos.length + 1 >= initialReqVideo.pageInfo.totalResults &&
+            (event.target.style.display = "none");
 
           this.setState({
             renderVideos: newVideos,
@@ -173,12 +175,8 @@ export default class Modal extends React.PureComponent {
   };
 
   render() {
-    const {
-      renderVideos,
-      selectedVideoList,
-      initialReqVideo,
-      isSelected,
-    } = this.state;
+    const { renderVideos, selectedVideoList, initialReqVideo, isSelected } =
+      this.state;
     return (
       <div className="modal display-block">
         <section className="modal-main">

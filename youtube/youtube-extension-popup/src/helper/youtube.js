@@ -5,7 +5,7 @@ class Youtube {
     this.apiKey = api_key;
     this.channelId = channel_id;
   }
-  getVideos(query = "", limit = 6, nextPageToken) {
+  getVideos(query = "", limit = 8, nextPageToken) {
     let setting = this;
     return new Promise((resolve, reject) => {
       const options = {
@@ -30,11 +30,11 @@ class Youtube {
 export default {
   async initalizingVideoList(config, query, nextPageToken) {
     const youtube = new Youtube(config);
-    return await youtube.getVideos(query, 6, nextPageToken);
+    return await youtube.getVideos(query, 8, nextPageToken);
   },
 
   async initializeSearchField(config, query) {
     const youtube = new Youtube(config);
-    return await youtube.getVideos(query, 6, "");
+    return await youtube.getVideos(query, 8, "");
   },
 };

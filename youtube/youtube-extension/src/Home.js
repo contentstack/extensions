@@ -2,6 +2,7 @@
 import React from "react";
 import "./styles/style.css";
 import Dragula from "react-dragula";
+import Youtube from "./helper/youtube";
 import { WindowOpener } from "./components/window-opener";
 import ContentstackUIExtension from "@contentstack/ui-extensions-sdk";
 export class Home extends React.Component {
@@ -20,13 +21,41 @@ export class Home extends React.Component {
   componentDidMount() {
     ContentstackUIExtension.init().then((extension) => {
       const { items } = extension.field.getData();
-      this.setState({
-        config: extension.config,
-        videoList: items,
-      });
-      this.extension = extension;
-      extension.window.updateHeight(500);
-      extension.window.enableResizing();
+      extension.window.enableAutoResizing();
+      if (items && typeof items[0] !== "object") {
+        Youtube.initalizingVideoList(extension.config, items.toString())
+          .then((videoList) => {
+            const modifiedVideo = videoList.data.items.map((video) => {
+              let newVideo = video;
+              newVideo["id"] = { kind: "youtube#video", videoId: video.id };
+              return newVideo;
+            });
+            this.setState(
+              {
+                config: extension.config,
+                videoList: modifiedVideo,
+              },
+              () => {
+                this.extension = extension;
+                extension.window.enableAutoResizing();
+              }
+            );
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        this.setState(
+          {
+            config: extension.config,
+            videoList: items || [],
+          },
+          () => {
+            this.extension = extension;
+            extension.window.enableAutoResizing();
+          }
+        );
+      }
     });
 
     const receiveMessage = (event) => {
@@ -43,24 +72,33 @@ export class Home extends React.Component {
           event.origin
         );
       } else if (data.selectedVideosList) {
-        this.extension.field.setData({ items: data.selectedVideosList });
-        this.setState({ videoList: data.selectedVideosList });
+        this.saveExtensionData(data.selectedVideosList);
       }
     };
     window.addEventListener("message", receiveMessage, false);
+  }
+  saveExtensionData(videos) {
+    const { config } = this.state;
+    let extensionData = [];
+    if (config.saveFullResponse) {
+      extensionData = videos;
+    } else {
+      videos.forEach((selected) => {
+        extensionData.push(selected.id.videoId);
+      });
+    }
+    this.extension.field.setData({ items: extensionData });
+    this.setState({ videoList: videos });
   }
 
   deleteVideo(event) {
     const videoId = event.target.parentNode.parentNode.parentNode.id;
     const { videoList } = this.state;
-     videoList.splice(
+    videoList.splice(
       videoList.findIndex((index) => index.id.videoId === videoId),
       1
     );
-    this.extension.field.setData({ items: videoList });
-    this.setState({
-      videoList: videoList,
-    });
+    this.saveExtensionData(videoList);
   }
 
   sonResponse(err, res) {
@@ -97,7 +135,11 @@ export class Home extends React.Component {
                   <ul className="drag1" ref={this.dragulaDecorator}>
                     {videoList?.map((video) => {
                       return (
-                        <li id={video.id.videoId} title={video.snippet.title} key={video.snippet.channelTitle}>
+                        <li
+                          id={video.id.videoId}
+                          title={video.snippet.title}
+                          key={video.snippet.channelTitle}
+                        >
                           <div className="file">
                             <a
                               href={`https://www.youtube.com/embed/${video.id.videoId}`}
