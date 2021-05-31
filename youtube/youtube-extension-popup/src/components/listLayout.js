@@ -5,7 +5,7 @@ import Loader from "./loader";
 
 export default class ListLayout extends React.PureComponent {
   render() {
-    const { isSelected, videos, selectedVideoList, handleSelect, loadContent } =
+    const { isSelected, videos, selectedVideoList, handleSelect, loadContent, totalVideos } =
       this.props;
     const renderVideos = isSelected ? selectedVideoList : videos;
 
@@ -80,7 +80,12 @@ export default class ListLayout extends React.PureComponent {
               <div
                 className="load-more"
                 onClick={loadContent}
-                style={{ display: isSelected ? "none" : "block" }}
+                style={{
+                  display:
+                    isSelected || videos.length + 1 > totalVideos
+                      ? "none"
+                      : "block",
+                }}
               >
                 <a>Load More</a>
               </div>

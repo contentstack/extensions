@@ -241,6 +241,7 @@ export default class Modal extends React.PureComponent {
                 loadContent={this.loadMore}
                 handleSelect={this.selectingVideos}
                 selectedVideoList={selectedVideoList}
+                totalVideos={initialReqVideo && initialReqVideo.pageInfo.totalResults}
               />
             ) : (
               <ListLayout
@@ -249,6 +250,7 @@ export default class Modal extends React.PureComponent {
                 loadContent={this.loadMore}
                 handleSelect={this.selectingVideos}
                 selectedVideoList={selectedVideoList}
+                totalVideos={initialReqVideo && initialReqVideo.pageInfo.totalResults}
               />
             )}
           </div>

@@ -80,12 +80,12 @@ export class Home extends React.Component {
   saveExtensionData(videos) {
     const { config } = this.state;
     let extensionData = [];
-    if (config.saveFullResponse) {
-      extensionData = videos;
-    } else {
+    if (!config.saveFullResponse) {
       videos.forEach((selected) => {
         extensionData.push(selected.id.videoId);
       });
+    } else {
+      extensionData = videos;
     }
     this.extension.field.setData({ items: extensionData });
     this.setState({ videoList: videos });
@@ -176,7 +176,7 @@ export class Home extends React.Component {
             </div>
           </div>
           <WindowOpener
-            url={config.redirect_url}
+            url={config.redirectUrl}
             bridge={this.sonResponse}
             videos={videoList}
           >

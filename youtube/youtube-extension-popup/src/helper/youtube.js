@@ -1,9 +1,9 @@
 
 import axios from "axios";
 class Youtube {
-  constructor({ api_key, channel_id }) {
-    this.apiKey = api_key;
-    this.channelId = channel_id;
+  constructor({ apiKey, channelId }) {
+    this.apiKey = apiKey;
+    this.channelId = channelId;
   }
   getVideos(query = "", limit = 8, nextPageToken) {
     let setting = this;

@@ -4,7 +4,7 @@ import Loader from "./loader";
 
 export default class GridLayout extends React.PureComponent {
   render() {
-    const { isSelected, videos, selectedVideoList, handleSelect, loadContent } =
+    const { isSelected, videos, selectedVideoList, handleSelect, loadContent, totalVideos } =
       this.props;
     const renderVideos = isSelected ? selectedVideoList : videos;
     return (
@@ -56,19 +56,6 @@ export default class GridLayout extends React.PureComponent {
                       </div>
                       <div
                         className="item"
-                        // onClick={(event) => {
-                        //   const style = event.target.parentNode.parentNode;
-
-                        //   !checked && video.id.videoId === style.id
-                        //     ? style.classList.add("active")
-                        //     : style.classList.remove("active");
-                        //   handleSelect(video);
-                        //   const checkbox =
-                        //     event.target.parentNode.parentNode.childNodes[0]
-                        //       .childNodes[0].childNodes[0];
-
-                        //   checkbox.checked = !checkbox.checked;
-                        // }}
                       >
                         <span
                           className="img"
@@ -85,7 +72,12 @@ export default class GridLayout extends React.PureComponent {
               <div
                 className="load-more"
                 onClick={loadContent}
-                style={{ display: isSelected ? "none" : "block" }}
+                style={{
+                  display:
+                    isSelected || videos.length + 1 > totalVideos
+                      ? "none"
+                      : "block",
+                }}
               >
                 <a>Load More</a>
               </div>
