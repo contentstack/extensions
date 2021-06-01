@@ -86,7 +86,6 @@ export default class GridLayout extends React.PureComponent {
               >
                 <a>Load More</a>
               </div>
-              {console.log(checkFiles)}
             </>
           ) : checkFiles ? (
             <div className="file-not-found">File Not Found!</div>
