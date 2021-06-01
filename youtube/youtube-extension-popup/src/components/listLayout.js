@@ -5,8 +5,15 @@ import Loader from "./loader";
 
 export default class ListLayout extends React.PureComponent {
   render() {
-    const { isSelected, videos, selectedVideoList, handleSelect, loadContent, totalVideos } =
-      this.props;
+    const {
+      isSelected,
+      videos,
+      selectedVideoList,
+      handleSelect,
+      loadContent,
+      totalVideos,
+      checkFiles,
+    } = this.props;
     const renderVideos = isSelected ? selectedVideoList : videos;
 
     return (
@@ -90,6 +97,8 @@ export default class ListLayout extends React.PureComponent {
                 <a>Load More</a>
               </div>
             </>
+          ) : checkFiles ? (
+            <div className="file-not-found">File Not Found!</div>
           ) : (
             <Loader />
           )}

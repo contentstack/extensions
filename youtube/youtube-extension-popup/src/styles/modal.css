@@ -462,3 +462,8 @@ input#search:hover {
     transform: scale(0);
   }
 }
+
+.file-not-found {
+  text-align: center;
+  padding-top: 15%;
+}

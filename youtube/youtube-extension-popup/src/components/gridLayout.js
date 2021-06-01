@@ -4,8 +4,15 @@ import Loader from "./loader";
 
 export default class GridLayout extends React.PureComponent {
   render() {
-    const { isSelected, videos, selectedVideoList, handleSelect, loadContent, totalVideos } =
-      this.props;
+    const {
+      isSelected,
+      videos,
+      selectedVideoList,
+      handleSelect,
+      loadContent,
+      totalVideos,
+      checkFiles,
+    } = this.props;
     const renderVideos = isSelected ? selectedVideoList : videos;
     return (
       <ul className="grid-layout">
@@ -54,9 +61,7 @@ export default class GridLayout extends React.PureComponent {
                           <span className="lbl"></span>
                         </label>
                       </div>
-                      <div
-                        className="item"
-                      >
+                      <div className="item">
                         <span
                           className="img"
                           style={{
@@ -81,7 +86,10 @@ export default class GridLayout extends React.PureComponent {
               >
                 <a>Load More</a>
               </div>
+              {console.log(checkFiles)}
             </>
+          ) : checkFiles ? (
+            <div className="file-not-found">File Not Found!</div>
           ) : (
             <Loader />
           )}

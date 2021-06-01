@@ -133,7 +133,7 @@ export class Home extends React.Component {
               <div className="selected-item">
                 <div className="row selected-list">
                   <ul className="drag1" ref={this.dragulaDecorator}>
-                    {videoList?.map((video) => {
+                    {videoList && videoList.map((video) => {
                       return (
                         <li
                           id={video.id.videoId}

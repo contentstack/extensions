@@ -25,9 +25,10 @@ Now inside the config parameters fields add following code
 
 ```json
 {
-    "api_key":"your_youtube_apikey",
-    "channel_id":"your_channel_id",
-    "redirect_url":"popup_file_link_from_stack_assets",
+    "apiKey":"your_youtube_apikey",
+    "channelId":"your_channel_id",
+    "redirectUrl":"popup_file_link_from_stack_assets",
+    "saveFullResponse":"boolean value"
 }
 
 ```

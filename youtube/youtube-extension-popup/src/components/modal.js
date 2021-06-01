@@ -14,6 +14,7 @@ export default class Modal extends React.PureComponent {
       isGrid: true,
       searchQuery: "",
       renderVideos: [],
+      errorFound:false,
       isSelected: false,
       nextPageToken: undefined,
       initialReqVideo: undefined,
@@ -57,14 +58,19 @@ export default class Modal extends React.PureComponent {
           videoList.data.pageInfo.totalResults &&
           (document.getElementsByClassName("load-more")[0].style.display =
             "none");
+        const errorFound = videoList.data.items.length === 0? true:false;
         this.setState({
           initialReqVideo: videoList.data,
           renderVideos: videoList.data.items,
           nextPageToken: videoList.data.nextPageToken,
+          errorFound
         });
       })
       .catch((err) => {
         console.log(err);
+        this.setState({
+          errorFound:true
+        })
       });
   }
 
@@ -102,14 +108,16 @@ export default class Modal extends React.PureComponent {
           newVideos = newVideos.concat(videoList.data.items);
           newVideos.length + 1 >= initialReqVideo.pageInfo.totalResults &&
             (event.target.style.display = "none");
-
+          const errorFound = newVideos.length === 0? true:false
           this.setState({
             renderVideos: newVideos,
             nextPageToken: videoList.data.nextPageToken,
+            errorFound
           });
         })
         .catch((err) => {
           console.log(err);
+          this.setState({errorFound:true})
         });
     } else {
       event.target.style.display = "none";
@@ -153,10 +161,12 @@ export default class Modal extends React.PureComponent {
     this.setState({ searchQuery: query });
     if (event.charCode === 13) {
       Youtube.initializeSearchField(config, query).then((queryVideos) => {
+        const errorFound = queryVideos.data.items.length === 0? true:false
         this.setState({
           initialReqVideo: queryVideos.data,
           renderVideos: queryVideos.data.items,
           nextPageToken: queryVideos.data.nextPageToken,
+          errorFound
         });
       });
     }
@@ -175,7 +185,7 @@ export default class Modal extends React.PureComponent {
   };
 
   render() {
-    const { renderVideos, selectedVideoList, initialReqVideo, isSelected } =
+    const { renderVideos, selectedVideoList, initialReqVideo, isSelected, errorFound } =
       this.state;
     return (
       <div className="modal display-block">
@@ -238,6 +248,7 @@ export default class Modal extends React.PureComponent {
               <GridLayout
                 videos={renderVideos}
                 isSelected={isSelected}
+                checkFiles = {errorFound}
                 loadContent={this.loadMore}
                 handleSelect={this.selectingVideos}
                 selectedVideoList={selectedVideoList}
@@ -247,6 +258,7 @@ export default class Modal extends React.PureComponent {
               <ListLayout
                 videos={renderVideos}
                 isSelected={isSelected}
+                checkFiles = {errorFound}
                 loadContent={this.loadMore}
                 handleSelect={this.selectingVideos}
                 selectedVideoList={selectedVideoList}
