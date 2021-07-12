@@ -1,6 +1,6 @@
 {
   "name": "contentstack_optimizely_experiments_widget",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "The Optimizely Experiments extension integrates your existing Optimizely Experiments with Contenstack’s UI and allows you to retrieve and display the Experiment details into your entry page. Additionally, this extension allows you to start and pause Optimizely experiments directly from the sidebar, and view their variations, their traffic distributions, and Audiences.",
   "main": "gulpfile.js",
   "scripts": {
