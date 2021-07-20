@@ -1,19 +1,19 @@
-var gulp = require('gulp'),
+const gulp = require('gulp'),
   inline = require('gulp-inline'),
-  uglify = require('gulp-uglify'),
-  es2015 = require('babel-preset-es2015');
-  minifyCss = require('gulp-minify-css'),
-  babel = require('gulp-babel')
+  minifyCss = require('gulp-clean-css');
 
-
-gulp.task('brightcoove', function () {
-  return gulp.src('./source/index.html')
-    .pipe(inline({
-      js: [babel({
-        presets: ['es2015']
-      }), uglify],
-      css: [minifyCss],
-      disabledTypes: ['svg', 'img']
-    }))
+gulp.task('inline', function () {
+  return gulp
+    .src('./source/index.html')
+    .pipe(
+      inline({
+        css: [minifyCss]
+      })
+    )
     .pipe(gulp.dest('./'));
 });
+gulp.task('watch', function () {
+  gulp.watch(['source/*'], gulp.series('build'));
+});
+gulp.task('build', gulp.series('inline'));
+gulp.task('default', gulp.series('build'));
