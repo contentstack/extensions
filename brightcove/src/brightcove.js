@@ -198,11 +198,10 @@ class Request {
   //function for retrieving videos from brightcoove
   getVideoCount() {
     return new Promise((resolve, reject) => {
-
       const { proxyUrl, videocountUrl } = extensionField.config;
       const data = JSON.stringify({
-        "authUrl": `/v4/access_token`,
-        "videoUrl": `${videocountUrl}`,
+        authUrl: `/v4/access_token`,
+        videoUrl: `${videocountUrl}`,
       });
       getData({ url: proxyUrl, headers, method: 'POST', data })
         .then(function (data) {
