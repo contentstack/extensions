@@ -5,7 +5,7 @@ import { VideoList } from "../model/videoList.model";
 import { PopupObject } from "../model/receiverObj.model";
 import Modal from "../components/modal";
 
-const Popup: React.FC = props => {
+const Popup: React.FC = ()=> {
   const [message, setMessage] = useState("");
   const [config, setConfig] = useState<ConfigObj>();
   const [selectedVideosList, setSelectedVideosList] = useState<VideoList[]>();
@@ -33,7 +33,7 @@ const Popup: React.FC = props => {
       }
     };
     window.addEventListener("message", receiveMessage, false);
-  }, [])
+  },[])
 
   const onCloseWindow = (selectedVideos: VideoList[]) => {
     if (selectedVideos.length > 0 && window.opener) {
