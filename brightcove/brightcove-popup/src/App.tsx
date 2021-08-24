@@ -3,8 +3,7 @@ import {  HashRouter, Route, Switch } from "react-router-dom";
 import Popup from "./page/Popup";
 import "./styles/style.css"
 
-function App() {
-
+export default function App() {
   return (
     <div className="App">
       < HashRouter>
@@ -15,5 +14,3 @@ function App() {
     </div>
   );
 }
-
-export default App;

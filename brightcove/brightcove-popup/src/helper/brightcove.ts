@@ -6,14 +6,13 @@ const headers = {
 
 class Brightcove {
     url: string;
-
     constructor(url: string) {
         this.url = url;
     }
 
-    getVidoes = async (data: object) => {
+    getVideos = async (data: object) => {
         try {
-            return await axios.post(this.url, headers, data);
+            return await axios({ method: "POST", url: this.url, headers, data });
         } catch (error) {
             console.error(error);
             return error

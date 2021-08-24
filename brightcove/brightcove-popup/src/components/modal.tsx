@@ -1,14 +1,27 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import Brightcove from "../helper/brightcove";
 import { ConfigObj } from "../model/config.model";
 
+import gridIcon from "../images/grid.png";
+import refreshIcon from"../images/refresh.png";
+import listIcon from "../images/list.png";
+
+import ListLayout from "../components/listLayout";
+import GridLayout from "../components/gridLayout";
 import { ModelProps } from "../model/modal.model";
 import { VideoList } from "../model/videoList.model";
 
+interface TotalVideos {
+  count: number;
+}
+
+interface BrightCoveResponse {
+  data: VideoList[];
+}
 
 const Modal: React.FC<ModelProps> = props => {
 
+  let brightcove: Brightcove;
   const limit = 8;
   const [isGrid, setIsGrid] = useState(true);
   const [config, setConfig] = useState(props.config);
@@ -17,37 +30,156 @@ const Modal: React.FC<ModelProps> = props => {
   const [errorFound, setErrorFound] = useState(false);
   const [isSelected, setIsSelected] = useState(false);
   const [offset, setOffset] = useState(0);
-  const [initialReqVideo, setInitialReqVideo] = useState<VideoList[]>();
+  const [count, setCount] = useState(0);
   const [selectedVideoList, setSelectedVideoList] = useState<VideoList[]>(props.selectedVideos);
 
 
-useEffect(()=>{
-  let configData:ConfigObj;
-  if (props.config !== config) {
-    configData = props.config;
-  }else{
-    configData = config;
-  }
-const brightcove = new Brightcove(configData.proxyUrl);
-const data = {
-  "authUrl": configData.oauthUrl,
-  "videoUrl": `${configData.brightcoveUrl}?limit=${limit}&offset=${offset}`
-}
+  useEffect(() => {
+    let configData: ConfigObj;
+    if (props.config && props.config !== config) {
+      configData = props.config;
+    } else {
+      configData = config;
+    }
+    brightcove = new Brightcove(configData.proxyUrl);
 
-brightcove.getVidoes(data).then(res=>{
+    const data = {
+      "authUrl": configData.oauthUrl,
+      "videoUrl": configData.videocountUrl
+    }
+    brightcove.getVideos(data)
+      .then((videoCount: TotalVideos) => {
+        offset + 1 === videoCount.count &&
+          Array.from(document.getElementsByClassName('load-more') as HTMLCollectionOf<HTMLElement>)[0]
+            .style.setProperty("display", "none");
 
-}).catch(err=>console.error(err)
-)
-},[])
+        setErrorFound(videoCount.count === 0 ? true : false);
+        setCount(videoCount.count)
+      })
+      .catch((error: object) => {
+        setErrorFound(true);
+        console.error(error)
+      });
 
-  useEffect(()=>{
+    data.videoUrl = `${configData.brightcoveUrl}?limit=${limit}&offset=${offset}`;
+
+    brightcove.getVideos(data).then((res: BrightCoveResponse) => {
+      setRenderVideos(res.data);
+      setOffset(preOffset => preOffset + limit);
+    }).catch((err: object) => console.error(err))
+
+  }, []);
+
+  useEffect(() => {
     if (selectedVideoList !== props.selectedVideos) {
-    setSelectedVideoList(props.selectedVideos);
+      setSelectedVideoList(props.selectedVideos);
     }
     if (props.config) {
       setConfig(props.config);
     }
-  },[props.selectedVideos])
+  }, [props.selectedVideos])
+
+  const loadMore = async (event: React.MouseEvent<HTMLElement>) => {
+
+    try {
+      if (count !== offset) {
+        const data = {
+          "authUrl": config.oauthUrl,
+          "videoUrl": `${config.brightcoveUrl}?limit=${limit}&offset=${offset}`
+        }
+
+        if (searchQuery) {
+          data.videoUrl = `${config.searchUrl}&limit=${limit}&offset=${offset}`
+        }
+
+        const loadmoreData = await brightcove.getVideos(data);
+        let newVideos = renderVideos;
+        newVideos = newVideos?.concat(loadmoreData.data);
+        loadmoreData.data.length + 1 >= count && (event.currentTarget.style.setProperty("display", "none"))
+        setRenderVideos(newVideos);
+        setOffset(preOffset => preOffset + limit);
+        setErrorFound(loadmoreData.data.length === 0 ? true : false);
+      } else {
+        event.currentTarget.style.setProperty("display", "none");
+      }
+    } catch (error) {
+      setErrorFound(true);
+    }
+  }
+
+  const sendAndClose = (closeandsend: boolean) => {
+    closeandsend ? props.closeWindow(selectedVideoList)
+      : props.closeWindow([]);
+  }
+
+  const changeLayout = () => {
+    setIsGrid(prevGrid => !prevGrid);
+  }
+
+  const showAllVideos = () => {
+    setIsSelected(prevSelected => !prevSelected);
+  }
+
+  const searchQueryHandler = async (event: React.KeyboardEvent<HTMLInputElement>) => {
+    const query = event.currentTarget.value.toLowerCase();
+    setSearchQuery(query);
+    if (event.code === "Enter") {
+      try {
+        const queryVideos = await brightcove.getVideos({
+          "authUrl": config.oauthUrl,
+          "videoUrl": `${config.searchUrl}&limit=${limit}&offset=${offset}`
+        })
+        setOffset(0);
+        setRenderVideos(queryVideos.data);
+        setErrorFound(queryVideos.data.length === 0 ? true : false)
+      } catch (error) {
+        setErrorFound(true);
+      }
+    }
+  }
+
+  const fetchQueryVideos = async () => {
+    try {
+      const queryVideos = await brightcove.getVideos({
+        "authUrl": config.oauthUrl,
+        "videoUrl": `${config.searchUrl}&limit=${limit}&offset=${offset}`
+      })
+      setOffset(0);
+      setRenderVideos(queryVideos.data);
+      setErrorFound(queryVideos.data.length === 0 ? true : false)
+    } catch (error) {
+      setErrorFound(true);
+    }
+
+  }
+
+  const refreshHandler = async () => {
+    const refreshedData = await brightcove.getVideos({
+      "authUrl": config.oauthUrl,
+      "videoUrl": `${config.brightcoveUrl}&limit=${limit}&offset=${offset}`
+    })
+    setRenderVideos(refreshedData.data);
+    setOffset(preOffSet => preOffSet + 8);
+  }
+
+  const selectingVideos = (selectedVideos: VideoList) => {
+    const checkList = selectedVideoList.some(
+      (video) => video.id === selectedVideos.id
+    );
+    if (checkList) {
+      selectedVideoList.splice(
+        selectedVideoList.findIndex(
+          (index) => index.id === selectedVideos.id
+        ),
+        1
+      );
+      setSelectedVideoList([...selectedVideoList])
+    } else {
+      const newlist = [...selectedVideoList];
+      newlist.push(selectedVideos);
+      setSelectedVideoList(newlist);
+    }
+  }
 
   return (
     <div className="modal display-block">
@@ -63,11 +195,11 @@ brightcove.getVidoes(data).then(res=>{
                 id="search"
                 className="cs-text-box cs-global-search"
                 placeholder="Search Videos"
-              //   onKeyPress={this.searchQueryHandler}
+                onKeyPress={searchQueryHandler}
               />
             </span>
             <span className="search-icon"
-            //    onClick={this.fetchQueryVideos}
+              onClick={fetchQueryVideos}
             >
               <i className="icon-search"></i>
             </span>
@@ -78,74 +210,76 @@ brightcove.getVidoes(data).then(res=>{
             <span>All Videos</span>
             <div className="icons">
               <img
-                //   src={refreshIcon}
+                src={refreshIcon}
                 alt="refresh-icon"
-              //   onClick={this.refreshHandler}
+                onClick={refreshHandler}
               />
               <img
-                //   src={this.state.isGrid ? gridIcon : listIcon}
-                //   onClick={this.changeLayout}
+                src={isGrid ? gridIcon : listIcon}
+                onClick={changeLayout}
                 alt="view-option"
               />
             </div>
           </div>
           <div className="video-section">
-            {/* {this.state.isSelected ? ( */}
-            <span className="select-count"
-            // onClick={this.showAllVideos}
-            >
-              {/* Show all videos({initialReqVideo?.pageInfo.totalResults}) */}
-            </span>
-            {/* //   ) : ( */}
-            <span
-              className="select-count"
-            //   onClick={this.showSelectedVideos}
-            >
-              {/* Show selected videos({selectedVideoList.length}) */}
-            </span>
-            {/* //   )} */}
+            {isSelected ? (
+              <span className="select-count"
+                onClick={showAllVideos}
+              >
+                Show all videos({count})
+              </span>
+            ) : (
+              <span
+                className="select-count"
+                onClick={showAllVideos}
+              >
+                Show selected videos({selectedVideoList.length})
+              </span>
+            )}
             <span className="video-count">
-              {/* showing {renderVideos.length} of{" "} */}
-              {/* {initialReqVideo?.pageInfo.totalResults} videos */}
+              showing {renderVideos?.length} of{" "}
+              {count} videos
             </span>
           </div>
-          {/* {this.state.isGrid ? (
-          <GridLayout
-            videos={renderVideos}
-            isSelected={isSelected}
-            checkFiles = {errorFound}
-            loadContent={this.loadMore}
-            handleSelect={this.selectingVideos}
-            selectedVideoList={selectedVideoList}
-            totalVideos={initialReqVideo && initialReqVideo.pageInfo.totalResults}
-          />
-        ) : (
-          <ListLayout
-            videos={renderVideos}
-            isSelected={isSelected}
-            checkFiles = {errorFound}
-            loadContent={this.loadMore}
-            handleSelect={this.selectingVideos}
-            selectedVideoList={selectedVideoList}
-            totalVideos={initialReqVideo && initialReqVideo.pageInfo.totalResults}
-          />
-        )} */}
+          {isGrid ? (
+            renderVideos &&
+            <GridLayout
+              videos={renderVideos}
+              isSelected={isSelected}
+              checkFiles={errorFound}
+              loadContent={loadMore}
+              handleSelect={selectingVideos}
+              selectedVideoList={selectedVideoList}
+              totalVideos={count}
+            />
+          ) : (
+            renderVideos &&
+            <ListLayout
+              videos={renderVideos}
+              isSelected={isSelected}
+              checkFiles={errorFound}
+              loadContent={loadMore}
+              handleSelect={selectingVideos}
+              selectedVideoList={selectedVideoList}
+              totalVideos={count}
+            />
+          )}
         </div>
 
         <div className="modal-footer">
           <div className="right">
             <button
               className="cancel-btn btn"
-            // onClick={() => this.sendAndClose(false)}
+              onClick={() => sendAndClose(false)}
             >
               Cancel
             </button>
             <button
               className="add-btn btn"
-            // onClick={() => this.sendAndClose(true)}
+              onClick={() => sendAndClose(true)}
             >
               Add Selected Videos
-              {/* {selectedVideoList.length} */}
+              {selectedVideoList.length}
             </button>
           </div>
         </div>

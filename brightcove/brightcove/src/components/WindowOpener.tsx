@@ -1,18 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from "react";
+import React from "react";
 import { WindowOpner } from "../model/windowOpener.model";
 
 const WindowOpener: React.FC<WindowOpner> = props => {
 
-    let browser: any;
     let popup: any = null;
     let timer: any = null;
     const name = "BrightCove Popup";
     const opts = `dependent=${1}, alwaysOnTop=${1}, alwaysRaised=${1}, width=${800}, height=${590}`;
 
-    useEffect(() => {
-        browser = window.self;
-    }, [])
 
     const watcher = () => {
         // if popup is null then let's clean the intervals.
@@ -25,9 +21,9 @@ const WindowOpener: React.FC<WindowOpner> = props => {
             // if popup is closed, then let's clean errthing.
         } else if (popup !== null && popup.closed) {
             clearInterval(timer);
-            browser.focus();
+            window.self.focus();
             // the onCloseEventHandler it notifies that the child has been closed.
-            browser.close({ message: "child was closed" });
+            window.self.close();
             timer = null;
             popup = null;
         }
@@ -35,17 +31,19 @@ const WindowOpener: React.FC<WindowOpner> = props => {
 
     const onClickHandler = () => {
 
-        if (popup) {
+        if (popup && !popup.closed) {
             popup.focus();
+
             return;
         }
-        popup = browser.open(props.url, name, opts);
+
+        popup = window.self.open(props.url, name, opts);
 
         setTimeout(() => {
             // The opener object is created once and only if a window has a parent
             // popup.opener.onOpen({message:"Opening YouTube Popup"});
             popup.opener.postMessage(
-                { message: "Opening YouTube Popup", selectedVideos: props.videos },
+                { message: "Opening Brightcove Popup", selectedVideos: props.videos },
                 "*"
             );
         }, 0);
