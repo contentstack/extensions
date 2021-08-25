@@ -1,17 +1,16 @@
-import React from "react";
-import { HashRouter, Route, Switch } from "react-router-dom";
-import Home from "./page/Home";
-import "./styles/style.css"
+import React from 'react';
+import { HashRouter, Route, Switch } from 'react-router-dom';
+import Home from './page/Home';
+import './styles/style.css';
 
 function App() {
-
   return (
-    <div className="App">
-      < HashRouter>
+    <div className='App'>
+      <HashRouter>
         <Switch>
-          <Route exact path="/" component={Home} />
+          <Route exact path='/' component={Home} />
         </Switch>
-      </ HashRouter>
+      </HashRouter>
     </div>
   );
 }
