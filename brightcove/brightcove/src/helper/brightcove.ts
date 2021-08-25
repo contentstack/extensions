@@ -13,7 +13,7 @@ class Brightcove {
 
     getVideos = async (data: object) => {
         try {
-            return await axios.post(this.url, headers, data);
+            return await axios({ method: "POST", url: this.url, headers, data });
         } catch (error) {
             console.error(error);
             return error
