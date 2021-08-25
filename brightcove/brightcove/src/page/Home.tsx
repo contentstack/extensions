@@ -95,7 +95,6 @@ const Home: React.FC = () => {
         videoList.findIndex((index) => index.id === videoId),
         1
       );
-      console.log(videoList);
 
       saveExtensionData([...videoList]);
     } else {

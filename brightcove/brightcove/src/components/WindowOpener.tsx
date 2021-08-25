@@ -9,15 +9,15 @@ const WindowOpener: React.FC<WindowOpner> = (props) => {
   const opts = `dependent=${1}, alwaysOnTop=${1}, alwaysRaised=${1}, width=${800}, height=${590}`;
 
   const watcher = () => {
-    // if popup is null then let's clean the intervals.
     if (!popup) {
+      // if popup is null then let's clean the intervals.
       clearInterval(timer);
       timer = null;
-      // if popup is not null and it is not closed, then let's set the focus on it... maybe...
     } else if (popup && !popup.closed) {
+      // if popup is not null and it is not closed, then set the focus on it
       popup.focus();
-      // if popup is closed, then let's clean errthing.
     } else if (popup && popup.closed) {
+      // if popup is closed, then let's clean everything
       clearInterval(timer);
       window.self.focus();
       // the onCloseEventHandler it notifies that the child has been closed.
