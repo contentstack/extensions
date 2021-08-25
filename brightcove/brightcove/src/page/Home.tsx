@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useRef, useEffect } from 'react';
 import reactDragula from 'react-dragula';
 import { Drake } from 'dragula';
@@ -28,31 +27,30 @@ const Home: React.FC = () => {
   const [message, setMessage] = useState('');
   const [videoList, setVideoList] = useState<VideoList[] | []>([]);
   const [drake, setDrake] = useState<Drake | null>(null);
-
-  let extension: ExtensionObj;
+  const [extension, setExtension] = useState<ExtensionObj>();
 
   useEffect(() => {
     const ContentstackUIExtension = window.ContentstackUIExtension;
     ContentstackUIExtension.init().then((extensions: ExtensionObj) => {
       const { items } = extensions.field.getData();
-      extension = extensions;
+      setExtension(extensions);
       setConfig(extensions.config);
       extensions.window.enableAutoResizing();
       if (items && typeof items[0] !== 'object') {
         const ids = items.toString();
         const data = {
-          authUrl: extension.config.oauthUrl,
-          videoUrl: `${extension.config.brightcoveUrl}/${ids}`,
+          authUrl: extensions.config.oauthUrl,
+          videoUrl: `${extensions.config.brightcoveUrl}/${ids}`,
         };
-        const brightcove = new Brightcove(extension.config.proxyUrl);
-        brightcove.getVideos(data).then((video) => {
-          setVideoList(video || []);
+        const brightcove = new Brightcove(extensions.config.proxyUrl);
+        brightcove.getVideos(data).then(({ data }) => {
+          setVideoList(data);
         });
       } else {
         setVideoList(items);
       }
     });
-  },[]);
+  }, []);
 
   useEffect(() => {
     if (draggableContainer.current) {
@@ -71,8 +69,8 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     const receiveMessage = (event: PopupObject) => {
-      const { data } = event;
-      if (data.getConfig) {
+      const { getConfig, selectedVideosList } = event.data;
+      if (getConfig) {
         event.source.postMessage(
           {
             message: 'Sending Config files',
@@ -81,8 +79,8 @@ const Home: React.FC = () => {
           },
           event.origin
         );
-      } else if (data.selectedVideosList) {
-        saveExtensionData(data.selectedVideosList);
+      } else if (selectedVideosList) {
+        saveExtensionData(selectedVideosList);
       }
     };
     console.info('message :' + message);
@@ -91,12 +89,15 @@ const Home: React.FC = () => {
 
   const deleteVideo = (event: React.MouseEvent<HTMLElement>) => {
     const videoId = event.currentTarget.getAttribute('data-id');
+
     if (videoList) {
       videoList.splice(
         videoList.findIndex((index) => index.id === videoId),
         1
       );
-      saveExtensionData(videoList);
+      console.log(videoList);
+
+      saveExtensionData([...videoList]);
     } else {
       saveExtensionData([]);
     }
@@ -109,8 +110,12 @@ const Home: React.FC = () => {
     } else {
       extensionData = videos;
     }
-    extension.field.setData({ items: extensionData });
-    setVideoList(videos);
+    if (extension) {
+      extension.field.setData({ items: extensionData });
+      setVideoList(videos);
+    } else {
+      console.error('extension is not define');
+    }
   };
 
   const sonResponse = (error: object, res: ErrorMessage) => {
@@ -118,7 +123,7 @@ const Home: React.FC = () => {
       setMessage(res.message);
     }
   };
-  
+
   return (
     <header className='App-header'>
       <div className='wrapper'>
@@ -154,7 +159,7 @@ const Home: React.FC = () => {
                                 className='fileimg'
                                 style={{
                                   backgroundImage: `url(${
-                                    video.images.thumbnail.source
+                                    video.images.poster.source
                                       ? video.images.poster.source[0].src
                                       : video.images.poster.src
                                   })`,
