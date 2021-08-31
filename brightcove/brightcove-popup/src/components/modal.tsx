@@ -10,7 +10,6 @@ import ListLayout from '../components/listLayout';
 import GridLayout from '../components/gridLayout';
 import { ModelProps } from '../model/modal.model';
 import { VideoList } from '../model/videoList.model';
-import Loader from './loader';
 
 interface BrightCoveResponse {
   data: VideoList[];
