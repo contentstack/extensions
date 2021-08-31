@@ -10,6 +10,7 @@ import ListLayout from '../components/listLayout';
 import GridLayout from '../components/gridLayout';
 import { ModelProps } from '../model/modal.model';
 import { VideoList } from '../model/videoList.model';
+import Loader from './loader';
 
 interface BrightCoveResponse {
   data: VideoList[];
@@ -23,7 +24,7 @@ const Modal: React.FC<ModelProps> = (props) => {
   const [isGrid, setIsGrid] = useState<boolean>(true);
   const [configData, setConfig] = useState(config);
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [renderVideos, setRenderVideos] = useState<VideoList[]>();
+  const [renderVideos, setRenderVideos] = useState<VideoList[]>([]);
   const [errorFound, setErrorFound] = useState<boolean>(false);
   const [isSelected, setIsSelected] = useState<boolean>(false);
   const [offset, setOffset] = useState<number>(0);
@@ -245,29 +246,27 @@ const Modal: React.FC<ModelProps> = (props) => {
               showing {renderVideos?.length} of {count} videos
             </span>
           </div>
-          {isGrid
-            ? renderVideos && (
-                <GridLayout
-                  videos={renderVideos}
-                  isSelected={isSelected}
-                  checkFiles={errorFound}
-                  loadContent={loadMore}
-                  handleSelect={selectingVideos}
-                  selectedVideoList={selectedVideoList}
-                  totalVideos={count}
-                />
-              )
-            : renderVideos && (
-                <ListLayout
-                  videos={renderVideos}
-                  isSelected={isSelected}
-                  checkFiles={errorFound}
-                  loadContent={loadMore}
-                  handleSelect={selectingVideos}
-                  selectedVideoList={selectedVideoList}
-                  totalVideos={count}
-                />
-              )}
+          {isGrid ? (
+            <GridLayout
+              videos={renderVideos}
+              isSelected={isSelected}
+              checkFiles={errorFound}
+              loadContent={loadMore}
+              handleSelect={selectingVideos}
+              selectedVideoList={selectedVideoList}
+              totalVideos={count}
+            />
+          ) : (
+            <ListLayout
+              videos={renderVideos}
+              isSelected={isSelected}
+              checkFiles={errorFound}
+              loadContent={loadMore}
+              handleSelect={selectingVideos}
+              selectedVideoList={selectedVideoList}
+              totalVideos={count}
+            />
+          )}
         </div>
 
         <div className='modal-footer'>
