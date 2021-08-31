@@ -1,5 +1,6 @@
 import React from 'react';
 import Loader from './loader';
+import imageNotFound from '../images/not-found-icon.jpg';
 import { Layout } from '../model/layout.model';
 
 const GridLayout: React.FC<Layout> = (props) => {
@@ -62,16 +63,25 @@ const GridLayout: React.FC<Layout> = (props) => {
                       </label>
                     </div>
                     <div className='item'>
-                      <span
-                        className='img'
-                        style={{
-                          backgroundImage: `url(${
-                            video.images.thumbnail.src
-                              ? video.images.thumbnail.src
-                              : video.images.thumbnail.source[0].src
-                          })`,
-                        }}
-                      ></span>
+                      {video.images.thumbnail ? (
+                        <span
+                          className='img'
+                          style={{
+                            backgroundImage: `url(${
+                              video.images.thumbnail.src
+                                ? video.images.thumbnail.src
+                                : video.images.thumbnail.source[0].src
+                            })`,
+                          }}
+                        ></span>
+                      ) : (
+                        <span
+                          className='img'
+                          style={{
+                            backgroundImage: `url(${imageNotFound})`,
+                          }}
+                        ></span>
+                      )}
                       <span className='name'>{video.name}</span>
                     </div>
                   </li>
