@@ -1,7 +1,7 @@
 {
   "name": "@contentstack/marketo-forms-extension",
   "description": "Contentstack Marketo forms custom field extension",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "gulpfile.js",
   "scripts": {
     "build": "gulp build"
