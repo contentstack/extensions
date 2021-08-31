@@ -1,6 +1,6 @@
 {
   "name": "contentstack_shopify_extension",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Contentstack shopify extension to lookup products from shopify in a contentstack field and save product id.",
   "main": "gulpfile.js",
   "scripts": {

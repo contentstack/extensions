@@ -1,6 +1,6 @@
 {
   "name": "contentstack_optimizely_audiences_field",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "The Optimizely extension lets you serve personalized content by allowing you to select the audience for each entry. This extension fetches and displays your Optimizely audiences into a field in your content type. Subsequently, while creating entries, content managers can select audience(s) for each entry. Based on the selection, the entry will be visible only to the targetted audience when published",
   "main": "gulpfile.js",
   "scripts": {
