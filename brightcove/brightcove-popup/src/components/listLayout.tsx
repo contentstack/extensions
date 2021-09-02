@@ -19,7 +19,7 @@ const ListLayout: React.FC<Layout> = (props) => {
       <li className='table-head'>
         <div className='table-cell w-5'></div>
         <div className='table-cell w-35'>Name</div>
-        <div className='table-cell w-30'>Modified By</div>
+        <div className='table-cell w-30'>Description</div>
         <div className='table-cell w-30'>Last Modified</div>
       </li>
       <div className='table-body'>
