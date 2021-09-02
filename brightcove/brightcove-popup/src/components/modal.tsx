@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ChangeEventHandler } from 'react';
 import Brightcove from '../helper/brightcove';
 import { ConfigObj } from '../model/config.model';
 
@@ -128,11 +128,15 @@ const Modal: React.FC<ModelProps> = (props) => {
     setIsSelected((prevSelected) => !prevSelected);
   };
 
+  const setQueryHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const query = event.currentTarget.value;
+    setSearchQuery(query);
+  };
+
   const searchQueryHandler = async (
     event: React.KeyboardEvent<HTMLInputElement>
   ) => {
-    const query = event.currentTarget.value.toLowerCase();
-    setSearchQuery(query);
+    const query = event.currentTarget.value;
 
     if (event.code === 'Enter' && brightcove) {
       try {
@@ -167,12 +171,12 @@ const Modal: React.FC<ModelProps> = (props) => {
 
   const refreshHandler = async () => {
     if (brightcove) {
-      const refreshedData = await brightcove.getVideos({
+      const { data } = await brightcove.getVideos({
         authUrl: config.oauthUrl,
-        videoUrl: `${config.brightcoveUrl}&limit=${limit}&offset=${offset}`,
+        videoUrl: `${config.brightcoveUrl}?limit=${limit}&offset=0`,
       });
-      setRenderVideos(refreshedData.data);
-      setOffset((preOffSet) => preOffSet + 8);
+      setRenderVideos(data);
+      setOffset(8);
     }
   };
 
@@ -207,6 +211,7 @@ const Modal: React.FC<ModelProps> = (props) => {
                 id='search'
                 className='cs-text-box cs-global-search'
                 placeholder='Search Videos'
+                onChange={setQueryHandler}
                 onKeyPress={searchQueryHandler}
               />
             </span>
