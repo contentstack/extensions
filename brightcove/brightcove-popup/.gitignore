@@ -8,9 +8,6 @@
 ***REMOVED***testing
 /coverage
 
-***REMOVED***production
-/build
-
 ***REMOVED***misc
 .DS_Store
 .env.local

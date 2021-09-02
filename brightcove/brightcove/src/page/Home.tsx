@@ -9,6 +9,7 @@ import { VideoList } from '../model/videoList.model';
 import WindowOpener from '../components/WindowOpener';
 import { ExtensionObj } from '../model/extension.model';
 import { PopupObject } from '../model/receiverObj.model';
+import imageNotFound from '../images/not-found-icon.jpg';
 
 interface ErrorMessage {
   message: string;
@@ -141,40 +142,60 @@ const Home: React.FC = () => {
                 <ul className='drag1' ref={draggableContainer}>
                   {videoList &&
                     videoList.map((video) => {
+                      const {
+                        name,
+                        id,
+                        description,
+                        images: { thumbnail, poster },
+                      } = video;
                       return (
-                        <li id={video.id} title={video.name} key={video.id}>
+                        <li id={id} title={name} key={id}>
                           <div className='file'>
-                            <a
-                              href={
-                                video.images.poster.source
-                                  ? video.images.poster.source[0].src
-                                  : video.images.poster.src
-                              }
-                              target='_blank'
-                              className='fileimage'
-                              rel='noreferrer'
-                            >
-                              <span
-                                className='fileimg'
-                                style={{
-                                  backgroundImage: `url(${
-                                    video.images.poster.source
-                                      ? video.images.poster.source[0].src
-                                      : video.images.poster.src
-                                  })`,
-                                }}
-                              ></span>
-                            </a>
+                            {thumbnail ? (
+                              <a
+                                href={
+                                  poster.source
+                                    ? poster.source[0].src
+                                    : poster.src
+                                }
+                                target='_blank'
+                                className='fileimage'
+                                rel='noreferrer'
+                              >
+                                <span
+                                  className='fileimg'
+                                  style={{
+                                    backgroundImage: `url(${
+                                      thumbnail.source
+                                        ? thumbnail.source[0].src
+                                        : thumbnail.src
+                                    })`,
+                                  }}
+                                ></span>
+                              </a>
+                            ) : (
+                              <a
+                                href={imageNotFound}
+                                target='_blank'
+                                className='fileimage'
+                                rel='noreferrer'
+                              >
+                                <span
+                                  className='fileimg'
+                                  style={{
+                                    backgroundImage: `url(${imageNotFound})`,
+                                  }}
+                                ></span>
+                              </a>
+                            )}
+                            <span className='file-text'>Title-{name}</span>
                             <span className='file-text'>
-                              Title-{video.name}
-                            </span>
-                            <span className='file-text'>
-                              Description-{video.description}
+                              Description-{description}
                             </span>
                             <div
                               className='file-action trash'
                               onClick={deleteVideo}
-                              data-id={video.id}
+                              data-id={id}
                             >
                               <span className='close-icon'></span>
                             </div>
