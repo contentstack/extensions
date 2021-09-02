@@ -76,6 +76,8 @@ const GridLayout: React.FC<Layout> = (props) => {
                               thumbnail.src
                                 ? thumbnail.src
                                 : thumbnail.source[0].src
+                                ? thumbnail.source[0].src
+                                : imageNotFound
                             })`,
                           }}
                         ></span>
