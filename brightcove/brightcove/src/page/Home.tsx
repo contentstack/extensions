@@ -157,6 +157,8 @@ const Home: React.FC = () => {
                                   poster.source
                                     ? poster.source[0].src
                                     : poster.src
+                                    ? poster.src
+                                    : imageNotFound
                                 }
                                 target='_blank'
                                 className='fileimage'
@@ -169,6 +171,8 @@ const Home: React.FC = () => {
                                       thumbnail.source
                                         ? thumbnail.source[0].src
                                         : thumbnail.src
+                                        ? thumbnail.src
+                                        : imageNotFound
                                     })`,
                                   }}
                                 ></span>
