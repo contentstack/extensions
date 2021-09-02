@@ -1,5 +1,6 @@
 import React from 'react';
 import Loader from './loader';
+import imageNotFound from '../images/not-found-icon.jpg';
 import { Layout } from '../model/layout.model';
 
 const GridLayout: React.FC<Layout> = (props) => {
@@ -17,22 +18,27 @@ const GridLayout: React.FC<Layout> = (props) => {
   return (
     <ul className='grid-layout'>
       <div className='grid-body'>
-        {renderVideos ? (
+        {renderVideos.length ? (
           <>
             <ul>
-              {renderVideos?.map((video) => {
+              {renderVideos.map((video) => {
                 const checked = selectedVideoList.some(
                   (check) => check.id === video.id
                 );
+                const {
+                  name,
+                  id,
+                  images: { thumbnail },
+                } = video;
                 return (
                   <li
-                    title={video.name}
-                    id={video.id}
-                    key={video.id}
+                    title={name}
+                    id={id}
+                    key={id}
                     className={checked ? 'active' : ''}
                     onClick={(event) => {
                       const liElement = event.currentTarget;
-                      !checked && video.id === liElement.id
+                      !checked && id === liElement.id
                         ? liElement.classList.add('active')
                         : liElement.classList.remove('active');
                       handleSelect(video);
@@ -48,11 +54,11 @@ const GridLayout: React.FC<Layout> = (props) => {
                           type='checkbox'
                           className='cs'
                           defaultChecked={checked}
-                          id={`checkbox-${video.id}`}
+                          id={`checkbox-${id}`}
                           onChange={(event) => {
                             const style = event.target?.parentNode?.parentNode
                               ?.parentNode as HTMLElement;
-                            !checked && video.id === style.id
+                            !checked && id === style.id
                               ? style.classList.add('active')
                               : style.classList.remove('active');
                             handleSelect(video);
@@ -62,17 +68,28 @@ const GridLayout: React.FC<Layout> = (props) => {
                       </label>
                     </div>
                     <div className='item'>
-                      <span
-                        className='img'
-                        style={{
-                          backgroundImage: `url(${
-                            video.images.thumbnail.src
-                              ? video.images.thumbnail.src
-                              : video.images.thumbnail.source[0].src
-                          })`,
-                        }}
-                      ></span>
-                      <span className='name'>{video.name}</span>
+                      {thumbnail ? (
+                        <span
+                          className='img'
+                          style={{
+                            backgroundImage: `url(${
+                              thumbnail.src
+                                ? thumbnail.src
+                                : thumbnail.source[0].src
+                                ? thumbnail.source[0].src
+                                : imageNotFound
+                            })`,
+                          }}
+                        ></span>
+                      ) : (
+                        <span
+                          className='img'
+                          style={{
+                            backgroundImage: `url(${imageNotFound})`,
+                          }}
+                        ></span>
+                      )}
+                      <span className='name'>{name}</span>
                     </div>
                   </li>
                 );
