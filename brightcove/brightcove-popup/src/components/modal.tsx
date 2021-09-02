@@ -140,11 +140,18 @@ const Modal: React.FC<ModelProps> = (props) => {
 
     if (event.code === 'Enter' && brightcove) {
       try {
+        const {
+          data: { count },
+        } = await brightCove.getVideos({
+          authUrl: config.oauthUrl,
+          videoUrl: `${config.videocountUrl}?q=${query}&limit=${limit}&offset=0`,
+        });
         const queryVideos = await brightcove.getVideos({
           authUrl: config.oauthUrl,
           videoUrl: `${config.searchUrl + query}&limit=${limit}&offset=0`,
         });
         setOffset(0);
+        setCount(count);
         setRenderVideos(queryVideos.data);
         setErrorFound(queryVideos.data.length === 0 ? true : false);
       } catch (error) {
@@ -156,11 +163,18 @@ const Modal: React.FC<ModelProps> = (props) => {
   const fetchQueryVideos = async () => {
     try {
       if (brightcove) {
+        const {
+          data: { count },
+        } = await brightCove.getVideos({
+          authUrl: config.oauthUrl,
+          videoUrl: `${config.videocountUrl}?q=${searchQuery}&limit=${limit}&offset=0`,
+        });
         const queryVideos = await brightcove.getVideos({
           authUrl: config.oauthUrl,
           videoUrl: `${config.searchUrl + searchQuery}&limit=${limit}&offset=0`,
         });
         setOffset(0);
+        setCount(count);
         setRenderVideos(queryVideos.data);
         setErrorFound(queryVideos.data.length === 0 ? true : false);
       }
