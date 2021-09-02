@@ -27,7 +27,7 @@ const Modal: React.FC<ModelProps> = (props) => {
   const [errorFound, setErrorFound] = useState<boolean>(false);
   const [isSelected, setIsSelected] = useState<boolean>(false);
   const [offset, setOffset] = useState<number>(0);
-  const [count, setCount] = useState<number>(0);
+  const [counts, setCount] = useState<number>(0);
   const [brightcove, setBrightcove] = useState<Brightcove>(brightCove);
   const [selectedVideoList, setSelectedVideoList] =
     useState<VideoList[]>(selectedVideos);
@@ -82,7 +82,7 @@ const Modal: React.FC<ModelProps> = (props) => {
 
   const loadMore = async (event: React.MouseEvent<HTMLElement>) => {
     try {
-      if (count !== offset && renderVideos) {
+      if (counts !== offset && renderVideos) {
         const body = {
           authUrl: config.oauthUrl,
           videoUrl: `${config.brightcoveUrl}?limit=${limit}&offset=${offset}`,
@@ -106,7 +106,7 @@ const Modal: React.FC<ModelProps> = (props) => {
         setRenderVideos(newVideos);
         setOffset((preOffset) => preOffset + limit);
         setErrorFound(data.length === 0 ? true : false);
-        newVideos.length >= count &&
+        newVideos.length >= counts &&
           event.currentTarget.style.setProperty('display', 'none');
       } else {
         event.currentTarget.style.setProperty('display', 'none');
@@ -171,10 +171,17 @@ const Modal: React.FC<ModelProps> = (props) => {
 
   const refreshHandler = async () => {
     if (brightcove) {
+      const {
+        data: { count },
+      } = await brightCove.getVideos({
+        authUrl: config.oauthUrl,
+        videoUrl: config.videocountUrl,
+      });
       const { data } = await brightcove.getVideos({
         authUrl: config.oauthUrl,
         videoUrl: `${config.brightcoveUrl}?limit=${limit}&offset=0`,
       });
+      setCount(count);
       setRenderVideos(data);
       setOffset(8);
     }
@@ -239,7 +246,7 @@ const Modal: React.FC<ModelProps> = (props) => {
           <div className='video-section'>
             {isSelected ? (
               <span className='select-count' onClick={showAllVideos}>
-                Show all videos({count})
+                Show all videos({counts})
               </span>
             ) : (
               <span className='select-count' onClick={showAllVideos}>
@@ -247,7 +254,7 @@ const Modal: React.FC<ModelProps> = (props) => {
               </span>
             )}
             <span className='video-count'>
-              showing {renderVideos?.length} of {count} videos
+              showing {renderVideos?.length} of {counts} videos
             </span>
           </div>
           {isGrid ? (
@@ -258,7 +265,7 @@ const Modal: React.FC<ModelProps> = (props) => {
               loadContent={loadMore}
               handleSelect={selectingVideos}
               selectedVideoList={selectedVideoList}
-              totalVideos={count}
+              totalVideos={counts}
             />
           ) : (
             <ListLayout
@@ -268,7 +275,7 @@ const Modal: React.FC<ModelProps> = (props) => {
               loadContent={loadMore}
               handleSelect={selectingVideos}
               selectedVideoList={selectedVideoList}
-              totalVideos={count}
+              totalVideos={counts}
             />
           )}
         </div>
