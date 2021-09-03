@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useRef, useEffect } from 'react';
 import reactDragula from 'react-dragula';
 import { Drake } from 'dragula';
@@ -13,6 +12,10 @@ import imageNotFound from '../images/not-found-icon.jpg';
 
 interface ErrorMessage {
   message: string;
+}
+interface ResponseObj {
+  header: object;
+  data: VideoList[];
 }
 
 declare global {
@@ -30,6 +33,15 @@ const Home: React.FC = () => {
   const [drake, setDrake] = useState<Drake | null>(null);
   const [extension, setExtension] = useState<ExtensionObj>();
 
+  const splitItemsArray = (items: string[]) => {
+    const temporary = [];
+    for (let i = 0; i < items.length; i += 10) {
+      const ids = items.slice(i, i + 10);
+      temporary.push(ids.toString());
+    }
+    return temporary;
+  };
+
   useEffect(() => {
     const ContentstackUIExtension = window.ContentstackUIExtension;
     ContentstackUIExtension.init().then((extensions: ExtensionObj) => {
@@ -38,14 +50,22 @@ const Home: React.FC = () => {
       setConfig(extensions.config);
       extensions.window.enableAutoResizing();
       if (items && typeof items[0] !== 'object') {
-        const ids = items.toString();
-        const data = {
-          authUrl: extensions.config.oauthUrl,
-          videoUrl: `${extensions.config.brightcoveUrl}/${ids}`,
-        };
+        const idArray =
+          items.length > 10 ? splitItemsArray(items) : [items.toString()];
+
         const brightcove = new Brightcove(extensions.config.proxyUrl);
-        brightcove.getVideos(data).then(({ data }) => {
-          setVideoList(data);
+        let videos: VideoList[] = [];
+        idArray.forEach((ids) => {
+          brightcove
+            .getVideos({
+              authUrl: extensions.config.oauthUrl,
+              videoUrl: `${extensions.config.brightcoveUrl}/${ids}`,
+            })
+            .then(({ data }: ResponseObj) => {
+              videos = videos.concat(data);
+              items.length === videos.length && setVideoList(videos);
+            })
+            .catch((err) => console.error(err));
         });
       } else {
         setVideoList(items);
