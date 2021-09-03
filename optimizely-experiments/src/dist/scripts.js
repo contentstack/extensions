@@ -230,7 +230,6 @@ function domChangeListnerOfExperimentsListPage() {
     $('#loader').show();
   });
   $('.result-icon').click(function (e) {
-    console.log(e.currentTarget, e.current);
     var CampaignId = $(e.currentTarget).parent('a').attr('id');
     var ExperimentId = $(e.currentTarget).parent().parent().parent().siblings('.details').attr('id');
     var url = "https://app.optimizely.com/v2/projects/".concat(extensionField.config.project_id, "/results/").concat(CampaignId, "/experiments/").concat(ExperimentId, "?previousView=EXPERIMENTS");
