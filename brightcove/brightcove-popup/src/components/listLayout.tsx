@@ -3,16 +3,15 @@ import Loader from './loader';
 import moment from 'moment';
 import { Layout } from '../model/layout.model';
 
-const ListLayout: React.FC<Layout> = (props) => {
-  const {
-    isSelected,
-    selectedVideoList,
-    videos,
-    totalVideos,
-    checkFiles,
-    handleSelect,
-    loadContent,
-  } = props;
+const ListLayout: React.FC<Layout> = ({
+  isSelected,
+  selectedVideoList,
+  videos,
+  totalVideos,
+  checkFiles,
+  handleSelect,
+  loadContent,
+}) => {
   const renderVideos = isSelected ? selectedVideoList : videos;
   return (
     <ul className='list-layout'>

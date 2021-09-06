@@ -3,16 +3,15 @@ import Loader from './loader';
 import imageNotFound from '../images/not-found-icon.jpg';
 import { Layout } from '../model/layout.model';
 
-const GridLayout: React.FC<Layout> = (props) => {
-  const {
-    isSelected,
-    selectedVideoList,
-    videos,
-    totalVideos,
-    checkFiles,
-    handleSelect,
-    loadContent,
-  } = props;
+const GridLayout: React.FC<Layout> = ({
+  isSelected,
+  selectedVideoList,
+  videos,
+  totalVideos,
+  checkFiles,
+  handleSelect,
+  loadContent,
+}) => {
   const renderVideos = isSelected ? selectedVideoList : videos;
 
   return (

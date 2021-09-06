@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ChangeEventHandler } from 'react';
+import React, { useState, useEffect } from 'react';
 import Brightcove from '../helper/brightcove';
 import { ConfigObj } from '../model/config.model';
 
@@ -15,8 +15,11 @@ interface BrightCoveResponse {
   data: VideoList[];
 }
 
-const Modal: React.FC<ModelProps> = (props) => {
-  const { config, selectedVideos } = props;
+const Modal: React.FC<ModelProps> = ({
+  config,
+  selectedVideos,
+  closeWindow,
+}) => {
   const brightCove = new Brightcove(config.proxyUrl);
 
   const limit = 8;
@@ -72,13 +75,13 @@ const Modal: React.FC<ModelProps> = (props) => {
   }, []);
 
   useEffect(() => {
-    if (selectedVideoList !== props.selectedVideos) {
-      setSelectedVideoList(props.selectedVideos);
+    if (selectedVideoList !== selectedVideos) {
+      setSelectedVideoList(selectedVideos);
     }
     if (config) {
       setConfig(config);
     }
-  }, [props.selectedVideos]);
+  }, [selectedVideos]);
 
   const loadMore = async (event: React.MouseEvent<HTMLElement>) => {
     try {
@@ -117,7 +120,7 @@ const Modal: React.FC<ModelProps> = (props) => {
   };
 
   const sendAndClose = (closeandsend: boolean) => {
-    closeandsend ? props.closeWindow(selectedVideoList) : props.closeWindow([]);
+    closeandsend ? closeWindow(selectedVideoList) : closeWindow([]);
   };
 
   const changeLayout = () => {
@@ -154,7 +157,7 @@ const Modal: React.FC<ModelProps> = (props) => {
         setOffset(0);
         setCount(count);
         setRenderVideos(queryVideos);
-        setErrorFound(queryVideos.length === 0 ? true : false);
+        setErrorFound(!queryVideos.length);
       } catch (error) {
         setErrorFound(true);
       }
@@ -178,7 +181,7 @@ const Modal: React.FC<ModelProps> = (props) => {
         setOffset(0);
         setCount(count);
         setRenderVideos(queryVideos);
-        setErrorFound(queryVideos.length === 0 ? true : false);
+        setErrorFound(!queryVideos.length);
       }
     } catch (error) {
       setErrorFound(true);
@@ -204,19 +207,19 @@ const Modal: React.FC<ModelProps> = (props) => {
     }
   };
 
-  const selectingVideos = (selectedVideos: VideoList) => {
+  const selectingVideos = (selectedVideo: VideoList) => {
     const checkList = selectedVideoList.some(
-      (video) => video.id === selectedVideos.id
+      (video) => video.id === selectedVideo.id
     );
     if (checkList) {
       selectedVideoList.splice(
-        selectedVideoList.findIndex((index) => index.id === selectedVideos.id),
+        selectedVideoList.findIndex((index) => index.id === selectedVideo.id),
         1
       );
       setSelectedVideoList([...selectedVideoList]);
     } else {
       const newlist = [...selectedVideoList];
-      newlist.push(selectedVideos);
+      newlist.push(selectedVideo);
       setSelectedVideoList(newlist);
     }
   };
