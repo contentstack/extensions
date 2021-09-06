@@ -148,7 +148,7 @@ const Home: React.FC = () => {
     <header className='App-header'>
       <div className='wrapper'>
         <div className='container'>
-          <div className='reference-loading' style={{ display: 'block' }}>
+          <div className='reference-loading' style={{ display: 'none' }}>
             <div className='loading-flash'>
               <div></div>
               <div></div>

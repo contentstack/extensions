@@ -139,16 +139,17 @@ const Modal: React.FC<ModelProps> = (props) => {
     const query = event.currentTarget.value;
 
     if (event.code === 'Enter' && brightcove) {
+      const { oauthUrl, videocountUrl, searchUrl } = config;
       try {
         const {
           data: { count },
         } = await brightCove.getVideos({
-          authUrl: config.oauthUrl,
-          videoUrl: `${config.videocountUrl}?q=${query}&limit=${limit}&offset=0`,
+          authUrl: oauthUrl,
+          videoUrl: `${videocountUrl}?q=${query}&limit=${limit}&offset=0`,
         });
         const queryVideos = await brightcove.getVideos({
-          authUrl: config.oauthUrl,
-          videoUrl: `${config.searchUrl + query}&limit=${limit}&offset=0`,
+          authUrl: oauthUrl,
+          videoUrl: `${searchUrl + query}&limit=${limit}&offset=0`,
         });
         setOffset(0);
         setCount(count);
@@ -163,15 +164,16 @@ const Modal: React.FC<ModelProps> = (props) => {
   const fetchQueryVideos = async () => {
     try {
       if (brightcove) {
+        const { oauthUrl, searchUrl, videocountUrl } = config;
         const {
           data: { count },
         } = await brightCove.getVideos({
-          authUrl: config.oauthUrl,
-          videoUrl: `${config.videocountUrl}?q=${searchQuery}&limit=${limit}&offset=0`,
+          authUrl: oauthUrl,
+          videoUrl: `${videocountUrl}?q=${searchQuery}&limit=${limit}&offset=0`,
         });
         const queryVideos = await brightcove.getVideos({
-          authUrl: config.oauthUrl,
-          videoUrl: `${config.searchUrl + searchQuery}&limit=${limit}&offset=0`,
+          authUrl: oauthUrl,
+          videoUrl: `${searchUrl + searchQuery}&limit=${limit}&offset=0`,
         });
         setOffset(0);
         setCount(count);
@@ -185,18 +187,19 @@ const Modal: React.FC<ModelProps> = (props) => {
 
   const refreshHandler = async () => {
     if (brightcove) {
+      const { oauthUrl, videocountUrl, brightcoveUrl } = config;
       const {
         data: { count },
       } = await brightCove.getVideos({
-        authUrl: config.oauthUrl,
-        videoUrl: config.videocountUrl,
+        authUrl: oauthUrl,
+        videoUrl: videocountUrl,
       });
-      const { data } = await brightcove.getVideos({
-        authUrl: config.oauthUrl,
-        videoUrl: `${config.brightcoveUrl}?limit=${limit}&offset=0`,
+      const videos = await brightcove.getVideos({
+        authUrl: oauthUrl,
+        videoUrl: `${brightcoveUrl}?limit=${limit}&offset=0`,
       });
       setCount(count);
-      setRenderVideos(data);
+      setRenderVideos(videos.data);
       setOffset(8);
     }
   };
