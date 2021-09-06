@@ -147,14 +147,14 @@ const Modal: React.FC<ModelProps> = (props) => {
           authUrl: oauthUrl,
           videoUrl: `${videocountUrl}?q=${query}&limit=${limit}&offset=0`,
         });
-        const queryVideos = await brightcove.getVideos({
+        const { data: queryVideos } = await brightcove.getVideos({
           authUrl: oauthUrl,
           videoUrl: `${searchUrl + query}&limit=${limit}&offset=0`,
         });
         setOffset(0);
         setCount(count);
-        setRenderVideos(queryVideos.data);
-        setErrorFound(queryVideos.data.length === 0 ? true : false);
+        setRenderVideos(queryVideos);
+        setErrorFound(queryVideos.length === 0 ? true : false);
       } catch (error) {
         setErrorFound(true);
       }
@@ -171,14 +171,14 @@ const Modal: React.FC<ModelProps> = (props) => {
           authUrl: oauthUrl,
           videoUrl: `${videocountUrl}?q=${searchQuery}&limit=${limit}&offset=0`,
         });
-        const queryVideos = await brightcove.getVideos({
+        const { data: queryVideos } = await brightcove.getVideos({
           authUrl: oauthUrl,
           videoUrl: `${searchUrl + searchQuery}&limit=${limit}&offset=0`,
         });
         setOffset(0);
         setCount(count);
-        setRenderVideos(queryVideos.data);
-        setErrorFound(queryVideos.data.length === 0 ? true : false);
+        setRenderVideos(queryVideos);
+        setErrorFound(queryVideos.length === 0 ? true : false);
       }
     } catch (error) {
       setErrorFound(true);
@@ -194,12 +194,12 @@ const Modal: React.FC<ModelProps> = (props) => {
         authUrl: oauthUrl,
         videoUrl: videocountUrl,
       });
-      const videos = await brightcove.getVideos({
+      const { data: videos } = await brightcove.getVideos({
         authUrl: oauthUrl,
         videoUrl: `${brightcoveUrl}?limit=${limit}&offset=0`,
       });
       setCount(count);
-      setRenderVideos(videos.data);
+      setRenderVideos(videos);
       setOffset(8);
     }
   };
