@@ -52,7 +52,9 @@ const Home: React.FC = () => {
       if (items && typeof items[0] !== 'object') {
         const idArray =
           items.length > 10 ? splitItemsArray(items) : [items.toString()];
-        const { proxyUrl, oauthUrl, brightcoveUrl } = extensions.config;
+        const {
+          config: { proxyUrl, oauthUrl, brightcoveUrl },
+        } = extensions;
         const brightcove = new Brightcove(proxyUrl);
         let videos: VideoList[] = [];
         idArray.forEach((ids) => {
