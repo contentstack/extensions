@@ -15,8 +15,11 @@ interface BrightCoveResponse {
   data: VideoList[];
 }
 
-const Modal: React.FC<ModelProps> = (props) => {
-  const { config, selectedVideos } = props;
+const Modal: React.FC<ModelProps> = ({
+  config,
+  selectedVideos,
+  closeWindow,
+}) => {
   const brightCove = new Brightcove(config.proxyUrl);
 
   const limit = 8;
@@ -27,7 +30,7 @@ const Modal: React.FC<ModelProps> = (props) => {
   const [errorFound, setErrorFound] = useState<boolean>(false);
   const [isSelected, setIsSelected] = useState<boolean>(false);
   const [offset, setOffset] = useState<number>(0);
-  const [count, setCount] = useState<number>(0);
+  const [counts, setCount] = useState<number>(0);
   const [brightcove, setBrightcove] = useState<Brightcove>(brightCove);
   const [selectedVideoList, setSelectedVideoList] =
     useState<VideoList[]>(selectedVideos);
@@ -72,17 +75,17 @@ const Modal: React.FC<ModelProps> = (props) => {
   }, []);
 
   useEffect(() => {
-    if (selectedVideoList !== props.selectedVideos) {
-      setSelectedVideoList(props.selectedVideos);
+    if (selectedVideoList !== selectedVideos) {
+      setSelectedVideoList(selectedVideos);
     }
     if (config) {
       setConfig(config);
     }
-  }, [props.selectedVideos]);
+  }, [selectedVideos]);
 
   const loadMore = async (event: React.MouseEvent<HTMLElement>) => {
     try {
-      if (count !== offset && renderVideos) {
+      if (counts !== offset && renderVideos) {
         const body = {
           authUrl: config.oauthUrl,
           videoUrl: `${config.brightcoveUrl}?limit=${limit}&offset=${offset}`,
@@ -106,7 +109,7 @@ const Modal: React.FC<ModelProps> = (props) => {
         setRenderVideos(newVideos);
         setOffset((preOffset) => preOffset + limit);
         setErrorFound(data.length === 0 ? true : false);
-        newVideos.length >= count &&
+        newVideos.length >= counts &&
           event.currentTarget.style.setProperty('display', 'none');
       } else {
         event.currentTarget.style.setProperty('display', 'none');
@@ -117,7 +120,7 @@ const Modal: React.FC<ModelProps> = (props) => {
   };
 
   const sendAndClose = (closeandsend: boolean) => {
-    closeandsend ? props.closeWindow(selectedVideoList) : props.closeWindow([]);
+    closeandsend ? closeWindow(selectedVideoList) : closeWindow([]);
   };
 
   const changeLayout = () => {
@@ -128,21 +131,33 @@ const Modal: React.FC<ModelProps> = (props) => {
     setIsSelected((prevSelected) => !prevSelected);
   };
 
+  const setQueryHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const query = event.currentTarget.value;
+    setSearchQuery(query);
+  };
+
   const searchQueryHandler = async (
     event: React.KeyboardEvent<HTMLInputElement>
   ) => {
-    const query = event.currentTarget.value.toLowerCase();
-    setSearchQuery(query);
+    const query = event.currentTarget.value;
 
     if (event.code === 'Enter' && brightcove) {
+      const { oauthUrl, videocountUrl, searchUrl } = config;
       try {
-        const queryVideos = await brightcove.getVideos({
-          authUrl: config.oauthUrl,
-          videoUrl: `${config.searchUrl + query}&limit=${limit}&offset=0`,
+        const {
+          data: { count },
+        } = await brightCove.getVideos({
+          authUrl: oauthUrl,
+          videoUrl: `${videocountUrl}?q=${query}&limit=${limit}&offset=0`,
+        });
+        const { data: queryVideos } = await brightcove.getVideos({
+          authUrl: oauthUrl,
+          videoUrl: `${searchUrl + query}&limit=${limit}&offset=0`,
         });
         setOffset(0);
-        setRenderVideos(queryVideos.data);
-        setErrorFound(queryVideos.data.length === 0 ? true : false);
+        setCount(count);
+        setRenderVideos(queryVideos);
+        setErrorFound(!queryVideos.length);
       } catch (error) {
         setErrorFound(true);
       }
@@ -152,13 +167,21 @@ const Modal: React.FC<ModelProps> = (props) => {
   const fetchQueryVideos = async () => {
     try {
       if (brightcove) {
-        const queryVideos = await brightcove.getVideos({
-          authUrl: config.oauthUrl,
-          videoUrl: `${config.searchUrl + searchQuery}&limit=${limit}&offset=0`,
+        const { oauthUrl, searchUrl, videocountUrl } = config;
+        const {
+          data: { count },
+        } = await brightCove.getVideos({
+          authUrl: oauthUrl,
+          videoUrl: `${videocountUrl}?q=${searchQuery}&limit=${limit}&offset=0`,
+        });
+        const { data: queryVideos } = await brightcove.getVideos({
+          authUrl: oauthUrl,
+          videoUrl: `${searchUrl + searchQuery}&limit=${limit}&offset=0`,
         });
         setOffset(0);
-        setRenderVideos(queryVideos.data);
-        setErrorFound(queryVideos.data.length === 0 ? true : false);
+        setCount(count);
+        setRenderVideos(queryVideos);
+        setErrorFound(!queryVideos.length);
       }
     } catch (error) {
       setErrorFound(true);
@@ -167,28 +190,36 @@ const Modal: React.FC<ModelProps> = (props) => {
 
   const refreshHandler = async () => {
     if (brightcove) {
-      const refreshedData = await brightcove.getVideos({
-        authUrl: config.oauthUrl,
-        videoUrl: `${config.brightcoveUrl}&limit=${limit}&offset=${offset}`,
+      const { oauthUrl, videocountUrl, brightcoveUrl } = config;
+      const {
+        data: { count },
+      } = await brightCove.getVideos({
+        authUrl: oauthUrl,
+        videoUrl: videocountUrl,
       });
-      setRenderVideos(refreshedData.data);
-      setOffset((preOffSet) => preOffSet + 8);
+      const { data: videos } = await brightcove.getVideos({
+        authUrl: oauthUrl,
+        videoUrl: `${brightcoveUrl}?limit=${limit}&offset=0`,
+      });
+      setCount(count);
+      setRenderVideos(videos);
+      setOffset(8);
     }
   };
 
-  const selectingVideos = (selectedVideos: VideoList) => {
+  const selectingVideos = (selectedVideo: VideoList) => {
     const checkList = selectedVideoList.some(
-      (video) => video.id === selectedVideos.id
+      (video) => video.id === selectedVideo.id
     );
     if (checkList) {
       selectedVideoList.splice(
-        selectedVideoList.findIndex((index) => index.id === selectedVideos.id),
+        selectedVideoList.findIndex((index) => index.id === selectedVideo.id),
         1
       );
       setSelectedVideoList([...selectedVideoList]);
     } else {
       const newlist = [...selectedVideoList];
-      newlist.push(selectedVideos);
+      newlist.push(selectedVideo);
       setSelectedVideoList(newlist);
     }
   };
@@ -207,6 +238,7 @@ const Modal: React.FC<ModelProps> = (props) => {
                 id='search'
                 className='cs-text-box cs-global-search'
                 placeholder='Search Videos'
+                onChange={setQueryHandler}
                 onKeyPress={searchQueryHandler}
               />
             </span>
@@ -234,7 +266,7 @@ const Modal: React.FC<ModelProps> = (props) => {
           <div className='video-section'>
             {isSelected ? (
               <span className='select-count' onClick={showAllVideos}>
-                Show all videos({count})
+                Show all videos({counts})
               </span>
             ) : (
               <span className='select-count' onClick={showAllVideos}>
@@ -242,7 +274,7 @@ const Modal: React.FC<ModelProps> = (props) => {
               </span>
             )}
             <span className='video-count'>
-              showing {renderVideos?.length} of {count} videos
+              showing {renderVideos?.length} of {counts} videos
             </span>
           </div>
           {isGrid ? (
@@ -253,7 +285,7 @@ const Modal: React.FC<ModelProps> = (props) => {
               loadContent={loadMore}
               handleSelect={selectingVideos}
               selectedVideoList={selectedVideoList}
-              totalVideos={count}
+              totalVideos={counts}
             />
           ) : (
             <ListLayout
@@ -263,7 +295,7 @@ const Modal: React.FC<ModelProps> = (props) => {
               loadContent={loadMore}
               handleSelect={selectingVideos}
               selectedVideoList={selectedVideoList}
-              totalVideos={count}
+              totalVideos={counts}
             />
           )}
         </div>
