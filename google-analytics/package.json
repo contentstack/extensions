@@ -1,21 +1,21 @@
 {
   "name": "contentstack_google_analytics_widget",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Contentstack Google Analytics Widget",
   "main": "gulpfile.js",
   "scripts": {
     "build": "gulp build"
   },
   "author": "Contentstack",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
-    "gulp": "4.0.0",
-    "gulp-babel": "7.0.1",
-    "gulp-inline": "0.1.3",
-    "gulp-inline-source": "3.2.0",
-    "gulp-minify-css": "1.2.4",
-    "gulp-uglify": "3.0.0",
-    "babel-cli": "6.26.0",
-    "babel-preset-es2015": "6.24.1"
+    "@babel/core": "^7.14.6",
+    "@babel/preset-env": "^7.14.5",
+    "gulp": "^4.0.0",
+    "gulp-babel": "^8.0.0",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-concat": "2.6.1",
+    "gulp-uglify": "^3.0.2",
+    "gulp-inline": "^0.1.3"
   }
 }
