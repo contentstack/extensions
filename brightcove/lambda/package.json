@@ -1,0 +1,15 @@
+{
+    "name": "brightcove-proxy-code",
+    "version": "1.0.0",
+    "description": "Proxy code for contentstack and brightcove integration",
+    "main": "index.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "build": "zip -r brightcove.zip *.json *.js node_modules"
+    },
+    "author": "Contentstack",
+    "license": "MIT",
+    "dependencies": {
+      "axios": "^0.21.1"
+    }
+  }
