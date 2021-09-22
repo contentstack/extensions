@@ -1,83 +1,21 @@
-<!doctype html>
+<!DOCTYPE HTML>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8"/>
-    <title>Ace Editor Extension</title>
-    <style>
-      body { margin: 0; }
-    </style>
-    <!--
-    Load the Extensions API that is used to communicate with the containing app.
-    -->
+
+<head>
+    <meta charset="utf-8">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/9.5.5/jsoneditor.min.js" integrity="sha512-j54mlrSyC7F9BRZhRiEjFTq6ESmJYXdznKy8lJeqIVlQOxkVNkn8lCveNphcX7MMXnyNU774ZeiDDahKl3YyYg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/9.5.5/jsoneditor.css" integrity="sha512-Sbn0ZCJ/Sq+RcpmI2np6vYlQBolmDPIrx95V3kOQU7RfEOWRCgEmDvj5lD4oNnx55KVIUfadYs8rk3OudD+dFA==" crossorigin="anonymous" referrerpolicy="no-referrer">
     <script src="https://www.contentstack.com/sdks/contentstack-ui-extensions/dist/latest/ui-extension-sdk.js"></script>
-    <!--
-    We use lodash.throttle to avoid spamming the API with changes
-    -->
-    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.4/lodash.min.js"></script>
-    
-    <!-- load a custom version of Ace editor -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ace.js"></script>
-   
-    <link href="https://assets.contentstack.io/v3/assets/blt30b41f7b9a5d7467/bltb6bb4f7db098181f/5b39e605fda2af4e7866b92c/jsoneditor.min.css" rel="stylesheet" type="text/css">
-    <script src="https://assets.contentstack.io/v3/assets/blt30b41f7b9a5d7467/blte7fe106cc93cf2bf/5b33888fcfc846f95726af6f/jsoneditor.min.js"></script>
-   
-  </head>
-  <body>
+    <script src="https://unpkg.com/@contentstack/ui-extensions-sdk@2.2.0/dist/ui-extension-sdk.js"></script>
+    <title>json-editor</title>
+</head>
+
+<body>
     <div id="jsoneditor"></div>
-    
+
     <script>
-        // initialise Field Extension
-        window.extensionField = {};
-        
-        // find jsoneditor element
-        var jsoneditorElement = document.getElementById("jsoneditor");
-        
-        // initialise variable for json editor plugin
-        var jsonEditor = {};
-    
-        
-        ContentstackUIExtension.init().then(function(extension) {
-            
-            // make extension object globally available
-            extensionField = extension;
-            
-            
-            // update the field height 
-            extensionField.window.updateHeight(220);
-            
-            // Get current Json editor field value from Contentstack and update the element
-            var value = extensionField.field.getData() || {};
-            
-            
-            // Configure Json editor
-            var options = {
-                modes: ['text', 'code', 'tree', 'form', 'view'],
-                mode: 'code',
-                ace: ace,
-                onChange : function(){
-                    updateFieldValue();
-                }
-            };
-            
-            jsonEditor = new JSONEditor(jsoneditorElement, options);
-            jsonEditor.set(value);
-            
-            
-            
-            //TODO: set focus on field to show active users or highlight the field 
-            
-            
-        })
-        
-        
-        function updateFieldValue () {
-          var value = jsonEditor.get();
-          extensionField.field.setData(value).then(function(){
-            		console.log('data set on child')
-            	}).catch(function(error){
-            		console.log('error in setting data',error)
-            	})
-        }
-    </script>
-  </body>
+let extensionField={},typingTimer=0;var jsoneditorElement=document.getElementById("jsoneditor"),jsonEditor={};async function updateFieldValue(){try{var e=await jsonEditor.get();await extensionField.field.setData(e)}catch(e){console.error("error in setting data",e)}}ContentstackUIExtension.init().then(function(e){extensionField=e,extensionField.window.updateHeight(220);var t=extensionField.field.getData()||{},e={modes:["text","code","tree","form","view"],mode:"code",ace:ace,onChange:function(){clearTimeout(typingTimer),typingTimer=setTimeout(updateFieldValue,1e3)}};(jsonEditor=new JSONEditor(jsoneditorElement,e)).set(t)});
+</script>
+</body>
+
 </html>
