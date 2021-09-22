@@ -5,7 +5,6 @@
     <meta charset="utf-8">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/9.5.5/jsoneditor.min.js" integrity="sha512-j54mlrSyC7F9BRZhRiEjFTq6ESmJYXdznKy8lJeqIVlQOxkVNkn8lCveNphcX7MMXnyNU774ZeiDDahKl3YyYg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/9.5.5/jsoneditor.css" integrity="sha512-Sbn0ZCJ/Sq+RcpmI2np6vYlQBolmDPIrx95V3kOQU7RfEOWRCgEmDvj5lD4oNnx55KVIUfadYs8rk3OudD+dFA==" crossorigin="anonymous" referrerpolicy="no-referrer">
-    <script src="https://www.contentstack.com/sdks/contentstack-ui-extensions/dist/latest/ui-extension-sdk.js"></script>
     <script src="https://unpkg.com/@contentstack/ui-extensions-sdk@2.2.0/dist/ui-extension-sdk.js"></script>
     <title>json-editor</title>
 </head>
@@ -14,7 +13,7 @@
     <div id="jsoneditor"></div>
 
     <script>
-let extensionField={},typingTimer=0;var jsoneditorElement=document.getElementById("jsoneditor"),jsonEditor={};async function updateFieldValue(){try{var e=await jsonEditor.get();await extensionField.field.setData(e)}catch(e){console.error("error in setting data",e)}}ContentstackUIExtension.init().then(function(e){extensionField=e,extensionField.window.updateHeight(220);var t=extensionField.field.getData()||{},e={modes:["text","code","tree","form","view"],mode:"code",ace:ace,onChange:function(){clearTimeout(typingTimer),typingTimer=setTimeout(updateFieldValue,1e3)}};(jsonEditor=new JSONEditor(jsoneditorElement,e)).set(t)});
+let extensionField={},typingTimer=0;var jsoneditorElement=document.getElementById("jsoneditor"),jsonEditor={};async function updateFieldValue(){try{var e=await jsonEditor.get();await extensionField.field.setData(e),console.info("Successfully set the data")}catch(e){throw e}}ContentstackUIExtension.init().then(function(e){extensionField=e,extensionField.window.updateHeight(220);var t=extensionField.field.getData()||{},e={modes:["text","code","tree","form","view"],mode:"code",ace:ace,onChange:function(){clearTimeout(typingTimer),typingTimer=setTimeout(updateFieldValue,1e3)}};(jsonEditor=new JSONEditor(jsoneditorElement,e)).set(t)});
 </script>
 </body>
 

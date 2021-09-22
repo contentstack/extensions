@@ -1,20 +1,15 @@
 const gulp = require('gulp'),
   inline = require('gulp-inline'),
   uglify = require('gulp-uglify'),
-  minifyCss = require('gulp-clean-css'),
   babel = require('gulp-babel'),
   concat = require('gulp-concat');
 
 gulp.task('js', function () {
-  return gulp
-    .src('./src/js/extension.js')
-    .pipe(concat('scripts.js'))
-    .pipe(
-      babel({
-        presets: ['@babel/env'],
-      })
-    )
-    .pipe(gulp.dest('./src/dist'));
+  return gulp.src('./src/js/extension.js').pipe(
+    babel({
+      presets: ['@babel/env'],
+    })
+  );
 });
 
 gulp.task('inline', function () {
@@ -22,7 +17,6 @@ gulp.task('inline', function () {
     .src('./src/index.html')
     .pipe(
       inline({
-        css: [minifyCss],
         js: uglify,
       })
     )
