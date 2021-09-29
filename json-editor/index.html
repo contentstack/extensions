@@ -3,9 +3,24 @@
 
 <head>
     <meta charset="utf-8">
+    <!-- We use lodash.throttle to avoid spamming the API with changes -->
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.4/lodash.min.js"></script>
+
+    <!-- load a custom version of Ace editor -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ace.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/9.5.5/jsoneditor.min.js" integrity="sha512-j54mlrSyC7F9BRZhRiEjFTq6ESmJYXdznKy8lJeqIVlQOxkVNkn8lCveNphcX7MMXnyNU774ZeiDDahKl3YyYg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/9.5.5/jsoneditor.css" integrity="sha512-Sbn0ZCJ/Sq+RcpmI2np6vYlQBolmDPIrx95V3kOQU7RfEOWRCgEmDvj5lD4oNnx55KVIUfadYs8rk3OudD+dFA==" crossorigin="anonymous" referrerpolicy="no-referrer">
     <script src="https://unpkg.com/@contentstack/ui-extensions-sdk@2.2.0/dist/ui-extension-sdk.js"></script>
+    <style>
+body {
+  margin: 0;
+}
+
+#jsoneditor {
+  height: 380px;
+}
+
+</style>
     <title>json-editor</title>
 </head>
 
@@ -13,7 +28,7 @@
     <div id="jsoneditor"></div>
 
     <script>
-let extensionField={},typingTimer=0;var jsoneditorElement=document.getElementById("jsoneditor"),jsonEditor={};async function updateFieldValue(){try{var e=await jsonEditor.get();await extensionField.field.setData(e),console.info("Successfully set the data")}catch(e){throw e}}ContentstackUIExtension.init().then(function(e){extensionField=e,extensionField.window.updateHeight(220);var t=extensionField.field.getData()||{},e={modes:["text","code","tree","form","view"],mode:"code",ace:ace,onChange:function(){clearTimeout(typingTimer),typingTimer=setTimeout(updateFieldValue,1e3)}};(jsonEditor=new JSONEditor(jsoneditorElement,e)).set(t)});
+let extensionField={},typingTimer=0;var jsoneditorElement=document.getElementById("jsoneditor"),jsonEditor={};async function updateFieldValue(){try{var e=await jsonEditor.get();await extensionField.field.setData(e),console.info("Set data successfully")}catch(e){throw e}}ContentstackUIExtension.init().then(function(e){extensionField=e,extensionField.window.updateHeight(400);var t=extensionField.field.getData()||{},e={modes:["text","code","tree","form","view"],mode:"code",ace:ace,onChange:function(){clearTimeout(typingTimer),typingTimer=setTimeout(updateFieldValue,1500)}};(jsonEditor=new JSONEditor(jsoneditorElement,e)).set(t)});
 </script>
 </body>
 
