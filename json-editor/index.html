@@ -28,7 +28,7 @@ body {
     <div id="jsoneditor"></div>
 
     <script>
-let extensionField={},typingTimer=0;var jsoneditorElement=document.getElementById("jsoneditor"),jsonEditor={};async function updateFieldValue(){try{var e=await jsonEditor.get();await extensionField.field.setData(e),console.info("Set data successfully")}catch(e){throw e}}ContentstackUIExtension.init().then(function(e){extensionField=e,extensionField.window.updateHeight(400);var t=extensionField.field.getData()||{},e={modes:["text","code","tree","form","view"],mode:"code",ace:ace,onChange:function(){clearTimeout(typingTimer),typingTimer=setTimeout(updateFieldValue,1500)}};(jsonEditor=new JSONEditor(jsoneditorElement,e)).set(t)});
+let extensionField={},typingTimer=0;var jsoneditorElement=document.getElementById("jsoneditor"),jsonEditor={};async function updateFieldValue(){try{var e=await jsonEditor.get();await extensionField.field.setData(e),console.info("Set data successful")}catch(e){throw e}}ContentstackUIExtension.init().then(function(e){extensionField=e,extensionField.window.updateHeight(400);var t=extensionField.field.getData()||{},e={modes:["text","code","tree","form","view"],mode:"code",ace:ace,onChange:function(){clearTimeout(typingTimer),typingTimer=setTimeout(updateFieldValue,1500)}};(jsonEditor=new JSONEditor(jsoneditorElement,e)).set(t)});
 </script>
 </body>
 

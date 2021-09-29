@@ -40,7 +40,7 @@ async function updateFieldValue() {
   try {
     var value = await jsonEditor.get();
     await extensionField.field.setData(value);
-    console.info('Set data successfully');
+    console.info('Set data successful');
   } catch (error) {
     throw error;
   }
