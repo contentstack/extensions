@@ -14,7 +14,7 @@ ContentstackUIExtension.init().then(function (extension) {
   extensionField = extension;
 
   // update the field height
-  extensionField.window.updateHeight(220);
+  extensionField.window.updateHeight(400);
 
   // Get current Json editor field value from Contentstack and update the element
   var value = extensionField.field.getData() || {};
@@ -26,7 +26,7 @@ ContentstackUIExtension.init().then(function (extension) {
     ace: ace,
     onChange: function () {
       clearTimeout(typingTimer);
-      typingTimer = setTimeout(updateFieldValue, 1000);
+      typingTimer = setTimeout(updateFieldValue, 1500);
     },
   };
 
@@ -40,9 +40,8 @@ async function updateFieldValue() {
   try {
     var value = await jsonEditor.get();
     await extensionField.field.setData(value);
-    console.info('Successfully set the data');
+    console.info('Set data successful');
   } catch (error) {
     throw error;
-    // console.error('error in setting data', error);
   }
 }
