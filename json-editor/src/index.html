@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <!-- We use lodash.throttle to avoid spamming the API with changes -->
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.4/lodash.min.js"></script>
+
+    <!-- load a custom version of Ace editor -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/9.5.5/jsoneditor.min.js"
+        integrity="sha512-j54mlrSyC7F9BRZhRiEjFTq6ESmJYXdznKy8lJeqIVlQOxkVNkn8lCveNphcX7MMXnyNU774ZeiDDahKl3YyYg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/9.5.5/jsoneditor.css"
+        integrity="sha512-Sbn0ZCJ/Sq+RcpmI2np6vYlQBolmDPIrx95V3kOQU7RfEOWRCgEmDvj5lD4oNnx55KVIUfadYs8rk3OudD+dFA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://unpkg.com/@contentstack/ui-extensions-sdk@2.2.0/dist/ui-extension-sdk.js"></script>
+    <link rel="stylesheet" href="./css/style.css">
+    <title>json-editor</title>
+</head>
+
+<body>
+    <div id="jsoneditor"></div>
+
+    <script src="./js/extension.js">
+    </script>
+</body>
+
+</html>
