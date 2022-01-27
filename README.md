@@ -11,7 +11,7 @@ The **Dashboard Widgets extension** allows you to add widgets to the dashboard o
 The **JSON Rich Text Editor Plugins** lets you add/create custom plugins to extend the functionality of your JSON Rich Text Editor as per your needs. You can use the prebuilt JSON RTE plugins by modifying the code to suit your requirement. Some of the basic prebuilt plugins include Highlight, Info Panel, and Word Count. 
 
 
-This is a repository of example extensions created using Contentstack’s [App SDK]() for JSON RTE Plugins and for others [Extensions SDK](https://github.com/contentstack/ui-extensions-sdk).
+This is a repository of example extensions created using Contentstack’s [App SDK](https://www.npmjs.com/package/@contentstack/app-sdk) for JSON RTE Plugins and for others [Extensions SDK](https://github.com/contentstack/ui-extensions-sdk).
 
 ### Examples of custom fields created using Extensions
 
