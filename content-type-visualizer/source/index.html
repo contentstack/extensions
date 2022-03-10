@@ -1,0 +1,161 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>External API UI Extension Sample</title>
+  <link rel="stylesheet" href="https://unpkg.com/@contentstack/ui-extensions-sdk@2.1.2/dist/ui-extension-sdk.css"
+    type="text/css" media="all">
+  <script src="https://unpkg.com/@contentstack/ui-extensions-sdk@2.1.2/dist/ui-extension-sdk.js"></script>
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/jsPlumb/2.13.3/css/jsplumbtoolkit-defaults.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-jsonview/1.2.3/jquery.jsonview.css" />
+  <link rel="stylesheet" href="style.css">
+  <script type="text/javascript" src="https://code.jquery.com/jquery-1.x-git.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jsPlumb/2.13.3/js/jsplumb.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.6/handlebars.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.12.0/lodash.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dagre/0.8.5/dagre.min.js"></script>
+  <script
+    src="https://assets.contentstack.io/v3/assets/blt83726f918894d893/blt3778cbdfadf888cd/5f2296388ff50d070ad2d35c/jquery.panzoom.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-jsonview/1.2.3/jquery.jsonview.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js"></script>
+</head>
+
+<body>
+  <div class="parent-container">
+    <div class="jtk-surface container" id="canvas">
+      <div class="panzoom">
+        <div id="diagram-placeholder" class="diagram"></div>
+      </div>
+    </div>
+    <div class="content-type-count">
+      <span>_</span> Content Types
+    </div>
+    <div class="refresh" title="Refresh" onclick="refresh()">
+      <i class="icon-refresh"></i>
+    </div>
+    <div class="zoom-container">
+      <div class="zoom-btns">
+        <button title="Zoom in" type="button" class="zoom-in">
+          <img
+            src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2218%22%20height%3D%2218%22%20viewBox%3D%220%200%2018%2018%22%3E%0A%20%20%3Cpolygon%20fill%3D%22%23666%22%20points%3D%2218%2C7%2011%2C7%2011%2C0%207%2C0%207%2C7%200%2C7%200%2C11%207%2C11%207%2C18%2011%2C18%2011%2C11%2018%2C11%22%2F%3E%0A%3C%2Fsvg%3E%0A">
+        </button>
+        <div class="divider"></div>
+        <button title="Zoom out" type="button" class="zoom-out">
+          <img
+            src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2218%22%20height%3D%2218%22%20viewBox%3D%220%200%2018%2018%22%3E%0A%20%20%3Cpath%20fill%3D%22%23666%22%20d%3D%22M0%2C7h18v4H0V7z%22%2F%3E%0A%3C%2Fsvg%3E%0A">
+        </button>
+      </div>
+    </div>
+    <div class="sidebar">
+      <div class="rotate new-icon toggle">
+        <img src="https://new-static.contentstack.io/images/breadcrumb-carat-icon.svg" class="">
+      </div>
+      <div class="json-viewer">
+        <span class="title">JSON View</span>
+        <a class="edit-icon" href="" target="_blank"></a>
+        <span class="count">Field count: 0</span>
+        <div class="form-group">
+          <select id="environments" class="form-control">
+            <option value="default" disabled>Select Environment</option>
+          </select>
+          <span id="entry-count">Entry count: _</span>
+        </div>
+        <div class="json">
+          <button class="btn copy-btn">Copy</button>
+          <div id="json-collapsed"></div>
+        </div>
+      </div>
+    </div>
+    <script id="partial" type="text/x-handlebars-template">
+      {{# each this.schema}}
+          {{!-- Start Group IF --}}
+          {{#if_eq data_type 'group'}} 
+  
+          <ul class="group">
+            <li>
+              <div class="icon"><img src="{{fieldIcon data_type field_metadata display_type}}" alt="" /></div>
+              <div class="name">{{display_name}}</div>
+              <div class="type">{{data_type}}</div>
+            </li>
+            {{> list}}
+          </ul>
+  
+          {{else}}
+            {{!-- Start Global Field IF --}}
+            {{#if_eq data_type 'global_field'}} 
+    
+            <ul class="global-field">
+              <li>
+                <div class="icon"><img src="{{fieldIcon data_type field_metadata display_type}}" alt="" /></div>
+                <div class="name">{{display_name}}
+                  <span class="tooltiptext">{{uid}}</span>
+                </div>
+                <div class="type">{{data_type}}</div>
+              </li>
+              {{> list}}
+            </ul>
+    
+            {{else}}
+              {{!-- Start Modular Block IF --}}
+              {{#if_eq data_type 'blocks'}} 
+              <ul class="modular-block">
+                <li>
+                  <div class="icon"><img src="{{fieldIcon data_type field_metadata display_type}}" alt="" /></div>
+                  <div class="name">{{display_name}}
+                    <span class="tooltiptext">{{uid}}</span>
+                  </div>
+                  <div class="type">{{data_type}}</div>
+                </li>
+                {{#blocks}}
+                    {{> list}}
+                {{/blocks}}
+              </ul>    
+              {{else}}
+              <li>
+                <div class="icon"><img src="{{fieldIcon data_type field_metadata display_type}}" alt="" /></div>
+                <div class="name">{{display_name}}
+                  <span class="tooltiptext">{{uid}}</span>
+                </div>
+                <div class="type">{{data_type}}</div>
+              </li>
+      
+              {{/if_eq}}
+              {{!-- End Modular Block IF --}}
+    
+            {{/if_eq}}
+            {{!-- End Global Field IF --}}
+  
+          {{/if_eq}}
+          {{!-- End Group IF --}}
+      {{/each}}
+    </script>
+
+    <script id="diagram-template" type="text/x-handlebars-template">
+      {{#each diagramData}}
+        <div class="window tab" id="{{uid}}">
+          <div class="heading">
+            <a href="{{contentTypeBuilderUrl uid}}" target="_blank">{{title}}</a>
+            <i class="icon-eye-open" data-id="{{uid}}" title="Json preview"></i>
+          </div>
+          <ul class="tab-content">
+            {{> list}}
+          </ul>
+        </div>
+      {{/each}}
+    </script>
+  </div>
+  <div class="reference-loading">
+    <div class="loading-flash">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+  <script src="index.js"></script>
+</body>
+
+</html>

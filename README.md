@@ -50,6 +50,9 @@ This extension lets you fetch and display Youtube videos into a field of your co
 [External API Lookup](./external-api-lookup-template):
 This extension lets you fetch data from an external API and display the data as possible values for the field on an entry page in Contentstack.
 
+[Conten Type Visualizer](./content-type-visualizer)
+Content Type Visualizer Dashboard Widget offers a graphical representation of all content types, along with their fields, in a particular stack.
+
 ### Examples of custom widgets created using Extensions
 
 Here are some examples/use cases of custom widgets that can be created using Extensions. These examples come with readme files that explain how to install and get started with these widgets.
