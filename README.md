@@ -63,6 +63,9 @@ This widget uses the Google Analytics data to display the traffic analysis and s
 [Optimizely Experiments](./optimizely-experiments):
 This extension lets you retrieve and display Optimizely Experiments and their details in your entry.
 
+[Developer Tools](./developer-tools):
+This widget extension provides developers with quick tools (API endpoint, JSON, etc.) to work with an entry or all entries of a content type and do a lot more.
+
 ### Examples of dashboard widgets created using Extensions
 
 Here are some examples/use cases of dashboard widgets that can be created using Extensions. These examples come with readme files that explain how to install and get started with these widgets.
