@@ -7,7 +7,7 @@ Content Type Visualizer Dashboard Widget offers a graphical representation of al
 
 
 #### How to use this extension
-We have created a step-by-step guide on how to create a Content Type Visualizer extension for your content types. You can refer the [Content Type Visualizer extension guide]()  on our documentation site for more info. 
+We have created a step-by-step guide on how to create a Content Type Visualizer extension for your content types. You can refer the [Content Type Visualizer extension guide](https://www.contentstack.com/docs/developers/create-dashboard-widgets/content-type-visualizer-dashboard-widget/) on our documentation site for more info. 
 
 
 #### Other Documentation
