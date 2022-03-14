@@ -9,6 +9,7 @@ function domChangeListner(forms) {
     $("#clear-form").css({ display: "block" });
     let id = $("#form-select-field").val();
     let FormData = forms.find((form) => form.id.toString() === id);
+    FormData = FormData || {};
     extensionField.field.setData(FormData);
   });
 }
@@ -43,6 +44,7 @@ function render(forms, clearField) {
   if (!formID || clearField) {
     defaultOption.attr("selected", "selected");
     $("#clear-form").css({ display: "none" });
+    extensionField.field.setData({});
   }
   selectField.show();
   domChangeListner(forms);
