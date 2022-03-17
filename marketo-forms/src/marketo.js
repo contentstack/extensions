@@ -24,7 +24,6 @@ function domChangeListner(forms) {
     let id = $('#form-select-field').val();
 
     const FormData = forms.find((form) => form.id.toString() === id);
-    console.log('formData...', FormData);
     extensionField.field.setData([{...FormData}]);
   });
 }
