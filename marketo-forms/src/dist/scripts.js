@@ -40,7 +40,6 @@ function domChangeListner(forms) {
     var FormData = forms.find(function (form) {
       return form.id.toString() === id;
     });
-    console.log('formData...', FormData);
     extensionField.field.setData([_objectSpread({}, FormData)]);
   });
 }
