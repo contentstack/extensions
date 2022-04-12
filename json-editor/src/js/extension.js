@@ -26,7 +26,7 @@ ContentstackUIExtension.init().then(function (extension) {
     ace: ace,
     onChange: function () {
       clearTimeout(typingTimer);
-      typingTimer = setTimeout(updateFieldValue, 1500);
+      typingTimer = setTimeout(updateFieldValue, 600);
     },
   };
 
@@ -36,12 +36,25 @@ ContentstackUIExtension.init().then(function (extension) {
   //TODO: set focus on field to show active users or highlight the field
 });
 
+var element = document.getElementById("jsoneditor");
+
+var NewTag = document.createElement("span");
+NewTag.className = 'invalid';
+var text = document.createTextNode("Invalid JSON format !!");
+NewTag.appendChild(text);
+
 async function updateFieldValue() {
   try {
-    var value = await jsonEditor.get();
-    await extensionField.field.setData(value);
-    console.info('Set data successful');
-  } catch (error) {
-    throw error;
+    value = await jsonEditor.get();
+    await extensionField.field.setData(value).then(function(){
+      value = typeof value !== "string"
+          ? JSON.stringify(value)
+          : value;
+      json = JSON.parse(value);
+      element.removeChild(NewTag);
+      return json;
+  })} catch (error) {
+      element.appendChild(NewTag);
+      document.getElementsByClassName("save-btn").disabled = true;
   }
 }
