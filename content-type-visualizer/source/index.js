@@ -382,6 +382,7 @@ function init() {
               maxScale: 1,
               increment: 0.1,
               cursor: '',
+              disablePan: true,
               startTransform: 'scale(0.5)',
               ignoreChildrensEvents: true
             }).on('panzoomstart', function () {
