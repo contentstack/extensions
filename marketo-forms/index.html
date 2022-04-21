@@ -5,13 +5,13 @@
   <meta charset="UTF-8">
   <title>Marketo</title>
   <link href="https://www.contentstack.com/sdks/contentstack-ui-extensions/dist/latest/ui-extension-sdk.css" rel="stylesheet" type="text/css" media="all">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
   <style media="all">
 .selectdiv{position:relative}select::-ms-expand{display:none}.form-label{width:230px}.selectdiv select{-webkit-appearance:none;-moz-appearance:none;display:block;float:right;margin:5px 0;padding:2px 42px 2px 10px;border:1px solid #edf1f2;background-color:#fff;-ms-word-break:normal;word-break:normal}.form-clear-icon{display:none;position:absolute;transform:translateY(60%);left:207px}
 </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous">
-  <script src="https://www.contentstack.com/sdks/contentstack-ui-extensions/dist/latest/ui-extension-sdk.js"></script>
-  <script type="text/javascript" src="https://code.jquery.com/jquery-1.x-git.min.js"></script>
+    <script src="https://unpkg.com/@contentstack/ui-extensions-sdk@2.2.0/dist/ui-extension-sdk.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -24,7 +24,7 @@
     </label>
   </div>
   <script>
-let extensionField,selectField,formList,marketo={};function domChangeListner(o){selectField.on("change",()=>{$("#clear-form").css({display:"block"});let t=$("#form-select-field").val();var e=o.find(e=>e.id.toString()===t);extensionField.field.setData(e)})}function render(e,t){formList=e;const o=(extensionField&&extensionField.field&&extensionField.field.getData()?extensionField.field.getData():{}).id;let l=$('select option:contains("-- Select a form --")');e.forEach(e=>{let t=$("<option></option>").attr("value",e.id).text(e.name);e.id===o&&(t.attr("selected","selected"),$("#clear-form").css({display:"block"})),selectField.append(t)}),l.attr("disabled","disabled"),o&&!t||(l.attr("selected","selected"),$("#clear-form").css({display:"none"})),selectField.show(),domChangeListner(e)}$(".form-clear-icon").on("click",function(){$("#clear-form").css({display:"none"}),$("#form-select-field").empty(),$("#form-select-field").append($("<option value>-- Select a form --</option>")),render(formList,!0)});class Marketo{constructor({url:e,folder:t}){this.url=e,this.folder=t}getForms(){let l=this;return new Promise((t,o)=>{let e=`${l.url}`;return l.folder&&(e=`${e}?folder=${l.folder}`),fetch(e,{method:"GET"}).then(e=>e.json()).then(e=>t(e)).catch(e=>{o(e)})})}}$(document).ready(()=>{selectField=$("#form-select-field"),ContentstackUIExtension.init().then(e=>{extensionField=e,marketo=new Marketo(e.config),marketo.getForms().then(e=>{render(e,!1)}),extensionField.window.enableAutoResizing()})});
+let extensionField,selectField,formList,marketo={};function domChangeListner(o){selectField.on("change",()=>{$("#clear-form").css({display:"block"});let t=$("#form-select-field").val();var e=o.find(e=>e.id.toString()===t);extensionField.field.setData([{...e}])})}function render(e,t){formList=e;const o=(extensionField&&extensionField.field&&extensionField.field.getData()?extensionField.field.getData():[])[0]?.id;let l=$('select option:contains("-- Select a form --")');e.forEach(e=>{let t=$("<option></option>").attr("value",e.id).text(e.name);e.id===o&&(t.attr("selected","selected"),$("#clear-form").css({display:"block"})),selectField.append(t)}),l.attr("disabled","disabled"),o&&!t||(l.attr("selected","selected"),$("#clear-form").css({display:"none"})),selectField.show(),domChangeListner(e)}$(document).ready(()=>{selectField=$("#form-select-field"),ContentstackUIExtension.init().then(e=>{extensionField=e,marketo=new Marketo(e.config),marketo.getForms().then(e=>{render(e,!1)}),extensionField.window.enableAutoResizing()})}),$(".form-clear-icon").on("click",function(){$("#clear-form").css({display:"none"}),$("#form-select-field").empty(),$("#form-select-field").append($("<option value>-- Select a form --</option>")),render(formList,!0),extensionField.field.setData([])});class Marketo{constructor({url:e,folder:t}){this.url=e,this.folder=t}getForms(){let l=this;return new Promise((t,o)=>{let e=`${l.url}`;return l.folder&&(e=`${e}?folder=${l.folder}`),fetch(e,{method:"GET"}).then(e=>e.json()).then(e=>t(e)).catch(e=>{o(e)})})}}
 </script>
 </body>
 
