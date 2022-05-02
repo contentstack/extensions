@@ -1,0 +1,559 @@
+/* CSS RESET */
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font-weight: 500;
+  vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+blockquote,
+q {
+  quotes: none;
+}
+
+blockquote::before,
+blockquote::after,
+q::before,
+q::after {
+  content: '';
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/** CSS RESET END **/
+
+body {
+  max-height: 600px;
+  overflow: auto;
+  line-height: 1;
+}
+
+.parent-container {
+  width: 100%;
+}
+
+.container {
+  color: #00bfff;
+  cursor: default;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  padding: 15px;
+  width: 70%;
+  transition: 0.5s ease;
+}
+
+.panzoom {
+  position: absolute;
+  width: 500px;
+  height: 250px;
+  background-color: rgba(blue, 0.1);
+  left: 50px;
+  top: 20px;
+  overflow: visible;
+  border: 5px dotted rgba(#ccc, 0.1);
+}
+
+.diagram {
+  position: absolute;
+}
+
+/* Content type Element styling */
+.container .window {
+  background-color: white;
+  border: 1px solid #346789;
+  text-align: left;
+  z-index: 10;
+  box-shadow: 2px 2px 19px #aaa;
+  -o-box-shadow: 2px 2px 19px #aaa;
+  -webkit-box-shadow: 2px 2px 19px #aaa;
+  -moz-box-shadow: 2px 2px 19px #aaa;
+  -moz-border-radius: 0.5em;
+  border-radius: 0.5em;
+  position: absolute;
+  color: #333;
+  width: 300px;
+  line-height: 12px;
+  -webkit-transition: -webkit-box-shadow 0.15s ease-in;
+  -moz-transition: -moz-box-shadow 0.15s ease-in;
+  -o-transition: -o-box-shadow 0.15s ease-in;
+  transition: box-shadow 0.15s ease-in;
+  float: left;
+
+  /* margin: 60px; */
+}
+
+.window li {
+  margin: 5px;
+  background-color: #ebebeb;
+  padding: 5px;
+  list-style-type: none;
+  display: flex;
+}
+
+.heading {
+  background: none;
+  display: block;
+  font-size: 20px;
+  margin: 5px;
+  padding: 15px 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 230px;
+}
+
+.heading a {
+  text-decoration: none;
+  color: #000;
+  margin: 5px;
+}
+
+.icon-eye-open {
+  position: absolute;
+  right: 1px;
+  top: 0;
+  display: inline-block;
+  width: 34px;
+  padding-top: 19px;
+  color: #e6eced;
+  color: #748590;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.icon {
+  width: 20%;
+  margin: 5px;
+}
+
+.icon img {
+  vertical-align: middle;
+}
+
+.name {
+  width: 50%;
+  position: relative;
+  display: inline-block;
+  margin: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 5px 0;
+}
+
+.type {
+  width: 30%;
+  margin: 5px;
+  color: #666;
+  padding: 5px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tooltiptext {
+  visibility: hidden;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 4px;
+  padding: 3px 10px;
+  position: absolute;
+  z-index: 1;
+  margin-top: 5px;
+}
+
+.tab-content ul {
+  margin-left: 10px;
+  border-left: 2px #666 solid;
+}
+
+.tab-content {
+  max-height: 400px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.tab-content li:first-child {
+  margin: 0 5px 5px;
+}
+
+.aLabel {
+  background-color: white;
+  padding: 5px;
+  font: 12px;
+  color: #444;
+  z-index: 9;
+  border: 1px dotted gray;
+}
+
+.content-type-count {
+  padding: 8px 12px;
+  margin-top: 2px;
+  color: #63747f;
+  position: absolute;
+  top: 0;
+  left: 30px;
+  box-shadow: rgba(0, 0, 0, 0.3) 0 1px 4px -1px;
+  border-radius: 2px;
+  background-color: rgb(255, 255, 255);
+  text-align: center;
+}
+
+.refresh {
+  padding: 8px 12px;
+  margin-top: 2px;
+  color: #63747f;
+  position: absolute;
+  top: 45px;
+  left: 30px;
+  box-shadow: rgba(0, 0, 0, 0.3) 0 1px 4px -1px;
+  border-radius: 2px;
+  cursor: pointer;
+  background-color: rgb(255, 255, 255);
+  width: 40px;
+  text-align: center;
+}
+
+.icon-refresh {
+  font-size: 20px;
+}
+
+/* Styling zoom buttons */
+.zoom-container {
+  position: absolute;
+  left: 30px;
+  top: 95px;
+}
+
+.zoom-btns {
+  user-select: none;
+  box-shadow: rgba(0, 0, 0, 0.3) 0 1px 4px -1px;
+  border-radius: 2px;
+  cursor: pointer;
+  background-color: rgb(255, 255, 255);
+  width: 40px;
+  height: 81px;
+}
+
+.zoom-in,
+.zoom-out {
+  background: none;
+  display: block;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+  overflow: hidden;
+  width: 40px;
+  height: 40px;
+  top: 0;
+  left: 0;
+}
+
+.divider {
+  position: relative;
+  overflow: hidden;
+  width: 30px;
+  height: 1px;
+  margin: 0 5px;
+  background-color: rgb(230, 230, 230);
+  top: 0;
+}
+
+.zoom-btns img {
+  height: 18px;
+  width: 18px;
+}
+
+/* Styling Sidebar and its components */
+.sidebar {
+  display: none;
+  width: 30%;
+  height: 100%;
+  border-left: 1px solid #d1dfe2;
+  transition: 0.5s ease;
+  position: absolute;
+  right: 0;
+  overflow-x: hidden;
+}
+
+.toggle {
+  position: fixed;
+  z-index: 1;
+  transition: 0.5s ease;
+  right: 30%;
+  border: 1px solid #d1dfe2;
+  padding: 11px;
+  background: #f7fbfc;
+  border-radius: 2px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+/* .toggle img {
+  transform: rotate(180deg);
+} */
+
+.toggle-sidebar {
+  width: 0;
+}
+
+.toggle-button {
+  right: 2px;
+  transform: rotate(-180deg);
+}
+
+.toggle-container {
+  width: 100%;
+}
+
+.json-viewer {
+  padding: 15px;
+}
+
+.title {
+  border-bottom: 1px solid #eaeced;
+  padding: 10px 15px;
+  display: inline-block;
+  width: 200px;
+}
+
+.edit-icon {
+  cursor: pointer;
+  float: none;
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  background: url(https://new-static.contentstack.io/images/edit-pencil-symbol.svg) no-repeat;
+  vertical-align: middle;
+}
+
+.count {
+  float: right;
+  font-size: 14px;
+  color: #5a5a5a;
+  opacity: 0.5;
+  padding: 10px 0;
+}
+
+.form-group {
+  margin: 30px 0 0 15px;
+}
+
+.form-control {
+  width: 43%;
+  height: 30px;
+  padding: 0 2px;
+  font-size: 14px;
+  color: #748590;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+#entry-count {
+  padding: 8px 0;
+  float: right;
+}
+
+.json {
+  margin-top: 40px;
+  overflow-x: scroll;
+}
+
+.jsonview {
+  background: #1d1f21;
+  color: #ccc;
+  font-size: 13px !important;
+  line-height: 1.6;
+  padding: 5px;
+  width: 400px;
+}
+
+.jsonview .prop {
+  font-weight: normal !important;
+  color: #f8c555 !important;
+}
+
+.jsonview .string {
+  color: #7ec699 !important;
+}
+
+.jsonview .num,
+.bool {
+  color: #f08d49 !important;
+}
+
+.jsonview .null {
+  color: #cc99cd !important;
+}
+
+.copy-btn {
+  position: absolute;
+  float: right;
+  margin-right: 25px;
+  margin-top: 10px;
+  z-index: 1;
+  padding: 5px;
+  font-size: 13px;
+  cursor: pointer;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  background: #fff;
+  outline: 0;
+  right: 0;
+}
+
+.reference-loading {
+  position: absolute;
+  top: 50%;
+  left: 45%;
+}
+
+/* JSPLUMB ARTEFACTS */
+.jtk-connector {
+  z-index: 4;
+}
+
+.jtk-endpoint {
+  z-index: 5;
+}
+
+path,
+.jtk-endpoint {
+  cursor: pointer;
+}
+
+.jsplumb-connector path {
+  stroke: #00bfff;
+}
+
+/* Scrollbar CSS */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 6px;
+  background: #dfe2e9;
+}
