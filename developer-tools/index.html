@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>External API Lookup Template</title>
+   
+    <link href="https://www.contentstack.com/sdks/contentstack-ui-extensions/dist/1.1.0/ui-extension-sdk.css" rel="stylesheet" type="text/css" media="all">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://rawgithub.com/yesmeck/jquery-jsonview/master/dist/jquery.jsonview.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/styles/shCoreRDark.css" rel="stylesheet" type="text/css">
+    <style media="all">
+body{line-height:1}.syntaxhighlighter code{font-size:13px!important}.syntaxhighlighter{min-height:100px;padding-top:50px}.container{padding-top:20px}.multiplequery,.singlequery{position:relative}body .container .tab-content #api .code-container .multiplequery .copy-button,body .container .tab-content #api .code-container .singlequery .copy-btn{position:absolute;right:15px;top:45px;z-index:1;padding:5px;font-size:13px;cursor:pointer;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;display:inline-block;visibility:hidden;background:#fff;outline:0}.advanced-queries,.gutter,.platform,.toolbar{display:none}body .container .tab-content #json .json-view .copy-json{position:relative;float:right;margin-right:15px;margin-top:10px;z-index:1;padding:5px;font-size:13px;cursor:pointer;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;visibility:hidden;background:#fff;outline:0}.form-group,.json-view{margin-top:46px}.code-container{margin-top:30px}.form-control{min-height:35px;color:#748590}.form-control:focus{box-shadow:none;border-color:#dfe2e9;outline:0}body .container .tab-content #api .code-container .multiplequery:hover .copy-button,body .container .tab-content #api .code-container .singlequery:hover .copy-btn,body .container .tab-content #json .json-view:hover .copy-json{visibility:visible}.nav{top:0;background:#fff;border-bottom:1px solid #eaeced;position:fixed;width:100%;z-index:5}.nav>li>a{border:none;color:#4f6471}.nav li a:hover,.nav>li.active{border-bottom:1px solid #25c2a3}.nav li a:hover{color:#25c2a3;background:#fff}.nav>li.active>a{color:#25c2a3}h5{color:#4f6471}.tab-content{overflow:auto}.advanced-queries a{color:#25c2a3}.advanced-queries a:hover{text-decoration:underline}.jsonview{background:#000;color:#fff}.jsonview .prop{font-weight:400;font-size:13px;color:#fff!important}.jsonview .string{font-weight:400;font-size:13px}.jsonview .num{color:#00f;font-size:13px}::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track:horizontal{background:0 0}::-webkit-scrollbar-thumb:horizontal{background:#c1c1c1}::-webkit-scrollbar-corner:horizontal{display:none;height:0;width:0}
+</style>
+    <script src="https://www.contentstack.com/sdks/contentstack-ui-extensions/dist/1.1.0/ui-extension-sdk.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.x-git.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/scripts/shCore.min.js" integrity="sha512-Z5dAQyvO8EyY1cHQcqYTYL8z6PDjM0URql6AioNodsSxxTJS5Fqfujr+o/4ye2dLp0he1qAVTiZABTunv6oLow==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/scripts/shBrushJava.min.js" integrity="sha512-UYSg4vizNRvEp+m59O9HFYRVjKzC+a2RVlZsj9vOXbmiCMZtneIIu3gh3eXfNfxGhk7sixse+MAjhpMx8N33RA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/scripts/shBrushJScript.min.js" integrity="sha512-1sgIP38qm/y/33QFXdgSgBinVscLgnICy//6P5vVGaT/NyK2zZfsbLtrz/pPnix5CbEImM88s4HHxDFEHBcINg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/scripts/shBrushRuby.min.js" integrity="sha512-PGuFaWGbvzV0YFzV9UsHqUF+rkrJHesu0A65WuOl4UuZxt3XjjKkyJqUmWZt3n/w6Kj2VRvkeiehk18dCElM3w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/SyntaxHighlighter/3.0.83/scripts/shBrushPhp.min.js" integrity="sha512-K28WfzDb5L7eD+qiTCY0LAKXcPEeYEYdvxuKz1Yn2XNm28aXBxck3wbfYsM/EJDcXl62Aq68ZoN7zcYrbrRcpA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script type="text/javascript" src="https://assets.contentstack.io/v3/assets/blt83726f918894d893/blt02f2e04b5a415a3c/625fe0602e17474fc7b9586c/objc.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-jsonview/1.2.3/jquery.jsonview.css" integrity="sha512-6dqKyKlSER24gVyNQkP3cUfIaA5OfAEHxDBRiElKxSmlZTTdY6Z7uiUW5pADcTzqjEmli6Dv+IuTPsMLuFPeBg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-jsonview/1.2.3/jquery.jsonview.js" integrity="sha512-Z4wDwh0rEDVUu++TkCMS59rbSIp0XJgMnia1Stgqu+e3ty6lIORps/gIeU9smkjk1pCRAhZMuzY3/uvP+iMS+g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/0.9.90/jsrender.min.js" integrity="sha512-Kt2UFuxQa54+vUeU432OVIPmFq5wvRqBHx1dBg14p0DQg+f++n46BQxFJcplFzvJIYsPskhBaXRQ2+4THWfaOg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha512-6AFR5RcdwkzgwaGuT+VIJsT90qiQjvsry80KbXMeE8VLKbwW4RG5G45TZhWpaJVsaaEeI4sOpowlOuVgF7jh6w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!--restapi template-->
+    <script id="restapiCodeTemplate" type="text/x-jsrender">
+        <pre class='brush: js ct'> 
+        https://{{>host}}/v3/content_types/{{>content_type}}/entries/{{>entry_id}}?api_key={{>api_key}}&access_token={{>access_token}}&environment={{>environment_name}}&locale={{>locale}}
+        </pre>
+    </script>
+    
+    <!-- multiple query restapi template-->
+    <script id="multiple-query-restapiCodeTemplate" type="text/x-jsrender">
+        <pre class='brush: js ct'> 
+        https://{{>host}}/v3/content_types/{{>content_type}}/entries?api_key={{>api_key}}&access_token={{>access_token}}&environment={{>environment_name}}&locale={{>locale}}
+        </pre>
+    </script>
+
+
+    <!--javascript/nodejs code template  -->
+    <script id="javascriptCodeTemplate" type="text/x-jsrender">
+        <pre class='brush: js ct'>    
+            //Initialize the Contentstack Stack
+            const Stack = Contentstack.Stack("{{>api_key}}", "{{>access_token}}", "{{>environment_name}}");  
+
+            //Get a Single Entry
+            const Query = Stack.ContentType("{{>content_type}}").Entry("{{>entry_id}}")
+            Query.fetch()
+                .then(function success(entry) {
+                    console.log(entry.get('title')); // Retrieve field value by providing a field's uid
+                    console.log(entry.toJSON()); // Convert the entry result object to JSON
+            }, function error(err) {
+                // err object
+            });
+        </pre>
+    </script>
+
+    <!--multiple query javascript/nodejs code template  -->
+    <script id="multiple-query-javascriptCodeTemplate" type="text/x-jsrender">
+        <pre class='brush: js ct'>
+            //Initialize the Contentstack Stack
+            const Stack = Contentstack.Stack("{{>api_key}}", "{{>access_token}}", "{{>environment_name}}");  
+
+            //Get multiple entries
+            const Query = Stack.ContentType('{{>content_type}}').Query();
+            Query
+                .where("title", "welcome")
+                .includeSchema()
+                .includeCount()
+                .toJSON()
+                .find()
+                .then(function success(result) {
+                    // result is array where -
+                    // result[0] => entry objects
+                    // result[result.length-1] => entry objects count included only when .includeCount() is queried.
+                    // result[1] => schema of the content type is included when .includeSchema() is queried.
+                }, function error(err) {
+                    // err object
+                });
+        </pre>
+    </script>
+
+    <!--react code template  -->
+    <script id="reactCodeTemplate" type="text/x-jsrender">
+        <pre class='brush: js ct'>
+        
+            //Initialize the Contentstack Stack
+            var Stack = Contentstack.Stack({
+                'api_key': '{{>api_key}}',
+                'access_token': '{{>access_token}}',
+                'environment': '{{>environment_name}}'
+            });
+
+
+            //Get a Single Entry
+            const Query = Stack.ContentType("{{>content_type}}").Entry("{{>entry_id}}")
+            Query.fetch()
+                .then(function success(entry) {
+                    console.log(entry.get('title')); // Retrieve field value by providing a field's uid
+                    console.log(entry.toJSON()); // Convert the entry result object to JSON
+            }, function error(err) {
+                // err object
+            });
+
+        </pre>
+    </script>
+
+
+    <!--multiple query react code template  -->
+    <script id="multiple-query-reactCodeTemplate" type="text/x-jsrender">
+        <pre class='brush: js ct'>
+        
+            //Initialize the Contentstack Stack
+            var Stack = Contentstack.Stack({
+                'api_key': '{{>api_key}}',
+                'access_token': '{{>access_token}}',
+                'environment': '{{>environment_name}}'
+            });
+
+            //Get multiple entries
+            const Query = Stack.ContentType('{{>content_type}}').Query();
+            Query
+                .where("title", "welcome")
+                .includeSchema()
+                .includeCount()
+                .toJSON()
+                .find()
+                .then(function success(result) {
+                    // result is array where -
+                    // result[0] => entry objects
+                    // result[result.length-1] => entry objects count included only when .includeCount() is queried.
+                    // result[1] => schema of the content type is included when .includeSchema() is queried.
+                }, function error(err) {
+                    // err object
+            });
+        </pre>
+    </script>
+
+    <!--java  code template -->
+    <script id="javaCodeTemplate" type="text/x-jsrender">
+        <pre class='brush: java ct'>
+            //Initialize the Contentstack Stack
+            Stack  stack = Contentstack.stack("{{>api_key}}", "{{>access_token}}", "{{>environment_name}}");
+        
+            //Get a Single Entry
+            ContentType contentType = stack.contentType("{{>content_type}}");
+            Entry blogEntry = contentType.entry("{{>entry_id}}");
+            blogEntry.fetch(new EntryResultCallBack() {
+                @Override
+                public void onCompletion(ResponseType responseType, Error error){
+                    if (error == null) {
+                        // Success block
+                    } else {
+                        // Error block 
+                    }
+                }
+            });
+        </pre>
+    </script>
+
+    <!--multiple query java  code template -->
+    <script id="multiple-query-javaCodeTemplate" type="text/x-jsrender">
+        <pre class='brush: java ct'>
+            //Initialize the Contentstack Stack
+            Stack  stack = Contentstack.stack("{{>api_key}}", "{{>access_token}}", "{{>environment_name}}");
+                
+            //stack is an instance of Stack class
+            Query blogQuery = stack.contentType("{{>content_type}}").query();
+            blogQuery.find(new QueryResultsCallBack() {
+                @Override
+                public void onCompletion(ResponseType responseType, QueryResult queryResult, Error error) {
+                    if(error == null){
+                        //Success block
+                    }else{
+                        //Error block
+                    }
+                }
+            });
+
+        </pre>
+    </script>
+
+    <!--android  code template -->
+    <script id="androidCodeTemplate" type="text/x-jsrender">
+        <pre class='brush: java ct'>
+            //Initialize the Contentstack Stack
+            Stack  stack = Contentstack.stack(context, "{{>api_key}}", "{{>access_token}}", "{{>environment_name}}");
+            
+            //Get a Single Entry
+            ContentType contentType = stack.contentType("{{>content_type}}");
+            Entry blogEntry = contentType.entry("{{>entry_id}}");
+            blogEntry.fetch(new EntryResultCallBack() {
+                @Override
+                public void onCompletion(ResponseType responseType, Error error){
+                    if (error == null) {
+                        // Success block
+                    } else {
+                        // Error block 
+                    }
+                }
+            });
+        </pre>
+    </script>
+
+
+    <!--multiple query android  code template -->
+    <script id="multiple-query-androidCodeTemplate" type="text/x-jsrender">
+        <pre class='brush: java ct'>
+            //Initialize the Contentstack Stack
+            Stack  stack = Contentstack.stack(context, "{{>api_key}}", "{{>access_token}}", "{{>environment_name}}");
+                
+            //stack is an instance of Stack class
+            Query blogQuery = stack.contentType("{{>content_type}}").query();
+            blogQuery.find(new QueryResultsCallBack() {
+                @Override
+                public void onCompletion(ResponseType responseType, QueryResult queryResult, Error error) {
+                    if(error == null){
+                        //Success block
+                    }else{
+                        //Error block
+                    }
+                }
+            });
+        </pre>
+    </script>
+
+
+
+    <!--ruby  code template -->
+    <script id="rubyCodeTemplate" type="text/x-jsrender">
+        <pre class='brush: ruby ct'>
+            //Initialize the Contentstack Stack
+            @stack = Contentstack::Client.new("{{>api_key}}", "{{>access_token}}", "{{>environment_name}}")
+
+            //Get a Single Entry    
+            entry = @stack.content_type("{{>content_type}}").entry("{{>entry_id}}").fetch()
+            puts entry.get('title') # Use `get` method to retrieve field value by providing a field's unique ID
+            
+        </pre>
+    </script>
+
+    <!--multiple query ruby  code template -->
+    <script id="multiple-query-rubyCodeTemplate" type="text/x-jsrender">
+        <pre class='brush: ruby ct'>
+            //Initialize the Contentstack Stack
+            @stack = Contentstack::Client.new("{{>api_key}}", "{{>access_token}}", "{{>environment_name}}")
+            
+            //Get multiple queries
+            @query = @stack.content_type('{{>content_type}').query
+            @entries = @query.where('title', 'welcome')
+                .include_schema
+                .include_count
+                .fetch
+            puts "Total Entries -- #{@entries.count}"
+            @entries.each{|entry| puts "#{entry.get('title')}" }
+        </pre>
+    </script>
+
+    <!--php code template -->
+    <script id="phpCodeTemplate" type="text/x-jsrender">
+        <pre class='brush: php ct'>
+            //Initialize the Contentstack Stack
+            ```
+            use Contentstack\Contentstack;
+            include_once "contentstack/index.php";
+            $stack = Contentstack::Stack({{>api_key}}, {{>access_token}}, {{>environment_name}});
+            ```
+            
+            //Get a Single Entry  
+                ```bash
+            $result = $stack->ContentType("{{>content_type}}")->Entry("{{>entry_id}}")->toJSON()->fetch()
+            $result - entry object
+        </pre>
+    </script>
+
+    <!--multiple query php code template -->
+    <script id="multiple-query-phpCodeTemplate" type="text/x-jsrender">
+        <pre class='brush: php ct'>
+            //Initialize the Contentstack Stack
+            ```
+            use Contentstack\Contentstack;
+            include_once "contentstack/index.php";
+            $stack = Contentstack::Stack({{>api_key}}, {ACCESS_TOKEN}, {{>environment_name}});
+            ```
+            //Get multiple entries
+            ```bash
+            $result = $stack->ContentType({{>content_type}})->Query()->toJSON()->includeCount()->includeContentType()->find()
+            $result[0] - array of entries
+            $result[1] - content type
+            $result[2] - count of the entries
+            ```
+        </pre>
+    </script>
+
+    <!--dotnet  code template -->
+    <script id="dotnetCodeTemplate" type="text/x-jsrender">
+        <pre class='brush: js ct'>
+            //Initialize the Contentstack Stack
+            ContentstackClient stack = new ContentstackClient("{{>api_key}}", "{{>access_token}}", "{{>environment_name}}");
+
+            //Get a Single Entry    
+            Entry entry = client.ContentType("{{>content_type}}").Entry("{{>entry_id}}");
+            entry.Fetch().ContinueWith((t) => { 
+                if (!t.IsFaulted) { 
+                    Console.WriteLine("entry:" + t.Result);  
+                } 
+            });
+
+        </pre>
+    </script>
+
+
+    <!--multiple query dotnet  code template -->
+    <script id="multiple-query-dotnetCodeTemplate" type="text/x-jsrender">
+        <pre class='brush: js ct'>
+            //Initialize the Contentstack Stack
+            ContentstackClient stack = new ContentstackClient("{{>api_key}}", "{{>access_token}}", "{{>environment_name}}");
+
+            //Get multiple entries
+            Query query = client.ContentType("{{>content_type}}").Query(); 
+            query.Where("title", "welcome"); 
+            query.IncludeSchema(); 
+            query.IncludeCount(); 
+            query.ToJSON(); 
+            query.Find().ContinueWith((t) => { 
+                if (!t.IsFaulted) { 
+                    Entry[] result = t.Result.Result; 
+                    Console.WriteLine("result" + result); 
+                } 
+            });
+        </pre>
+    </script>
+
+    <!--ios (Swift)  code template -->
+    <script id="iossCodeTemplate" type="text/x-jsrender">
+        <pre class='brush: js ct'>
+            //Initialize the Contentstack Stack
+            let stack:Stack = Contentstack.stackWithAPIKey("{{>api_key}}", accessToken:"{{>access_token}}", environmentName:@"{{>environment_name}}")
+                
+            
+            //Get a Single Entry
+            var contentTypeObj:ContentType = stack.contentTypeWithName("{{>content_type}}")
+            var entryObj:Entry = contentTypeObj.entryWithUID("{{>entry_id}}")
+            entryObj.fetch { (error!) -> Void in
+                //error if exists then use 'error' object for details
+            }
+        </pre>
+    </script>
+
+    <!--multiple queries ios (Swift)  code template -->
+    <script id="multiple-query-iossCodeTemplate" type="text/x-jsrender">
+        <pre class='brush: js ct'>
+            //Initialize the Contentstack Stack
+            let stack:Stack = Contentstack.stackWithAPIKey("{{>api_key}}", accessToken:"{{>access_token}}", environmentName:@"{{>environment_name}}")
+                
+            //Get multiple entries
+            var contentTypeObj:ContentType = stack.contentTypeWithName("{{>content_type}}")
+            var blogQuery:Query = contentTypeObj.query()
+            blogQuery.find { (responseType, result!, error!) -> Void in
+                //error for any error description
+                //result for response data
+            }
+        </pre>
+    </script>
+
+    <!--multiple queries ios (ObjC)  code template -->
+    <script id="multiple-query-iosoCodeTemplate" type="text/x-jsrender">
+        <pre class='brush: js ct'>
+            //Initialize the Contentstack Stack
+            let stack:Stack = Contentstack.stackWithAPIKey("{{>api_key}}", accessToken:"{{>access_token}}", environmentName:@"{{>environment_name}}")
+
+            //Get multiple entries
+            ContentType *contentTypeObj = [stack contentTypeWithName:@"{{>content_type}}"];
+            Query *blogQuery = [contentTypeObj query];
+            [blogQuery find:^(ResponseType type, QueryResult *result, NSError *error) {
+                //error for any error description
+                //result for reponse data
+            }];
+        </pre>
+    </script>
+
+    <!--ios ObjC code template -->
+    <script id="iosoCodeTemplate" type="text/x-jsrender">
+        <pre class='brush: objc ct'>
+            //Initialize the Contentstack Stack
+            Stack *stack = [Contentstack stackWithAPIKey:@"{{>api_key}}" accessToken:@"{{>access_token}}" environmentName:@"{{>environment_name}}"];
+                
+            //Get a Single Entry
+            ContentType *contentTypeObj = [stack contentTypeWithName:@"{{>content_type}}"];
+            Entry *entryObj  = [contentTypeObj entryWithUID:@"{{>entry_id}}"];
+            [entryObj fetch:^(NSError *error) {
+                //error if exists then use 'error' object for details
+            }];
+        </pre>
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <ul class="nav">
+            <li class="active">
+                <a data-toggle="tab" href="#api">API Details</a>
+            </li>
+            <li>
+                <a class="jsonView" data-toggle="tab" href="#json">JSON view</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div id="api" class="tab-pane fade in active">
+                <div class="form-group">
+                    <h5 for="paltforms">Select Platform</h5>
+                    <select id="paltforms" class="form-control">
+                        <!--<option>Select Platform</option>-->
+                    </select>
+                </div>
+                <div class="code-container">
+                    <div class="singlequery">
+                        <h5>Get this entry</h5>
+                        <button class="btn copy-btn" data-clipboard-target="#editor">
+                            Copy
+                        </button>
+                        <div id="editor">
+                            <div class="java platform"></div>
+                            <div class="android platform"></div>
+                            <div class="restapi"></div>
+                            <div class="ruby platform"></div>
+                            <div class="php platform"></div>
+                            <div class="javascript platform"></div>
+                            <div class="node platform"></div>
+                            <div class="react platform"></div>
+                            <div class="dotnet platform"></div>
+                            <div class="ioss platform"></div>
+                            <div class="ioso platform"></div>
+                        </div>
+                    </div>
+                    <div class="multiplequery">
+                        <h5>Get all entries</h5>
+                        <button class="btn copy-button" data-clipboard-target="#multiple-query-editor">
+                            Copy
+                        </button>
+                        <div id="multiple-query-editor">
+                            <div class="multiple-query-restapi"></div>
+                            <div class="multiple-query-java platform"></div>
+                            <div class="multiple-query-android platform"></div>
+                            <div class="multiple-query-ruby platform"></div>
+                            <div class="multiple-query-php platform"></div>
+                            <div class="multiple-query-javascript platform"></div>
+                            <div class="multiple-query-node platform"></div>
+                            <div class="multiple-query-react platform"></div>
+                            <div class="multiple-query-dotnet platform"></div>
+                            <div class="multiple-query-ioss platform"></div>
+                            <div class="multiple-query-ioso platform"></div>
+                        </div>
+                    </div>
+                    <div class="advanced-queries">
+
+                    </div>
+                </div>
+            </div>
+            <div id="json" class="tab-pane fade">
+                <div class="json-view">
+                    <button class="btn copy-json">
+                            Copy
+                    </button>
+    
+                    <div id="json-collapsed"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+"use strict";var clipboard=new ClipboardJS(".btn");window.extensionField={};var optionValue=void 0,data={},platforms={restapi:"Rest API",javascript:"Javascript",java:"Java",android:"Android",ioss:"ios(Swift)",ioso:"ios(ObjC)",node:"Node.js",react:"React Native",ruby:"Ruby",php:"PHP",dotnet:".Net"};function getJsonData(e){var t={},a=e.entry.content_type.schema,o=e.entry._data;for(var r in a)o.hasOwnProperty(a[r].uid)&&(t[a[r].uid]=o[a[r].uid]);for(var r in o)t.hasOwnProperty(r)||(t[r]=o[r]);return t}function render(e){$(".restapi").hide(),$(".multiple-query-restapi").hide(),"restapi"===e?($(".restapi").show(),$(".multiple-query-restapi").show(),$(".advanced-queries").hide()):"javascript"===e?(renderToCodeTemplate(e,"javascriptCodeTemplate"),renderToMultipleQueryCodeTemplate(e,"multiple-query-javascriptCodeTemplate"),$(".advanced-queries").html('<a target="_blank" href="https://www.contentstack.com/docs/platforms/javascript-browser">Advance query guide</a>')):"java"===e?(renderToCodeTemplate(e,"javaCodeTemplate"),renderToMultipleQueryCodeTemplate(e,"multiple-query-javaCodeTemplate"),$(".advanced-queries").html('<a target="_blank" href="https://www.contentstack.com/docs/platforms/java">Advance query guide</a>')):"android"===e?(renderToCodeTemplate(e,"androidCodeTemplate"),renderToMultipleQueryCodeTemplate(e,"multiple-query-androidCodeTemplate"),$(".advanced-queries").html('<a target="_blank" href="https://www.contentstack.com/docs/platforms/android">Advance query guide</a>')):"ioss"===e?(renderToCodeTemplate(e,"iossCodeTemplate"),renderToMultipleQueryCodeTemplate(e,"multiple-query-iossCodeTemplate"),$(".advanced-queries").html('<a target="_blank" href="https://www.contentstack.com/docs/platforms/ios">Advance query guide</a>')):"ioso"===e?(renderToCodeTemplate(e,"iosoCodeTemplate"),renderToMultipleQueryCodeTemplate(e,"multiple-query-iosoCodeTemplate"),$(".advanced-queries").html('<a target="_blank" href="https://www.contentstack.com/docs/platforms/ios">Advance query guide</a>')):"node"===e?(renderToCodeTemplate(e,"javascriptCodeTemplate"),renderToMultipleQueryCodeTemplate(e,"multiple-query-javascriptCodeTemplate"),$(".advanced-queries").html('<a target="_blank" href="https://www.contentstack.com/docs/platforms/nodejs">Advance query guide</a>')):"react"===e?(renderToCodeTemplate(e,"reactCodeTemplate"),renderToMultipleQueryCodeTemplate(e,"multiple-query-reactCodeTemplate"),$(".advanced-queries").html('<a target="_blank" href="https://www.contentstack.com/docs/platforms/react-native">Advance query guide</a>')):"ruby"===e?(renderToCodeTemplate(e,"rubyCodeTemplate"),renderToMultipleQueryCodeTemplate(e,"multiple-query-rubyCodeTemplate"),$(".advanced-queries").html('<a target="_blank" href="https://www.contentstack.com/docs/platforms/ruby">Advance query guide</a>')):"php"===e?(renderToCodeTemplate(e,"phpCodeTemplate"),renderToMultipleQueryCodeTemplate(e,"multiple-query-phpCodeTemplate"),$(".advanced-queries").html('<a target="_blank" href="https://www.contentstack.com/docs/platforms/php">Advance query guide</a>')):"dotnet"===e&&(renderToCodeTemplate(e,"dotnetCodeTemplate"),renderToMultipleQueryCodeTemplate(e,"multiple-query-dotnetCodeTemplate"),$(".advanced-queries").html('<a target="_blank" href="https://www.contentstack.com/docs/platforms/dot-net">Advance query guide</a>'))}function renderToCodeTemplate(e,t){var a=$("#"+t).render(data);$("."+e).html(a),SyntaxHighlighter.all(),SyntaxHighlighter.highlight()}function renderToMultipleQueryCodeTemplate(e,t){var a=$("#"+t).render(data);$(".multiple-query-"+e).html(a),SyntaxHighlighter.all(),SyntaxHighlighter.highlight()}$(document).ready(function(){ContentstackUIExtension.init().then(function(e){var t=e,a=void 0,o=t.config.host?t.config.host:"cdn.contentstack.io",r=t.config.environment?t.config.environment:"development";for(var n in data={api_key:t.stack._data.api_key,content_type:t.entry.content_type.uid,entry_id:t.entry._data.uid,access_token:t.stack._data.discrete_variables.access_token,locale:t.entry.locale,environment_name:r,host:o},platforms){var l=document.createElement("option");l.setAttribute("value",n),l.innerText=platforms[n],$("#paltforms").append(l)}a=$("#restapiCodeTemplate").render(data),$(".restapi").html(a),a=$("#multiple-query-restapiCodeTemplate").render(data),$(".multiple-query-restapi").html(a),SyntaxHighlighter.all(),SyntaxHighlighter.highlight(),$("select").change(function(){!1===t.entry.content_type.options.singleton&&$(".multiplequery").show(),$(".advanced-queries").show(),$(this).find("option:selected").each(function(){(optionValue=$(this).attr("value"))?($(".platform").not("."+optionValue).hide(),$(".platform").not(".multiple-query-"+optionValue).hide(),$("."+optionValue).show(),$(".multiple-query-"+optionValue).show(),render(optionValue)):($(".platform").hide(),$(".copy-btn").hide())})}),$(".jsonView").on("click",function(){$(".copy-json").attr("data-clipboard-text",JSON.stringify(getJsonData(t),null,2)),$("#json-collapsed").JSONView(getJsonData(t),{collapsed:!0})}),$(".copy-btn, .copy-button, .copy-json").on("click",function(){var t=$(this);clipboard.on("success",function(e){t.text("Copied"),setTimeout(function(){t.text("Copy")},1e3),e.clearSelection()})})})});
+</script>
+</body>
+</html>
