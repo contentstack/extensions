@@ -2,6 +2,7 @@
   "name": "audience-app",
   "version": "0.1.0",
   "private": true,
+  "homepage": ".",
   "dependencies": {
     "@contentstack/app-sdk": "^1.1.0",
     "@contentstack/venus-components": "^1.0.3",
