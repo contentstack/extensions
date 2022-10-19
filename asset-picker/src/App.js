@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
+import _ from 'lodash'
 import postRobot from 'post-robot'
-import { css } from '@emotion/css'
 import ContentstackAppSDK from '@contentstack/app-sdk'
 import {
   AssetCardVertical,
@@ -10,10 +10,10 @@ import {
   Carousel,
   Button,
 } from '@contentstack/venus-components'
+
+import styles from './App.module.css'
 import { getAssetType } from './utils'
 
-import './fullscreen'
-import _ from 'lodash'
 
 const assetType = {
   null: 'image',
@@ -60,15 +60,19 @@ const App = () => {
         const extension = sdk.location.CustomField
         setContenstackSDK(sdk)
         setExtension(extension)
+        extension.frame.enableAutoResizing()
         const currentAssets = extension.field.schema.value
         const isMultiple = extension.field.schema.multiple
+        const assetPickerConfig = extension.field.schema.config || {}
+        // Remove multiple in asset picker if custom field type is not multiple
+        if (!isMultiple) delete assetPickerConfig['multiple']
+
         if (!currentAssets || _.isEmpty(currentAssets)) {
           setState({
             ...state,
             isMultiple,
             isLoading: false,
           })
-          extension.frame.updateHeight(50)
         } else {
           setState({
             ...state,
@@ -157,11 +161,7 @@ const App = () => {
   const isEmpty = allImageComponent.length < 1
   return (
     <div
-      style={{
-        marginLeft: '.625rem',
-        paddingBottom: '20px',
-        paddingTop: '10px',
-      }}
+      className={styles['asset-picker']}
       ref={ref}
     >
       {state.isLoading && (
@@ -175,8 +175,10 @@ const App = () => {
           tileleftSpace={0}
         />
       )}
+
+      {/* Show selected asset(s) */}
       {!state.isLoading && (
-        <div className='image-preset-preview'>
+        <div>
           {!isEmpty &&
             (allImageComponent.length > 3 ? (
               <div className='preset-picker-carousal-wrapper'>
@@ -198,6 +200,8 @@ const App = () => {
             ))}
         </div>
       )}
+
+      {/* Allow more selection only if type multiple */}
       {!isEmpty && !state.isMultiple
         ? null
         : !state.isLoading && (
@@ -215,11 +219,7 @@ const App = () => {
                 Choose a file
               </Button>
               <span
-                className={css`
-                  font-family: Inter;
-                  padding: 0 0.65rem;
-                  font-size: 14px;
-                `}
+                className={styles['or']}
               >
                 /
               </span>
@@ -231,14 +231,7 @@ const App = () => {
                     ...(extension.field.schema.config || {}),
                   })
                 }
-                className={css`
-                  font-family: Inter;
-                  cursor: pointer;
-                  font-size: 14px;
-                  &:hover {
-                    color: #6c5ce7;
-                  }
-                `}
+                className={styles['upload-link']}
               >
                 Upload a new File
               </span>

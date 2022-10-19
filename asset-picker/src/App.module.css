@@ -1,0 +1,21 @@
+.asset-picker {
+  margin-left: .625rem;
+  padding-bottom: 20px;
+  padding-top: 10px;
+}
+
+.or {
+  font-family: Inter;
+  padding: 0 0.65rem;
+  font-size: 14px;
+}
+
+.upload-link {
+  font-family: Inter;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.upload-link:hover {
+  color: #6c5ce7;
+}
