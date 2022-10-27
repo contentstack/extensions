@@ -1,3 +1,5 @@
+
+
 # Asset Picker
 
 This is an example react app showcasing **Asset Picker** from venus component (using contenstack SDK).
@@ -38,6 +40,11 @@ Then, run the following command to run the app on `http://localhost:3000`
 | **fileTypes** | string | Allow only user desired file types (identified by extension) to be selectable in asset picker `Accepts comma-separated file extensions like png,json` | - |
 | **size** | `{min: number,max: number}` | Lets you define the minimum or/and maximum sized assets that can be selected | - |
 
+**You can add above config to the content type like this:**
 
+**![](https://lh5.googleusercontent.com/LwMhS2lkrkIT0psHOZHl1L8m-9lZIf8aI4erpag8JvBf_kL0DqS7hZjgHTvULHFIytCo4XY6p7UNJndnUqzQpviU4-B32-ao2gdjUETAPkDJy1kdtTG9clLTN2ZJPxqyBowmaVnxkfrebNxpBhNLBqwg-jmEmfaIrYvUavTQGgybVUGh0HlbdVlIag)**
 
 Now you can see the Asset Picker inside any entry of the content type used in **Step 2**. 
+
+
+
