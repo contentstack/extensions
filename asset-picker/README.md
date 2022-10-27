@@ -1,70 +1,43 @@
-# Getting Started with Create React App
+# Asset Picker
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is an example react app showcasing **Asset Picker** from venus component (using contenstack SDK).
 
-## Available Scripts
+The Asset Picker provides two ways to pick asset(s):
+1. Choose Asset
+2. Upload Asset 
 
-In the project directory, you can run:
-
+## Run
+In the project directory, install dependencies:
+### `npm install`
+Then, run the following command to run the app on `http://localhost:3000`
 ### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
+## Setup
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+ 1. Create Extension of type **Custom Field**:
+	 a. Go to a *Stack Settings* > *Extensions* > *Create New Extension*.
+	 b. Select **Custom Field** as Extension Type.
+	 c. Give a suitable title.
+	 d. Select **Asset** in Field Data Type.
+	 e. Check **Multiple** if multiple assets are to be stored.
+	 f. Setup hosting method based on where this app is running, i.e. for development, set **External hosting URL** to `http://localhost:3000`
 
-### `npm run build`
+2. Add a **Custom Field** to desired content type:
+	a. Go to *Content Models* > Select existing Content Type or create new Content Type.
+	b. Add new field of type Custom Field.
+	c. Give a display name
+	d. Select the extension created from **Step 1**.
+	e. (optional) Advanced config can be passed to asset picker from the config parameter section. See the below table for reference
+	
+|**Property Name**  | **Type** |  **Description** | **Default**
+|--|--|--|--|
+| **only** | string | Allows user to select from specific asset type only `"image", "video","audio","document","code","executable","archive"` | - | |
+| **multiple** | boolean or `{max:number}` | Define to allow single or multiple assets selection | false |
+| **fileTypes** | string | Allow only user desired file types (identified by extension) to be selectable in asset picker `Accepts comma-separated file extensions like png,json` | - |
+| **size** | `{min: number,max: number}` | Lets you define the minimum or/and maximum sized assets that can be selected | - |
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Now you can see the Asset Picker inside any entry of the content type used in **Step 2**. 
