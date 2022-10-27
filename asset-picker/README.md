@@ -19,19 +19,19 @@ Then, run the following command to run the app on `http://localhost:3000`
 ## Setup
 
  1. Create Extension of type **Custom Field**:
-	 a. Go to a *Stack Settings* > *Extensions* > *Create New Extension*.
-	 b. Select **Custom Field** as Extension Type.
-	 c. Give a suitable title.
-	 d. Select **Asset** in Field Data Type.
-	 e. Check **Multiple** if multiple assets are to be stored.
-	 f. Setup hosting method based on where this app is running, i.e. for development, set **External hosting URL** to `http://localhost:3000`
+	 1. Go to a *Stack Settings* > *Extensions* > *Create New Extension*.
+	 2. Select **Custom Field** as Extension Type.
+	 3. Give a suitable title.
+	 4. Select **Asset** in Field Data Type.
+	 5. Check **Multiple** if multiple assets are to be stored.
+	 6. Setup hosting method based on where this app is running, i.e. for development, set **External hosting URL** to `http://localhost:3000`
 
 2. Add a **Custom Field** to desired content type:
-	a. Go to *Content Models* > Select existing Content Type or create new Content Type.
-	b. Add new field of type Custom Field.
-	c. Give a display name
-	d. Select the extension created from **Step 1**.
-	e. (optional) Advanced config can be passed to asset picker from the config parameter section. See the below table for reference
+	1. Go to *Content Models* > Select existing Content Type or create new Content Type.
+	2. Add new field of type Custom Field.
+	3. Give a display name
+	4. Select the extension created from **Step 1**.
+	5. (optional) Advanced config can be passed to asset picker from the config parameter section. See the below table for reference
 	
 |**Property Name**  | **Type** |  **Description** | **Default**
 |--|--|--|--|
