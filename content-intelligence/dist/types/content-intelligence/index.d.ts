@@ -1,1 +1,1 @@
-export declare const createFontColor: (RTE: any) => any;
+export declare const contentIntelligenceIcon: (RTE: any) => any;
