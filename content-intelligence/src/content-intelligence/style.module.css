@@ -1,0 +1,48 @@
+/* @import '../../../../../../../../../tokens/tokens.css'; */
+
+.toggle-btn {
+  width: 34px;
+  height: 18px;
+  border-radius: 48px;
+  display: inline-block;
+  position: relative;
+  background: var(--color-brand-secondary-light);
+  cursor: pointer;
+  -webkit-transition: background-color 0.4s ease-in-out;
+  -moz-transition: background-color 0.4s ease-in-out;
+  -o-transition: background-color 0.4s ease-in-out;
+  transition: background-color 0.4s ease-in-out;
+}
+
+.toggle-btn.active {
+  background: var(--color-brand-primary-base);
+}
+
+.toggle-btn.active .round-btn {
+  left: 18px;
+}
+
+.toggle-btn:hover .round-btn {
+  box-shadow: 3px 0px 4px 0px red 100%;
+}
+
+.toggle-btn .round-btn {
+  width: 12px;
+  height: 12px;
+  background-color: #fff;
+  border-radius: 50%;
+  display: inline-block;
+  position: absolute;
+  left: 3px;
+  top: 50%;
+  margin-top: -6px;
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+
+.toggle-btn.disabled {
+  background: rgba(113, 128, 150, 0.3);
+  cursor: not-allowed;
+}
