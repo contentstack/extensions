@@ -1,4 +1,7 @@
 declare const _default: Promise<{
-    FontColor: any;
-}>;
+    ContentIntelligence: any;
+    AutoSuggestion: any;
+    SpellCheck: any;
+    GrammarCheck: any;
+} | undefined>;
 export default _default;
