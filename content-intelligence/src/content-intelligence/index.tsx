@@ -4,14 +4,14 @@ import {Dropdown, Switch } from '@contentstack/venus-components'
 import CI_Features from './ciFeatures';
 import { Icon } from '../icons';
 //@ts-ignore
-import styles from './style.module.css'
+import './style.css'
+import {cx} from '@emotion/css'
 
 const CIComponent = (props:any) => {
     return <span {...props.attrs} {...props.attributes}>{props.children}</span>
 }
 
 export const contentIntelligenceIcon = (RTE:any) => {
-    // console.log("RTE", RTE) 
     const ContentIntelligence = RTE('content-intelligence', () => ({
         title: 'Content Intelligence',
         icon: <CIIcon/>,
@@ -23,71 +23,63 @@ export const contentIntelligenceIcon = (RTE:any) => {
         if(!window.rte) {
             window.rte = rte;
         }
-        console.log("icon clicked")
     })
 
     return ContentIntelligence;
 }
 
-const handleCheckbox = () => {
-
-}
-
-const handleMouseDown = () => {
-    
-}
 const list = CI_Features.map((feature) => ({
-    label:  <span
-    data-testid="table-header-btn"
-    // className={cx(styles['table-header-btn'], {
-    //   [styles['table-header-btn--disable']]: isTableDisable
-    // })}
-    // onMouseDown={handleMouseDown}
-    >
-    <span>{feature['name']}</span>
-    <span style={{ display: 'flex' }}>
-      <Switch onChange={handleCheckbox} checked={true} />
-    </span>
-  </span>,
-    // value: feature['color'],
-    // showAsActive: true,
-    // action: () => {
-    //     // const {rte} = window;
-    //     // rte.addMark('font-color', _['color']);
-    // }
+    label:  <CiList feature = {feature}/>,
 }))
 
 function CIIcon() {
     return (
-        <Dropdown list={list} type={'click'} highlightActive={true}>
+        <Dropdown list={list} type={'click'}>
             <Icon/>
         </Dropdown>
     )
 }
 
+function CiList (props) {
+    const {feature} = props
+    const [enabled, setEnabled] = useState(true)
+    let contentIntelligenceDom = document.querySelector('[data-icon="content-intelligence"]')
+    const handleMouseDown = (event) => {
+        setEnabled(!enabled)
+    }
+    if(enabled){
+        contentIntelligenceDom?.setAttribute(`${feature['name'].toLowerCase().replace(' ', '_')}`, true)
+    }
+    else{
+        contentIntelligenceDom?.setAttribute(`${feature['name'].toLowerCase().replace(' ', '_')}`, false)
+    }
+    return (
+    <span
+    data-testid="table-header-btn"
+    className='table-header-btn'
+    onMouseDown={handleMouseDown}
+    >
+    <span>{feature['name']}</span>
+    <span style={{ display: 'flex' }}>
+      <Switch enabled={enabled} setEnabled={setEnabled} feature={feature['name']}/>
+    </span>
+  </span>
+    )
+}
+
 function Switch (props) {
-  const { disabled = false, onChange: propsOnChange = () => { }, checked: propsChecked = false } = props
-
-  const [checked, setOnChange] = useState(propsChecked)
-
-  function handleMouseDown(event: React.MouseEvent) {
-
-    event.preventDefault()
-    if (disabled) return
-    setOnChange((prevProps) => !prevProps)
-    propsOnChange(event)
-  }
-
+  const {enabled, setEnabled, feature} = props
   return (
     <div
+       id={`ci_${feature.toLowerCase().replace(' ', '_')}`} 
       data-testid="switch-toggle"
-    //   className={cx(
-    //     styles['toggle-btn'],
-    //     { [styles['active']]: !disabled && checked },
-    //     { [styles['disabled']]: disabled }
-    //   )}
-      onMouseDown={handleMouseDown}>
-      <span className={styles['round-btn']}></span>
+      className={cx('toggle-btn', 
+      {'active': enabled}
+      )}
+      >
+      <span 
+        className='round-btn'
+      ></span>
     </div>
   )
 }
