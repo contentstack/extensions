@@ -34,10 +34,10 @@ To set up the Asset Picker component follow the steps below:
 	
 |**Property Name**  | **Type** |  **Description** | **Default**
 |--|--|--|--|
-| **only** | string | Allows user to select from specific asset type only `"image", "video","audio","document","code","executable","archive"` | - | |
-| **multiple** | boolean or `{max:number}` | Define to allow single or multiple assets selection | false |
-| **fileTypes** | string | Allow only user desired file types (identified by extension) to be selectable in asset picker `Accepts comma-separated file extensions like png,json` | - |
-| **size** | `{min: number,max: number}` | Lets you define the minimum or/and maximum sized assets that can be selected | - |
+| **only** | string | Select from specific asset type `"image", "video","audio","document","code","executable","archive"` | - | |
+| **multiple** | boolean or `{max:number}` | Select single or multiple asset | false |
+| **fileTypes** | string | Select specific file types (identified by extension) | - |
+| **size** | `{min: number,max: number}` | Add minimum or/and maximum asset size | - |
 
 
 
