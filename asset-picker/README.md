@@ -2,36 +2,35 @@
 
 # Asset Picker
 
-This is an example react app showcasing **Asset Picker** from venus component (using contenstack SDK).
+The Asset Picker component is a custom extension that allows you to select and upload asset(s) into entries from their stack.
 
-The Asset Picker provides two ways to pick asset(s):
-1. Choose Asset
-2. Upload Asset 
 
-## Run
-In the project directory, install dependencies:
+## Installation
+In the project directory, install dependencies using the following command:
 ### `npm install`
-Then, run the following command to run the app on `http://localhost:3000`
+Then, run the following command to start the app on `http://localhost:3000`
 ### `npm start`
 
 
 
 ## Setup
 
- 1. Create Extension of type **Custom Field**:
-	 1. Go to a *Stack Settings* > *Extensions* > *Create New Extension*.
-	 2. Select **Custom Field** as Extension Type.
-	 3. Give a suitable title.
-	 4. Select **Asset** in Field Data Type.
-	 5. Check **Multiple** if multiple assets are to be stored.
-	 6. Setup hosting method based on where this app is running, i.e. for development, set **External hosting URL** to `http://localhost:3000`
+To set up the Asset Picker component follow the steps below:
 
-2. Add a **Custom Field** to desired content type:
-	1. Go to *Content Models* > Select existing Content Type or create new Content Type.
-	2. Add new field of type Custom Field.
-	3. Give a display name
-	4. Select the extension created from **Step 1**.
-	5. (optional) Advanced config can be passed to asset picker from the config parameter section. See the below table for reference
+1. Go to Stack Settings > Extensions > Create New Extension.
+2. Select **Custom Field** as Extension Type.
+3. Provide a suitable title for example, Asset Picker.
+4. Select **Asset** as the field data type.
+5. Select **Multiple** to add/select multiple assets.
+6. Select the hosting method.
+7. Create a new content type.
+8. Add a custom field and select the Asset Picker extension.
+9. (optional) Under the Advanced tab, you can add configurations for your asset picker under the config parameter section.
+**![](https://lh5.googleusercontent.com/LwMhS2lkrkIT0psHOZHl1L8m-9lZIf8aI4erpag8JvBf_kL0DqS7hZjgHTvULHFIytCo4XY6p7UNJndnUqzQpviU4-B32-ao2gdjUETAPkDJy1kdtTG9clLTN2ZJPxqyBowmaVnxkfrebNxpBhNLBqwg-jmEmfaIrYvUavTQGgybVUGh0HlbdVlIag)**
+10. Save your content type. This new content type will include an Asset Picker custom field.
+
+
+## Advanced Config
 	
 |**Property Name**  | **Type** |  **Description** | **Default**
 |--|--|--|--|
@@ -39,12 +38,6 @@ Then, run the following command to run the app on `http://localhost:3000`
 | **multiple** | boolean or `{max:number}` | Define to allow single or multiple assets selection | false |
 | **fileTypes** | string | Allow only user desired file types (identified by extension) to be selectable in asset picker `Accepts comma-separated file extensions like png,json` | - |
 | **size** | `{min: number,max: number}` | Lets you define the minimum or/and maximum sized assets that can be selected | - |
-
-**You can add above config to the content type like this:**
-
-**![](https://lh5.googleusercontent.com/LwMhS2lkrkIT0psHOZHl1L8m-9lZIf8aI4erpag8JvBf_kL0DqS7hZjgHTvULHFIytCo4XY6p7UNJndnUqzQpviU4-B32-ao2gdjUETAPkDJy1kdtTG9clLTN2ZJPxqyBowmaVnxkfrebNxpBhNLBqwg-jmEmfaIrYvUavTQGgybVUGh0HlbdVlIag)**
-
-Now you can see the Asset Picker inside any entry of the content type used in **Step 2**. 
 
 
 
