@@ -159,6 +159,8 @@ const App = () => {
   }
 
   const isEmpty = allImageComponent.length < 1
+
+  const excludeAssetUids = state.allSelectedImages.map(ele => ele.file.uid)
   return (
     <div
       className={styles['asset-picker']}
@@ -212,6 +214,7 @@ const App = () => {
                   openChooseAssetModal({
                     onSubmit,
                     sdk: contentstackSDK,
+                    excludeAssetUids,
                     ...(extension.field.schema.config || {}),
                   })
                 }
