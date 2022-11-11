@@ -77,7 +77,7 @@ export const createGrammarCheck = (RTE: IRTEPluginInitializer) => {
     };
   });
 
-GrammerCheckPlugin.on("keydown", async ({ event, rte }) => {
+GrammerCheckPlugin.on("keydown", async (props) => {
   const {rte, event} = props
     props["editor"] = rte._adv.editor
     if (response?.contentToReplace?.length > 0) {

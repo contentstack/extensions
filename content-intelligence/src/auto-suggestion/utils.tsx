@@ -1,9 +1,5 @@
 
-import React from 'react'
 import { getSuggestion } from "./getSuggestionFromProvider/getSuggestion"
-import { debounce } from "lodash"
-
-// let debouncedCallback = debounce(getSuggestion, 500);
 
  export const renderAutoSuggestion = async (rte: any, key: any) => {
     let editorSelection = rte.selection.get()
@@ -76,42 +72,3 @@ export const renderSuggestion = (anchorNode: any, shadowText: any, key: any, boo
     }
   }
   }
-
-  // export default function HeaderToggleSwitch() {
-  //   const editor = useSlate() as ExtendedEditor
-  //   const isTableDisable = tableHeaderButtonDisabler({ editor })
-  //   const headerExist = doesTableHeaderExist({ editor })
-  //   const selection: any = editor.selection || editor.savedSelection
-  
-  //   const handleMouseDown = (event) => {
-  //     if (selection) {
-  //       Transforms.select(editor, selection)
-  //       if (!isTableDisable) {
-  //         handleHeaderToggle(event, editor, !headerExist)
-  //       }
-  //     }
-  //   }
-  //   const handleCheckbox = (event) => {
-  //     event.preventDefault()
-  //     event.stopPropagation()
-  //     if (selection) {
-  //       Transforms.select(editor, selection)
-  //       if (!isTableDisable) {
-  //         handleHeaderToggle(event, editor, !headerExist)
-  //       }
-  //     }
-  //   }
-  //   return (
-  //     <span
-  //       data-testid="table-header-btn"
-  //       className={cx(styles['table-header-btn'], {
-  //         [styles['table-header-btn--disable']]: isTableDisable
-  //       })}
-  //       onMouseDown={handleMouseDown}>
-  //       <span>Header row </span>
-  //       <span style={{ display: 'flex' }}>
-  //         <Switch disabled={isTableDisable} onChange={handleCheckbox} checked={headerExist} />
-  //       </span>
-  //     </span>
-  //   )
-  // }
