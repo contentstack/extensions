@@ -34,7 +34,6 @@ export const createSpellCheck = (RTE: IRTEPluginInitializer) => {
     rte._adv.addToDecorate(handleDecorate);
 
     const handleClick = (spelling) => {
-      // console.log("RESPONSE", response)
       let resp = Array.from(response.contentToReplace).find((elem) => {
         return (
           rte.selection.get().anchor.offset > elem.start_offset &&
@@ -68,20 +67,15 @@ export const createSpellCheck = (RTE: IRTEPluginInitializer) => {
         rte._adv.Editor.insertText(rte._adv.editor, spelling);
         
         const deleteResponseindex = response.contentToReplace.indexOf(resp);
-        // console.log("response",response.contentToReplace,deleteResponseindex)
         if (deleteResponseindex > -1) {
           response.contentToReplace.splice(deleteResponseindex, 1); 
           if(response.contentToReplace?.length > 0){
-            // console.log("TEST:", resp.incorrect_input, spelling)
             //corrected output's length > incorrect input's length
             if(spelling.length > resp.incorrect_input.length){
-              // console.log("HERE")
               let difference = spelling.length - resp.incorrect_input.length
               Array.from(response.contentToReplace).map((elem, index) => {
-              // console.log("Difference", elem, difference, index, deleteResponseindex)
 
                   // if(index >= deleteResponseindex){
-                    // console.log("HERERRERERERE")
                     elem.start_offset = elem.start_offset + difference
                     elem.end_offset = elem.end_offset + difference
                   // }
@@ -90,7 +84,6 @@ export const createSpellCheck = (RTE: IRTEPluginInitializer) => {
             }
             //corrected output's length < incorrect input's length
             if(spelling.length < resp.incorrect_input.length){
-              // console.log("HERE 2")
               let difference =  resp.incorrect_input.length - spelling.length
               Array.from(response.contentToReplace).map((elem, index) => {
                   // if(index >= deleteResponseindex){
@@ -173,9 +166,6 @@ export const createSpellCheck = (RTE: IRTEPluginInitializer) => {
 
         }
       }
-      // if(event.keyCode === 32){
-      //   console.log('response', response)
-      // }
     }
 
     if (event.keyCode === 32) {
@@ -185,7 +175,6 @@ export const createSpellCheck = (RTE: IRTEPluginInitializer) => {
     rte.selection.get();
     rte.selection.set(rte.selection.get());
    }
-  //  console.log("RESPONSE", response)
   });
 
   return SpellCheckPlugin

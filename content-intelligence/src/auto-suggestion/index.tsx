@@ -4,7 +4,6 @@ import {renderAutoSuggestion, renderSuggestion} from './utils'
 let key: any;
 
 export const createAutoSuggestion = (RTE: IRTEPluginInitializer) => {
-  console.log("auto suggestion plugin loaded")
   const AutoSuggestionPlugin = RTE("auto-suggestion", (rte: any) => {
     return {
       displayOn: [],
