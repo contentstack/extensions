@@ -1,4 +1,3 @@
-import React from 'react'
 import ContentstackSDK from "@contentstack/app-sdk";
 import { contentIntelligenceIcon } from './content-intelligence/index';
 import { createAutoSuggestion } from './auto-suggestion';
@@ -10,16 +9,16 @@ export default ContentstackSDK.init().then(async (sdk) => {
     const RTE = await extensionObj["RTEPlugin"];
 
     if(!RTE) return;
-
-    const ContentIntelligence = contentIntelligenceIcon(RTE);
+    
+    const ContentIntelligence = contentIntelligenceIcon(RTE)
     const AutoSuggestion = createAutoSuggestion(RTE)
     const SpellCheck = createSpellCheck(RTE)
     const GrammarCheck = createGrammarCheck(RTE)
 
     return {
         ContentIntelligence,
-        AutoSuggestion,
+        GrammarCheck,
         SpellCheck,
-        GrammarCheck
+        AutoSuggestion
     };
 });

@@ -1,7 +1,7 @@
-let url ='https://dev11-app.csnonprod.com/content-intelligence/auto-suggestion'
-
+declare global {
+  interface Window { postRobot: any; }
+}
 export const getAPISuggestion = async (text: any) => {
-  // @ts-ignore
   return window.postRobot.sendToParent("stackQuery", {
     action: 'getAutoSuggestion',
     payload: {
@@ -10,5 +10,9 @@ export const getAPISuggestion = async (text: any) => {
     params: {
       urlKey: 'AI_SERVICES_URL'
     }
-}).then((data: any) => data.substr(text.length)).catch((err: any) => err)
+}).then((data: any) => {  
+  if(data.data){
+    return data.data.substr(text.length)
+  }
+}).catch((err: any) => err)
   }

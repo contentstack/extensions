@@ -9,25 +9,31 @@ export const createAutoSuggestion = (RTE: IRTEPluginInitializer) => {
       displayOn: [],
     };
   });
+  //TODO: add var for textcontent
+  AutoSuggestionPlugin.on('keydown', (props) => {    
+  const {rte, event} = props
 
-  AutoSuggestionPlugin.on('keydown', (props) => {
-    const {rte, event} = props
-    props["editor"] = rte._adv.editor
-    key = event.key
-    if(event.key === 'Tab' && document.getElementById('shadowDiv')?.childNodes[0]?.textContent?.length > 0){
-      event.preventDefault()
-      rte.insertText(document.getElementById('shadowDiv')?.childNodes[0].textContent, {at: rte.selection.get()})
-      document.getElementById('shadowDiv').childNodes[0].innerHTML = ''
-    }
-    if(event.keyCode === 32){
-      renderAutoSuggestion(rte, key)
-    }
-    else{
-      if(document.getElementById('shadowDiv')?.childNodes[0].textContent?.length > 0){
-        renderSuggestion(window.getSelection()?.anchorNode, document.getElementById('shadowDiv')?.childNodes[0]?.textContent, key, false)
-      }
-    }
+  if(rte?.CIFeatures[0].name === 'Auto Suggestion' && rte?.CIFeatures[0].isEnabled === false ){
+    return
+  }
 
+  props["editor"] = rte._adv.editor
+  key = event.key
+  const shadowDiv = document.getElementById('shadowDiv')
+  const shadowTextContent = shadowDiv?.childNodes[0]?.textContent
+  if(event.key === 'Tab' && shadowTextContent?.length > 0){
+    event.preventDefault()
+    rte.insertText(shadowTextContent, {at: rte.selection.get()})
+    shadowDiv?.childNodes[0].innerHTML = ''
+  }
+  if(event.keyCode === 32){
+    renderAutoSuggestion(rte, key)
+  }
+  else{
+    if(shadowTextContent?.length > 0){
+      renderSuggestion(window.getSelection()?.anchorNode, shadowTextContent, key, false)
+    }
+}   
   })
 
   AutoSuggestionPlugin.on('change', ({event, rte}: any) => {

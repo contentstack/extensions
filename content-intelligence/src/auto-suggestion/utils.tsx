@@ -3,33 +3,38 @@ import { getSuggestion } from "./getSuggestionFromProvider/getSuggestion"
 
  export const renderAutoSuggestion = async (rte: any, key: any) => {
     let editorSelection = rte.selection.get()
-    if(editorSelection && key !== 'Tab'){
+    if(!editorSelection || key === 'Tab'){
+      return
+    }
       let nodeText = rte.getNode(rte.selection.get())[0].text
+      let shadowDiv = document.getElementById('shadowDiv')
+      
        if(nodeText && nodeText.trim().length !== 0){
-        if(!document.getElementById('shadowDiv')){
+        if(!shadowDiv){
           let suggestion = await getSuggestion(nodeText, 'data-api')
           if(suggestion){
               renderSuggestion(window.getSelection()?.anchorNode, suggestion, key, true)
           }
         }
         else{
-          if(document.getElementById('shadowDiv')?.childNodes[0]?.textContent === ''){
+          if(shadowDiv?.childNodes[0]?.textContent === ''){
             let suggestion = await getSuggestion(nodeText, 'data-api')
             if(suggestion){
                 renderSuggestion(window.getSelection()?.anchorNode, suggestion, key, true)
             }
           }
           else{
-            renderSuggestion(window.getSelection()?.anchorNode, document.getElementById('shadowDiv')?.childNodes[0].textContent, key, false)
+            renderSuggestion(window.getSelection()?.anchorNode, shadowDiv?.childNodes[0].textContent, key, false)
           }
         }
        }
-      }
+      // }
  }
 
 export const renderSuggestion = (anchorNode: any, shadowText: any, key: any, boolean: any) => {
     const range = document.createRange()
-    if(!document.getElementById('shadowDiv')){
+    let shadowDiv = document.getElementById('shadowDiv')
+    if(!shadowDiv){
       const div = document.createElement('div');
       div.style.display = 'inline';
       div.id = 'shadowDiv'
@@ -55,11 +60,11 @@ export const renderSuggestion = (anchorNode: any, shadowText: any, key: any, boo
       range.insertNode(div);
     }
   else{
-    const child = document.getElementById('shadowDiv')?.childNodes[0]
-    if(key === 'Shift'){
+    const child = shadowDiv?.childNodes[0]
+    if(key === 'Shift' || !child){
       return
     }
-    if(child){
+    // if(child){
       if (key === shadowText[0]) {
         child.textContent = shadowText.substr(1);
       }
@@ -69,6 +74,6 @@ export const renderSuggestion = (anchorNode: any, shadowText: any, key: any, boo
       else {
         child.textContent = ''
       }
-    }
+    // }
   }
   }

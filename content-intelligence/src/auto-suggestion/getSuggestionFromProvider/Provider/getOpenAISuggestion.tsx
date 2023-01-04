@@ -1,7 +1,7 @@
 //@ts-ignore
 import OpenAIApi from 'openai-api-node'
-
-var openai = new OpenAIApi("sk-REDACTED")
+//add an open ai key
+var openai = new OpenAIApi("your-openai-key")
 
 export const getOpenAISuggestion = (text: any) => {
     return openai.CompletionsCreate(text)
@@ -11,4 +11,4 @@ export const getOpenAISuggestion = (text: any) => {
       .catch(function (err: any) {
         console.log(err)
       })
-  }
+}
