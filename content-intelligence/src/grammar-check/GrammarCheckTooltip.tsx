@@ -1,6 +1,4 @@
 import React from "react";
-//@ts-ignore
-import styles from "./style.module.css";
 import "./style.css";
 
 const GrammerCheckTooltip = (props: any, handleClick: any) => {

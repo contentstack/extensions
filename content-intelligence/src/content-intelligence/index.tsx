@@ -12,20 +12,22 @@ const CIComponent = (props:any) => {
 }
 
 export const contentIntelligenceIcon = (RTE:any) => {
-    const ContentIntelligence = RTE('content-intelligence', () => ({
-        title: 'Content Intelligence',
-        icon: <CIIcon/>,
-        render: (props) => { console.log('props::', props); return <CIComponent {...props} />},
-        display: ['toolbar']
-    }));
+    const ContentIntelligence = RTE('content-intelligence', (rte: any) => {
+        rte.CIFeatures = CI_Features
+        return ({
+            title: 'Content Intelligence',
+            icon: <CIIcon/>,
+            render: (props) => {return <CIComponent {...props}/>},
+            display: ['toolbar']
+        })
+    });
 
     ContentIntelligence.on('exec', (rte:any) => {
         if(!window.rte) {
             window.rte = rte;
-        }
+        }  
     })
-
-    return ContentIntelligence;
+    return ContentIntelligence
 }
 
 const list = CI_Features.map((feature) => ({
@@ -42,10 +44,11 @@ function CIIcon() {
 
 function CiList (props) {
     const {feature} = props
-    const [enabled, setEnabled] = useState(true)
+    const [enabled, setEnabled] = useState(feature.isEnabled)
     let contentIntelligenceDom = document.querySelector('[data-icon="content-intelligence"]')
     const handleMouseDown = (event) => {
-        setEnabled(!enabled)
+        setEnabled(!enabled) 
+        feature.isEnabled = !enabled
     }
     if(enabled){
         contentIntelligenceDom?.setAttribute(`${feature['name'].toLowerCase().replace(' ', '_')}`, true)
@@ -69,9 +72,10 @@ function CiList (props) {
 
 function Switch (props) {
   const {enabled, setEnabled, feature} = props
+
   return (
     <div
-       id={`ci_${feature.toLowerCase().replace(' ', '_')}`} 
+      id={`ci_${feature.toLowerCase().replace(' ', '_')}`} 
       data-testid="switch-toggle"
       className={cx('toggle-btn', 
       {'active': enabled}

@@ -1,13 +1,10 @@
 // /** @jsx jsx */
-// import {jsx, css} from '@emotion/core';
 //@ts-nocheck
 import React from "react";
 import { getSpellSuggestion } from "./getSpellSuggestion";
 import "./style.css";
 import SpellComponent from "./SpellComponent";
 import isHotkey from 'is-hotkey'
-
-let key: any;
 
 export const createSpellCheck = (RTE: IRTEPluginInitializer) => {
   let response = [];
@@ -109,6 +106,9 @@ export const createSpellCheck = (RTE: IRTEPluginInitializer) => {
 
   SpellCheckPlugin.on("keydown", async (props) => {
     const {rte, event} = props
+    if(rte?.CIFeatures[2].name === 'Spell Correction' && rte?.CIFeatures[2].isEnabled === false ){
+      return
+    }
     props["editor"] = rte._adv.editor
     if (response?.contentToReplace?.length > 0) {
       const input = String.fromCharCode(event.keyCode);
