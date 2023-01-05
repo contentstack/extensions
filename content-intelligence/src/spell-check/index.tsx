@@ -10,28 +10,8 @@ export const createSpellCheck = (RTE: IRTEPluginInitializer) => {
   let response = [];
 
   const SpellCheckPlugin = RTE("spell-check", (rte: any) => {
-    const handleDecorate = ([node, path]) => {
-      let ranges = [];
-
-      if (!rte._adv.Text.isText(node)) {
-        return ranges;
-      }
-      if (response?.contentToReplace) {
-        Array.from(response?.contentToReplace).forEach((elem) => {
-          let value = { ...elem };
-          ranges.push({
-            "spell-check": value,
-            anchor: { path, offset: elem.start_offset },
-            focus: { path, offset: elem.end_offset + 1 },
-          });
-        });
-      }
-      return ranges;
-    };
-    rte._adv.addToDecorate(handleDecorate);
-
     const handleClick = (spelling) => {
-      let resp = Array.from(response.contentToReplace).find((elem) => {
+      let resp = Array.from(rte?.CIAppResponse?.spellResponse?.contentToReplace).find((elem) => {
         return (
           rte.selection.get().anchor.offset > elem.start_offset &&
           rte.selection.get().anchor.offset <= elem.end_offset
@@ -63,14 +43,14 @@ export const createSpellCheck = (RTE: IRTEPluginInitializer) => {
         rte.selection.set(insertPath);
         rte._adv.Editor.insertText(rte._adv.editor, spelling);
         
-        const deleteResponseindex = response.contentToReplace.indexOf(resp);
+        const deleteResponseindex = rte?.CIAppResponse?.spellResponse?.contentToReplace.indexOf(resp);
         if (deleteResponseindex > -1) {
-          response.contentToReplace.splice(deleteResponseindex, 1); 
-          if(response.contentToReplace?.length > 0){
+          rte?.CIAppResponse?.spellResponse?.contentToReplace.splice(deleteResponseindex, 1); 
+          if(rte?.CIAppResponse?.spellResponse?.contentToReplace?.length > 0){
             //corrected output's length > incorrect input's length
             if(spelling.length > resp.incorrect_input.length){
               let difference = spelling.length - resp.incorrect_input.length
-              Array.from(response.contentToReplace).map((elem, index) => {
+              Array.from(rte?.CIAppResponse?.spellResponse?.contentToReplace).map((elem, index) => {
 
                   // if(index >= deleteResponseindex){
                     elem.start_offset = elem.start_offset + difference
@@ -82,7 +62,7 @@ export const createSpellCheck = (RTE: IRTEPluginInitializer) => {
             //corrected output's length < incorrect input's length
             if(spelling.length < resp.incorrect_input.length){
               let difference =  resp.incorrect_input.length - spelling.length
-              Array.from(response.contentToReplace).map((elem, index) => {
+              Array.from(rte?.CIAppResponse?.spellResponse?.contentToReplace).map((elem, index) => {
                   // if(index >= deleteResponseindex){
                     elem.start_offset = elem.start_offset - difference
                     elem.end_offset = elem.end_offset - difference
@@ -167,14 +147,6 @@ export const createSpellCheck = (RTE: IRTEPluginInitializer) => {
         }
       }
     }
-
-    if (event.keyCode === 32) {
-    response = await getSpellSuggestion(
-      rte.getNode(rte.selection.get())[0].text
-    );
-    rte.selection.get();
-    rte.selection.set(rte.selection.get());
-   }
   });
 
   return SpellCheckPlugin

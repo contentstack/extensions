@@ -3,6 +3,8 @@ import React, {useState} from 'react';
 import {Dropdown, Switch } from '@contentstack/venus-components'
 import CI_Features from './ciFeatures';
 import { Icon } from '../icons';
+import { getSpellSuggestion } from '../spell-check/getSpellSuggestion';
+import { getGrammerSuggestion } from '../grammar-check/getGrammerSuggestion';
 //@ts-ignore
 import './style.css'
 import {cx} from '@emotion/css'
@@ -12,7 +14,41 @@ const CIComponent = (props:any) => {
 }
 
 export const contentIntelligenceIcon = (RTE:any) => {
+    let spellResponse = []
+    let grammarResponse = []
     const ContentIntelligence = RTE('content-intelligence', (rte: any) => {
+        rte.CIAppResponse = {}
+        const handleDecorate = ([node, path]) => {
+            let ranges = [];
+      
+            if (!rte._adv.Text.isText(node)) {
+              return ranges;
+            }
+
+            if (grammarResponse?.contentToReplace) {
+                Array.from(grammarResponse?.contentToReplace).forEach((elem) => {
+                  let value = { ...elem };
+                  ranges.push({
+                    "grammar-check": value,
+                    anchor: { path, offset: elem.start_offset },
+                    focus: { path, offset: elem.end_offset + 1 },
+                  });
+                });
+              }
+
+            if (spellResponse?.contentToReplace) {
+              Array.from(spellResponse?.contentToReplace).forEach((elem) => {
+                let value = { ...elem };
+                ranges.push({
+                  "spell-check": value,
+                  anchor: { path, offset: elem.start_offset },
+                  focus: { path, offset: elem.end_offset + 1 },
+                });
+              });
+            }
+            return ranges;
+          };
+          rte._adv.addToDecorate(handleDecorate);
         rte.CIFeatures = CI_Features
         return ({
             title: 'Content Intelligence',
@@ -26,6 +62,30 @@ export const contentIntelligenceIcon = (RTE:any) => {
         if(!window.rte) {
             window.rte = rte;
         }  
+    })
+
+    ContentIntelligence.on('keydown', async (props) => {
+        const {rte, event} = props
+        if (event.keyCode === 32) {
+            if(rte?.CIFeatures[2].name === 'Spell Correction' && rte?.CIFeatures[2].isEnabled === false ){
+                return
+            }
+            spellResponse = await getSpellSuggestion(
+              rte.getNode(rte.selection.get())[0].text
+            )
+            if(spellResponse) rte.CIAppResponse['spellResponse'] = spellResponse
+        }
+        if (event.key === "." && rte.CIAppResponse?.['spellResponse']?.['contentToReplace'].length === 0) { 
+            if (rte?.CIFeatures[1].name === 'Grammar Correction' && rte?.CIFeatures[1].isEnabled === false) {
+                return
+            }
+            grammarResponse = await getGrammerSuggestion(
+              `${rte.getNode(rte.selection.get())[0].text}.`
+            );
+            if(grammarResponse) rte.CIAppResponse['grammarResponse'] = grammarResponse
+        }
+        rte.selection.get();
+        rte.selection.set(rte.selection.get());
     })
     return ContentIntelligence
 }

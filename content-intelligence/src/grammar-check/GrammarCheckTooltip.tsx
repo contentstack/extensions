@@ -13,7 +13,10 @@ const GrammerCheckTooltip = (props: any, handleClick: any) => {
       </div>
       <div className="grammar-suggestion-wrapper">
         <span className="grammar-suggestions"
-          onClick={props.handleClick}
+           onClick={() => {
+            props.setVisible(false)
+            props.handleClick()
+          }}
         >
           {props.leaf["grammar-check"].corrected_input}
         </span>
