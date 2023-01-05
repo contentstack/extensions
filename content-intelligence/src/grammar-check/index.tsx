@@ -9,98 +9,76 @@ import isHotkey from 'is-hotkey'
 export const createGrammarCheck = (RTE: IRTEPluginInitializer) => {
   let response = [];
 
+
   const GrammerCheckPlugin = RTE("grammar-check", (rte: any) => {
-    const handleDecorate = ([node, path]) => {
-      let ranges = [];
-
-      if (!rte._adv.Text.isText(node)) {
-        return ranges;
-      }
-      if (response?.contentToReplace) {
-        Array.from(response?.contentToReplace).forEach((elem) => {
-          let value = { ...elem };
-          ranges.push({
-            "grammar-check": value,
-            anchor: { path, offset: elem.start_offset },
-            focus: { path, offset: elem.end_offset + 1 },
-          });
-        });
-      }
-      return ranges;
-    };
-    rte._adv.addToDecorate(handleDecorate);
-
     const handleClick = () => {
-      let resp = Array.from(response.contentToReplace).find((elem) => {
-        return (
-          rte.selection.get().anchor.offset > elem.start_offset &&
-          rte.selection.get().anchor.offset <= elem.end_offset
-        );
-      });
-
-      if (resp) {
-        let deletePath = {
-          anchor: {
-            path: [...rte.selection.get().anchor.path],
-            offset: resp.start_offset,
-          },
-          focus: {
-            path: [...rte.selection.get().anchor.path],
-            offset: resp.end_offset + 1,
-          },
-        };
-        let insertPath = {
-          anchor: {
-            path: [...rte.selection.get().anchor.path],
-            offset: resp.start_offset,
-          },
-          focus: {
-            path: [...rte.selection.get().anchor.path],
-            offset: resp.start_offset,
-          },
-        };
-        rte.selection.set(deletePath);
-        rte.deleteText();
-        rte.selection.set(insertPath);
-        rte._adv.Editor.insertText(rte._adv.editor, resp.corrected_input);
-        const index = response.contentToReplace.indexOf(resp);
-        if (index > -1) {
-          response.contentToReplace.splice(index, 1); // 2nd parameter means remove one item only
-        }
-
-        //new
-        const deleteResponseindex = response.contentToReplace.indexOf(resp);
-        if (deleteResponseindex > -1) {
-          response.contentToReplace.splice(deleteResponseindex, 1);
-          if (response.contentToReplace?.length > 0) {
-            //corrected output's length > incorrect input's length
-            if (resp.corrected_input.length > resp.incorrect_input.length) {
-              let difference = resp.corrected_input.length - resp.incorrect_input.length
-              Array.from(response.contentToReplace).map((elem, index) => {
-
-                // if(index >= deleteResponseindex){
-                elem.start_offset = elem.start_offset + difference
-                elem.end_offset = elem.end_offset + difference
-                // }
-                return elem
-              })
-            }
-            //corrected output's length < incorrect input's length
-            if (resp.corrected_input.length < resp.incorrect_input.length) {
-              let difference = resp.incorrect_input.length - resp.corrected_input.length
-              Array.from(response.contentToReplace).map((elem, index) => {
-                // if(index >= deleteResponseindex){
-                elem.start_offset = elem.start_offset - difference
-                elem.end_offset = elem.end_offset - difference
-                // }
-                return elem
-              })
+        let resp = Array.from(rte?.CIAppResponse?.grammarResponse.contentToReplace).find((elem) => {
+          return (
+            rte.selection.get().anchor.offset > elem.start_offset &&
+            rte.selection.get().anchor.offset <= elem.end_offset
+          );
+        });
+  
+        if (resp) {
+          let deletePath = {
+            anchor: {
+              path: [...rte.selection.get().anchor.path],
+              offset: resp.start_offset,
+            },
+            focus: {
+              path: [...rte.selection.get().anchor.path],
+              offset: resp.end_offset + 1,
+            },
+          };
+          let insertPath = {
+            anchor: {
+              path: [...rte.selection.get().anchor.path],
+              offset: resp.start_offset,
+            },
+            focus: {
+              path: [...rte.selection.get().anchor.path],
+              offset: resp.start_offset,
+            },
+          };
+          rte.selection.set(deletePath);
+          rte.deleteText();
+          rte.selection.set(insertPath);
+          rte._adv.Editor.insertText(rte._adv.editor, resp.corrected_input);
+  
+          //new
+          const deleteResponseindex = rte?.CIAppResponse?.grammarResponse.contentToReplace.indexOf(resp);
+          if (deleteResponseindex > -1) {
+            rte?.CIAppResponse?.grammarResponse.contentToReplace.splice(deleteResponseindex, 1);
+            
+            if (rte?.CIAppResponse?.grammarResponse.contentToReplace?.length > 0) {
+              //corrected output's length > incorrect input's length
+              if (resp.corrected_input.length > resp.incorrect_input.length) {
+                let difference = resp.corrected_input.length - resp.incorrect_input.length
+                Array.from(rte?.CIAppResponse?.grammarResponse.contentToReplace).map((elem, index) => {
+  
+                  if(index >= deleteResponseindex){
+                  elem.start_offset = elem.start_offset + difference
+                  elem.end_offset = elem.end_offset + difference
+                  }
+                  return elem
+                })
+              }
+              //corrected output's length < incorrect input's length
+              if (resp.corrected_input.length < resp.incorrect_input.length) {
+                let difference = resp.incorrect_input.length - resp.corrected_input.length
+                Array.from(rte?.CIAppResponse?.grammarResponse.contentToReplace).map((elem, index) => {
+                  if(index >= deleteResponseindex){
+                  elem.start_offset = elem.start_offset - difference
+                  elem.end_offset = elem.end_offset - difference
+                  }
+                  return elem
+                })
+              }
             }
           }
         }
-      }
-    };
-
+      };
+  
     return {
       display: [],
       elementType: ["text"],
@@ -108,7 +86,7 @@ export const createGrammarCheck = (RTE: IRTEPluginInitializer) => {
         return <GrammarComponent {...props} handleClick={handleClick} />;
       },
     };
-  });
+});
 
   GrammerCheckPlugin.on("keydown", async (props) => {
     const { rte, event } = props
@@ -173,14 +151,6 @@ export const createGrammarCheck = (RTE: IRTEPluginInitializer) => {
         }
       }
     }
-
-    if (event.key === ".") {
-      response = await getGrammerSuggestion(
-        rte.getNode(rte.selection.get())[0].text
-      );
-    }
-    rte.selection.get();
-    rte.selection.set(rte.selection.get());
   });
 
   return GrammerCheckPlugin
