@@ -75,7 +75,7 @@ export const contentIntelligenceIcon = (RTE:any) => {
             )
             if(spellResponse) rte.CIAppResponse['spellResponse'] = spellResponse
         }
-        if (event.key === "." && rte.CIAppResponse?.['spellResponse']?.['contentToReplace'].length === 0) { 
+        if (event.key === "." && (!rte.CIAppResponse?.['spellResponse']?.['contentToReplace'] || rte.CIAppResponse?.['spellResponse']?.['contentToReplace'].length > 0) ) { 
             if (rte?.CIFeatures[1].name === 'Grammar Correction' && rte?.CIFeatures[1].isEnabled === false) {
                 return
             }
