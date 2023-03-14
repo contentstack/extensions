@@ -4,7 +4,7 @@ import {Dropdown, Switch } from '@contentstack/venus-components'
 import CI_Features from './ciFeatures';
 import { Icon } from '../icons';
 import { getSpellSuggestion } from '../spell-check/getSpellSuggestion';
-import { getGrammerSuggestion } from '../grammar-check/getGrammerSuggestion';
+
 //@ts-ignore
 import './style.css'
 import {cx} from '@emotion/css'
@@ -15,36 +15,32 @@ const CIComponent = (props:any) => {
 
 export const contentIntelligenceIcon = (RTE:any) => {
     let spellResponse = []
-    let grammarResponse = []
+
     const ContentIntelligence = RTE('content-intelligence', (rte: any) => {
         rte.CIAppResponse = {}
         const handleDecorate = ([node, path]) => {
-            let ranges = [];
+          let ranges = [];
       
             if (!rte._adv.Text.isText(node)) {
               return ranges;
             }
-
-            if (grammarResponse?.contentToReplace) {
-                Array.from(grammarResponse?.contentToReplace).forEach((elem) => {
-                  let value = { ...elem };
-                  ranges.push({
-                    "grammar-check": value,
-                    anchor: { path, offset: elem.start_offset },
-                    focus: { path, offset: elem.end_offset + 1 },
-                  });
-                });
-              }
-
-            if (spellResponse?.contentToReplace) {
-              Array.from(spellResponse?.contentToReplace).forEach((elem) => {
-                let value = { ...elem };
-                ranges.push({
-                  "spell-check": value,
-                  anchor: { path, offset: elem.start_offset },
-                  focus: { path, offset: elem.end_offset + 1 },
-                });
-              });
+            if(spellResponse.length > 0){
+              console.log("spellResponse: ",spellResponse);
+              
+              Array.from(spellResponse).forEach((response) =>{
+                if(response && response[0]?.contentToReplace){
+                  Array.from(response[0]?.contentToReplace).forEach((elem) => {
+                    let value = {...elem}
+                    if(JSON.stringify(path) === JSON.stringify(response[1])){
+                      ranges.push({
+                      "spell-check": value,
+                      anchor: { path, offset: elem.start_offset },
+                      focus: { path, offset: elem.end_offset + 1 },
+                    });
+                    }
+                  })
+                }
+              })
             }
             return ranges;
           };
@@ -64,25 +60,57 @@ export const contentIntelligenceIcon = (RTE:any) => {
         }  
     })
 
+  //   ContentIntelligence.on('change', ({rte}:any) => {
+  //     let test = []
+  //     Array.from(spellResponse).forEach((response) =>{
+  //       if(response && response[0]?.contentToReplace){
+  //         Array.from(response[0]?.contentToReplace).forEach((elem) => {
+  //           if(JSON.stringify(path) === JSON.stringify(response[1])){
+  //             test.push({
+  //             anchor: { path, offset: elem.start_offset },
+  //             focus: { path, offset: elem.end_offset + 1 },
+  //           });
+  //           }
+  //         })
+  //       }
+  //     })
+  // })
+
     ContentIntelligence.on('keydown', async (props) => {
         const {rte, event} = props
+        let path = rte._adv.Editor.path(rte._adv.editor, rte.selection.get())
+
         if (event.keyCode === 32) {
-            if(rte?.CIFeatures[2].name === 'Spell Correction' && rte?.CIFeatures[2].isEnabled === false ){
+            if(rte?.CIFeatures[1].name === 'Spell Correction' && rte?.CIFeatures[1].isEnabled === false ){
                 return
             }
-            spellResponse = await getSpellSuggestion(
-              rte.getNode(rte.selection.get())[0].text
-            )
+            rte._adv.Editor.nodes(rte._adv.editor)
+              let test = spellResponse.find((resp) => {
+                return JSON.stringify(path) === JSON.stringify(resp?.[1])
+              });
+              if(test){
+                test[0] = await getSpellSuggestion(
+                  `${rte.getNode(rte.selection.get())[0].text}`
+                )
+              }
+              if(test){
+                spellResponse.filter((resp, index) => {
+                  if(JSON.stringify(path) === JSON.stringify(resp?.[1])){
+                    spellResponse.indexOf(resp)
+                    spellResponse.splice(spellResponse.indexOf(resp), 1)
+                  }
+                })
+                spellResponse.push(test)
+              }
+              else{
+                spellResponse = [...spellResponse, [
+                  await getSpellSuggestion(
+                    `${rte.getNode(rte.selection.get())[0].text}`
+                  ),
+                  path
+                ]]
+              }
             if(spellResponse) rte.CIAppResponse['spellResponse'] = spellResponse
-        }
-        if (event.key === "." && (!rte.CIAppResponse?.['spellResponse']?.['contentToReplace'] || rte.CIAppResponse?.['spellResponse']?.['contentToReplace'].length > 0) ) { 
-            if (rte?.CIFeatures[1].name === 'Grammar Correction' && rte?.CIFeatures[1].isEnabled === false) {
-                return
-            }
-            grammarResponse = await getGrammerSuggestion(
-              `${rte.getNode(rte.selection.get())[0].text}.`
-            );
-            if(grammarResponse) rte.CIAppResponse['grammarResponse'] = grammarResponse
         }
         rte.selection.get();
         rte.selection.set(rte.selection.get());
