@@ -25,8 +25,6 @@ export const contentIntelligenceIcon = (RTE:any) => {
               return ranges;
             }
             if(spellResponse.length > 0){
-              console.log("spellResponse: ",spellResponse);
-              
               Array.from(spellResponse).forEach((response) =>{
                 if(response && response[0]?.contentToReplace){
                   Array.from(response[0]?.contentToReplace).forEach((elem) => {
@@ -54,27 +52,15 @@ export const contentIntelligenceIcon = (RTE:any) => {
         })
     });
 
-    ContentIntelligence.on('exec', (rte:any) => {
+    ContentIntelligence.on('exec', (rte:any) => {        
         if(!window.rte) {
             window.rte = rte;
         }  
+        if(!rte?.CI_Features?.[1]?.isEnabled){
+          spellResponse = []
+          rte.CIAppResponse.spellResponse = []
+        }
     })
-
-  //   ContentIntelligence.on('change', ({rte}:any) => {
-  //     let test = []
-  //     Array.from(spellResponse).forEach((response) =>{
-  //       if(response && response[0]?.contentToReplace){
-  //         Array.from(response[0]?.contentToReplace).forEach((elem) => {
-  //           if(JSON.stringify(path) === JSON.stringify(response[1])){
-  //             test.push({
-  //             anchor: { path, offset: elem.start_offset },
-  //             focus: { path, offset: elem.end_offset + 1 },
-  //           });
-  //           }
-  //         })
-  //       }
-  //     })
-  // })
 
     ContentIntelligence.on('keydown', async (props) => {
         const {rte, event} = props
