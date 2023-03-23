@@ -90,7 +90,7 @@ export const createGrammarCheck = (RTE: IRTEPluginInitializer) => {
 
   GrammerCheckPlugin.on("keydown", async (props) => {
     const { rte, event } = props
-    if (rte?.CIFeatures[1].name === 'Grammar Correction' && rte?.CIFeatures[1].isEnabled === false) {
+    if (!rte?.CIFeatures.grammarCorrection) {
       return
     }
     props["editor"] = rte._adv.editor

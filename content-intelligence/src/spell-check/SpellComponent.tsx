@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import Tippy from "@tippyjs/react";
 import SpellCheckTooltip from './SpellCheckTooltip';
 
-const SpellComponent = (props: any, handleClick: any) => {
+const SpellComponent = (props: any) => {
     const [visible, setVisible] = useState(false)
     return (
         <span className="tippy-inline">

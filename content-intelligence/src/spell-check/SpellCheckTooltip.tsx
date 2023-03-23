@@ -3,6 +3,8 @@ import React from "react";
 import "./style.css";
 
 const SpellCheckTooltip = (props: any, handleClick: any) => {
+  const correctOptionsSet: Set<string> = props?.leaf?.['spell-check'] || new Set()
+  const correctOptionsArray = Array.from(correctOptionsSet)
   return (
     <div className="spell-wrapper">
       <div className="spelling-mistake">
@@ -13,7 +15,7 @@ const SpellCheckTooltip = (props: any, handleClick: any) => {
       </div>
       <div style={{display: "flex"}}>
       {
-        props.leaf["spell-check"].corrected_input && props.leaf["spell-check"].corrected_input.map((spelling: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined) => {
+        correctOptionsArray.map((spelling: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined) => {
           return(
             <div className="spell-suggestions-wrapper">
             <span className="spell-suggestions"
