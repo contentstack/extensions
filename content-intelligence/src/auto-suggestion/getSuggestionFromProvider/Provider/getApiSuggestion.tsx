@@ -1,5 +1,10 @@
+import { IAIRTEInstance } from "../../../content-intelligence/types"
+
 declare global {
-  interface Window { postRobot: any; }
+  interface Window { 
+    postRobot: any,
+    rte: IAIRTEInstance
+   }
 }
 export const getAPISuggestion = async (text: any) => {
   return window.postRobot.sendToParent("stackQuery", {

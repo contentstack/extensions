@@ -13,7 +13,7 @@ export const createAutoSuggestion = (RTE: IRTEPluginInitializer) => {
   AutoSuggestionPlugin.on('keydown', (props) => {    
   const {rte, event} = props
 
-  if(rte?.CIFeatures[0].name === 'Auto Suggestion' && rte?.CIFeatures[0].isEnabled === false ){
+  if(!rte?.CIFeatures?.autoSuggestion){
     return
   }
 

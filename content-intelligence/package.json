@@ -16,6 +16,7 @@
         "dev": "webpack --watch --mode development"
     },
     "devDependencies": {
+        "@types/debounce": "^1.2.1",
         "@types/node": "^10.17.5",
         "@types/react": "^16.9.11",
         "css-loader": "^3.5.3",
@@ -40,9 +41,11 @@
         "webpack-dev-server": "^3.11.0"
     },
     "dependencies": {
-        "@contentstack/app-sdk": "github:contentstack/app-sdk#feature/rte-extension",
-        "@contentstack/venus-components": "github:contentstack/venus-components#rte-extension",
+        "@contentstack/app-sdk": "^1.3.0",
+        "@contentstack/venus-components": "^1.0.6",
         "@emotion/core": "^10.0.22",
+        "@types/slate": "^0.47.11",
+        "debounce": "^1.2.1",
         "openai-api-node": "^1.0.0",
         "react": "^16.11.0",
         "react-dom": "^16.13.1"
