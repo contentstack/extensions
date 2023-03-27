@@ -1,2 +1,3 @@
 import "./style.css";
-export declare const createSpellCheck: (RTE: any) => any;
+import { IRTEPluginInitializer } from "@contentstack/app-sdk/dist/src/RTE/types";
+export declare const createSpellCheck: (RTE: IRTEPluginInitializer) => import("@contentstack/app-sdk/dist/src/RTE").RTEPlugin;

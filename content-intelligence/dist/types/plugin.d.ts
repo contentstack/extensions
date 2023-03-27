@@ -1,7 +1,7 @@
 declare const _default: Promise<{
-    ContentIntelligence: any;
+    ContentIntelligence: import("@contentstack/app-sdk/dist/src/RTE").RTEPlugin;
     GrammarCheck: any;
-    SpellCheck: any;
+    SpellCheck: import("@contentstack/app-sdk/dist/src/RTE").RTEPlugin;
     AutoSuggestion: any;
 } | undefined>;
 export default _default;
