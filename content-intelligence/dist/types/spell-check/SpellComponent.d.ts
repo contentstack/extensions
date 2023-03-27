@@ -1,2 +1,2 @@
-declare const SpellComponent: (props: any, handleClick: any) => JSX.Element;
+declare const SpellComponent: (props: any) => JSX.Element;
 export default SpellComponent;

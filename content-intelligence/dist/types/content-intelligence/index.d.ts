@@ -1,2 +1,3 @@
 import './style.css';
-export declare const contentIntelligenceIcon: (RTE: any) => any;
+import { IRTEPluginInitializer } from '@contentstack/app-sdk/dist/src/RTE/types';
+export declare const contentIntelligenceIcon: (RTE: IRTEPluginInitializer) => import("@contentstack/app-sdk/dist/src/RTE").RTEPlugin;
