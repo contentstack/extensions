@@ -55,17 +55,18 @@ export const spellCheckDecorate = (rte: IAIRTEInstance) => {
             return ranges;
         }
 
-        const wordsInText = node.text.split(" ")
-        wordsInText.reduce((actualIndex, word, indexOfWordInArray) => {
-            if (spellResponse.incorrectWithSuggestedResponseMap.has(word)) {
+        const wordsInText = node.text.split(/[ ,]/)
+        const _totalLength = wordsInText.reduce((actualIndex, word, _indexOfWordInArray) => {
+            const lowerCaseWord = word.toLowerCase()
+            if (spellResponse.incorrectWithSuggestedResponseMap.has(lowerCaseWord)) {
                 ranges.push({
                     //@ts-ignore
-                    "spell-check": spellResponse.incorrectWithSuggestedResponseMap.get(word),
+                    "spell-check": spellResponse.incorrectWithSuggestedResponseMap.get(lowerCaseWord),
                     anchor: { path, offset: actualIndex },
-                    focus: { path, offset: actualIndex + word.length },
+                    focus: { path, offset: actualIndex + lowerCaseWord.length },
                 });
             }
-            return actualIndex + word.length + 1
+            return actualIndex + lowerCaseWord.length + 1
         }, 0)
         return ranges;
     };
@@ -75,3 +76,12 @@ export const spellCheckDecorate = (rte: IAIRTEInstance) => {
 export const getEntriesStringForRTE = (rte: IAIRTEInstance) => {
     return rte._adv.Editor.string(rte._adv.editor, [0], { voids: true })
 }
+
+export const triggerSpellCheckForCompleteRTE = (rte: IAIRTEInstance) => {
+    const initialRTEStringContent = getEntriesStringForRTE(rte)
+    triggerSpellCheck(rte, initialRTEStringContent)
+        .finally(() => {
+            reRenderElement(rte)
+        })
+}
+export const debouncedTriggerSpellCheckForCompleteRTE = debounce(triggerSpellCheckForCompleteRTE, 500)
