@@ -4,8 +4,8 @@
   "private": true,
   "homepage": ".",
   "dependencies": {
-    "@contentstack/app-sdk": "^1.1.0",
-    "@contentstack/venus-components": "^1.0.3",
+    "@contentstack/app-sdk": "^2.0.1",
+    "@contentstack/venus-components": "^2.2.3",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.2.0",
     "@testing-library/user-event": "^13.5.0",
