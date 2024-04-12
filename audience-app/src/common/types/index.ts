@@ -21,3 +21,12 @@ export interface TypeSDKData {
 export interface TypeEntryData {
   url: string; // This is just example. You can remove this field or add any fields as per your requirement from the Entry data of CMS
 }
+
+export interface AudienceList {
+  label: string;
+  value: string;
+  children: {
+    label: string;
+    value: string;
+  }[];
+}
