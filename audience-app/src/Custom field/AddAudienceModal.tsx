@@ -1,5 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CheckboxTree from "react-checkbox-tree";
+import "react-checkbox-tree/lib/react-checkbox-tree.css";
+
+import ContentstackAppSDK from "@contentstack/app-sdk";
 
 import {
   Button,
@@ -11,14 +14,48 @@ import {
   ModalHeader,
 } from "@contentstack/venus-components";
 
+import {
+  ExpandCloseIcon,
+  CheckedIcon,
+  SemiCheckedIcon,
+  UncheckedIcon,
+  ExpandOpenIcon,
+} from "../common/icons";
+
+import "./modal.css";
+
 export const AddAudienceModal = (props: any) => {
   let { audiences, selectedAudiences, setSelectedAudiences } = props;
 
-  const [checked, setChecked] = useState([selectedAudiences]);
+  const [checked, setChecked] = useState(selectedAudiences);
   const [expanded, setExpanded] = useState<any>([]);
+  const [appSdk, setAppSdk] = useState<any>(null);
 
-  const handleAddAudiences = () => {
+  useEffect(() => {
+    const initializeSDK = async () => {
+      try {
+        const sdk = await ContentstackAppSDK.init();
+        setAppSdk(sdk);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    initializeSDK();
+  }, []);
+
+  const handleAddAudiences = async () => {
     setSelectedAudiences(checked);
+    try {
+      if (appSdk?.location?.CustomField?.field) {
+        await appSdk.location.CustomField.field.setData({
+          value: checked,
+        });
+      } else {
+        console.error("Something went wrong while saving data.");
+      }
+    } catch (error) {
+      console.error("Error occurred while saving data:", error);
+    }
     props.closeModal();
   };
 
@@ -26,26 +63,36 @@ export const AddAudienceModal = (props: any) => {
     <div>
       <ModalHeader title="Select Audience" closeModal={props.closeModal} />
       <ModalBody>
-        <Field>
-          <CheckboxTree
-            iconsClass="fa5"
-            showNodeIcon={false}
-            nodes={audiences}
-            checked={checked}
-            expanded={expanded}
-            onCheck={(checked) => {
-              setChecked(checked);
-            }}
-            onExpand={(expanded) => {
-              setExpanded(expanded);
-            }}
-            nativeCheckboxes={true}
-            // checkModel="all"
-            icons={{
-              check: <Icon icon="Check" />,
-            }}
-          />
-        </Field>
+        <div
+          style={{
+            height: "234px",
+          }}
+        >
+          <Field>
+            <CheckboxTree
+              // iconsClass="fa5"
+              showNodeIcon={false}
+              nodes={audiences}
+              checked={checked}
+              expanded={expanded}
+              onCheck={(checked) => {
+                setChecked(checked);
+              }}
+              onExpand={(expanded) => {
+                setExpanded(expanded);
+              }}
+              nativeCheckboxes={false}
+              //   checkModel="all"
+              icons={{
+                check: <CheckedIcon />,
+                uncheck: <UncheckedIcon />,
+                halfCheck: <SemiCheckedIcon />,
+                expandOpen: <ExpandOpenIcon />,
+                expandClose: <ExpandCloseIcon />,
+              }}
+            />
+          </Field>
+        </div>
       </ModalBody>
       <ModalFooter>
         <ButtonGroup>
