@@ -52,6 +52,12 @@ export const CustomField: React.FC = () => {
     initializeSDK();
   }, []);
 
+  useEffect(() => {
+    const initialData =
+      appSdk?.location?.CustomField?.field?.getData()?.value || [];
+    setSelectedAudiences(initialData);
+  }, [appSdk]);
+
   const openModal = () =>
     cbModal({
       component: (props: any) => (
@@ -64,17 +70,30 @@ export const CustomField: React.FC = () => {
       ),
       modalProps: {
         shouldReturnFocusAfterClose: false,
+        customClass: "variable-extension-modal",
       },
     });
 
   const handleAudienceChange = async (selectedTags: AudienceList[]) => {
     setSelectedAudiences(selectedTags);
+
+    try {
+      if (appSdk?.location?.CustomField?.field) {
+        await appSdk.location.CustomField.field.setData({
+          value: selectedTags,
+        });
+      } else {
+        console.error("Something went wrong while saving data.");
+      }
+    } catch (error) {
+      console.error("Error occurred while saving data:", error);
+    }
   };
 
   return (
     <div>
       <Button onClick={openModal}>Add Audiences</Button>
-      {selectedAudiences && (
+      {selectedAudiences.length !== 0 && (
         <Tags
           tags={selectedAudiences}
           version="v2"
