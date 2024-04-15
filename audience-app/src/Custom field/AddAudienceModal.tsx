@@ -45,17 +45,6 @@ export const AddAudienceModal = (props: any) => {
 
   const handleAddAudiences = async () => {
     setSelectedAudiences(checked);
-    try {
-      if (appSdk?.location?.CustomField?.field) {
-        await appSdk.location.CustomField.field.setData({
-          value: checked,
-        });
-      } else {
-        console.error("Something went wrong while saving data.");
-      }
-    } catch (error) {
-      console.error("Error occurred while saving data:", error);
-    }
     props.closeModal();
   };
 

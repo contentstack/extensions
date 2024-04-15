@@ -10,9 +10,7 @@ import { AddAudienceModal } from "./AddAudienceModal";
 export const CustomField: React.FC = () => {
   const [appSdk, setAppSdk] = useState<any>(null);
   const [audienceList, setAudienceList] = useState<AudienceList[]>([]);
-  const [selectedAudiences, setSelectedAudiences] = useState<AudienceList[]>(
-    []
-  );
+  const [selectedAudiences, setSelectedAudiences] = useState<string[]>([]);
 
   useEffect(() => {
     const initializeSDK = async () => {
@@ -34,6 +32,7 @@ export const CustomField: React.FC = () => {
               {
                 label: "",
                 value: "",
+                uid: "",
               },
             ],
           };
@@ -55,7 +54,10 @@ export const CustomField: React.FC = () => {
   useEffect(() => {
     const initialData =
       appSdk?.location?.CustomField?.field?.getData()?.value || [];
-    setSelectedAudiences(initialData);
+
+    setSelectedAudiences(
+      initialData?.map((initialAudience: any) => initialAudience.value) || []
+    );
   }, [appSdk]);
 
   const openModal = () =>
@@ -74,13 +76,35 @@ export const CustomField: React.FC = () => {
       },
     });
 
-  const handleAudienceChange = async (selectedTags: AudienceList[]) => {
+  const handleAudienceChange = async (selectedTags: string[]) => {
     setSelectedAudiences(selectedTags);
 
     try {
       if (appSdk?.location?.CustomField?.field) {
+        // Match selectedTags with audienceList children values and extract label, value, and uid
+        const formattedData = selectedTags
+          .map((tagLabel: string) => {
+            const matchedAudience = audienceList.find((audience) =>
+              audience.children.some((child) => child.value === tagLabel)
+            );
+            if (matchedAudience) {
+              // Find the matched child
+              const matchedChild = matchedAudience.children.find(
+                (child) => child.value === tagLabel
+              );
+              if (matchedChild) {
+                return {
+                  label: matchedChild.label,
+                  value: matchedChild.value,
+                  uid: matchedChild.uid,
+                };
+              }
+            }
+            return null;
+          })
+          .filter((tag) => tag !== null); // Remove any null values (tags without a match)
         await appSdk.location.CustomField.field.setData({
-          value: selectedTags,
+          value: formattedData,
         });
       } else {
         console.error("Something went wrong while saving data.");
