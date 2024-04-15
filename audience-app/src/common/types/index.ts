@@ -28,5 +28,6 @@ export interface AudienceList {
   children: {
     label: string;
     value: string;
+    uid: string;
   }[];
 }
