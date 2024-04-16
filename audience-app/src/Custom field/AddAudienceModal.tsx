@@ -23,6 +23,7 @@ import {
 } from "../common/icons";
 
 import "./modal.css";
+import { AudienceList } from "../common/types";
 
 export const AddAudienceModal = (props: any) => {
   let { audiences, selectedAudiences, setSelectedAudiences } = props;
@@ -45,6 +46,37 @@ export const AddAudienceModal = (props: any) => {
 
   const handleAddAudiences = async () => {
     setSelectedAudiences(checked);
+    try {
+      if (appSdk?.location?.CustomField?.field) {
+        const formattedData = checked
+          .map((tagLabel: string) => {
+            const matchedAudience = audiences.find((audience: AudienceList) =>
+              audience.children.some((child) => child.value === tagLabel)
+            );
+            if (matchedAudience) {
+              const matchedChild = matchedAudience.children.find(
+                (child: any) => child.value === tagLabel
+              );
+              if (matchedChild) {
+                return {
+                  label: matchedChild.label,
+                  value: matchedChild.value,
+                  uid: matchedChild.uid,
+                };
+              }
+            }
+            return null;
+          })
+          .filter((tag: string) => tag !== null);
+        await appSdk.location.CustomField.field.setData({
+          value: formattedData,
+        });
+      } else {
+        console.error("Something went wrong while saving data.");
+      }
+    } catch (error) {
+      console.error("Error occurred while saving data:", error);
+    }
     props.closeModal();
   };
 
