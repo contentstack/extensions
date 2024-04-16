@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import ContentstackAppSDK from "@contentstack/app-sdk";
-import { Button, Tags, cbModal } from "@contentstack/venus-components";
+import {
+  AsyncLoader,
+  Button,
+  Tags,
+  cbModal,
+} from "@contentstack/venus-components";
 
 import { fieldExtractor } from "../common/utils";
 import { AudienceList } from "../common/types";
@@ -116,13 +121,21 @@ export const CustomField: React.FC = () => {
 
   return (
     <div>
-      <Button onClick={openModal}>Add Audiences</Button>
-      {selectedAudiences.length !== 0 && (
-        <Tags
-          tags={selectedAudiences}
-          version="v2"
-          onChange={handleAudienceChange}
-        />
+      {audienceList ? (
+        <>
+          <Button onClick={openModal}>Add Audiences</Button>
+          {selectedAudiences.length !== 0 && (
+            <div style={{ marginTop: "1rem" }}>
+              <Tags
+                tags={selectedAudiences}
+                version="v2"
+                onChange={handleAudienceChange}
+              />
+            </div>
+          )}
+        </>
+      ) : (
+        <AsyncLoader />
       )}
     </div>
   );
