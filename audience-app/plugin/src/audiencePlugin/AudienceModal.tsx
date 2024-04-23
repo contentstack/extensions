@@ -22,9 +22,8 @@ import CheckboxTree from "react-checkbox-tree";
 import EmptyStateComponent from "./UnconfiguredState";
 import 'react-checkbox-tree/lib/react-checkbox-tree.css';
 import "./modal.css";
-import { log } from "console";
 
-const AudienceModal = (props: any) => {
+const AudienceModal = (props) => {
     let { rte, savedSelection, audiences, attrs = {}, slatePath, invalidConfig } = props;
     const [checked, setChecked] = useState<any>(attrs.checked || []);
     const [expanded, setExpanded] = useState<any>(attrs.expanded || []);
@@ -108,11 +107,17 @@ const AudienceModal = (props: any) => {
             } else {
                 const selectedElements = rte.selection.get();
                 const [getNode, path] = rte.getNode(selectedElements);
-                const newNode = [{...audiencePre} ,getNode , {...audiencePost} ]
-                const newNode1 = audienceWrapper(newNode)
-                rte.removeNode(getNode);
-                rte.insertNode(newNode1, {at: path});
-                
+                const newNode = [{ ...audiencePre }, {
+                    type: "fragment", uid: v4()
+                        .split("-")
+                        .join(""), children: [getNode],
+                        elementType:"block",
+                }, { ...audiencePost }]
+                   
+                    const newNode1 = audienceWrapper(newNode)
+                    rte.removeNode(getNode);
+                    rte.insertNode(newNode1, { at: path });
+
             }
 
             const savedSelectionPath = savedSelection.anchor.path;
