@@ -1,8 +1,10 @@
 import React from "react";
 import { cbModal } from "@contentstack/venus-components";
 import AudienceModal from "./AudienceModal";
+import { isPrePostTagsPresent } from "./lib";
 
 import "./style.css";
+import { IRteParam } from "@contentstack/app-sdk/dist/src/RTE/types";
 
 export const AudiencePreTag = (props) => {
     const {
@@ -14,8 +16,6 @@ export const AudiencePreTag = (props) => {
         rte,
         invalidConfig
     } = props;
-
-    console.error("props", props, attrs.audiences);
 
     const handleMouseDown = (event) => {
         if (event) event.preventDefault();
@@ -46,7 +46,7 @@ export const AudiencePreTag = (props) => {
             {...attributes}
             className="audience-plugin"
             data-attrs={JSON.stringify(attrs)}
-            contentEditable={false}
+            contentEditable={true}
             style={{ userSelect: "none", margin: "0 2px" }}
             data-type="audience-pre"
         >
@@ -65,7 +65,7 @@ export const AudiencePostTag = (props) => {
             className="audience-plugin"
             data-type="audience-post"
             data-attrs={JSON.stringify(attrs)}
-            contentEditable={false}
+            contentEditable={true}
             style={{ userSelect: "none", margin: "0 3px" }}
         >
             {"[AudienceEnd]"}
@@ -74,12 +74,21 @@ export const AudiencePostTag = (props) => {
     );
 };
 
-export const AudienceWrapperComponent = (props) => {
-    const { attributes, attrs, children } = props;
-    console.log("AudienceWrapperComponent.props", props);
+export const AudienceWrapperComponent = (props:{attributes:any;attrs:any, children:any, element:any, rte:IRteParam}) => {
+    const { attributes, attrs, children,element,rte } = props;
+    const isWrapperTagsPresent = isPrePostTagsPresent(element.children);
+    const childNode = []
     
-    return (
-        <span
+    if (!isWrapperTagsPresent) {
+       element.children.forEach((node)=>{
+            if(node.type === "audience-pre" || node.type === "audience-post"){
+                rte.removeNode(node);
+            }
+            childNode.push(node)
+        })
+    }
+    
+    return isWrapperTagsPresent? <span
             {...attributes}
             className="audience-plugin"
             data-type="audience-wrapper"
@@ -88,6 +97,5 @@ export const AudienceWrapperComponent = (props) => {
             style={{ userSelect: "none", margin: "0 3px" }}
         >
             {children}
-        </span>
-    );
+        </span>:<>{children}</>
 };
