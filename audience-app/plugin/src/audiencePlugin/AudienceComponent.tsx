@@ -44,7 +44,7 @@ export const AudiencePreTag = (props) => {
         <span
             onMouseDown={handleMouseDown}
             {...attributes}
-            className="audience-plugin"
+            className="audience-plugin audience-pre"
             data-attrs={JSON.stringify(attrs)}
             contentEditable={true}
             style={{ userSelect: "none", margin: "0 2px" }}
@@ -58,11 +58,11 @@ export const AudiencePreTag = (props) => {
 
 export const AudiencePostTag = (props) => {
     const { attributes, attrs, children } = props;
-    
+
     return (
         <span
             {...attributes}
-            className="audience-plugin"
+            className="audience-plugin audience-post"
             data-type="audience-post"
             data-attrs={JSON.stringify(attrs)}
             contentEditable={true}
@@ -74,28 +74,28 @@ export const AudiencePostTag = (props) => {
     );
 };
 
-export const AudienceWrapperComponent = (props:{attributes:any;attrs:any, children:any, element:any, rte:IRteParam}) => {
-    const { attributes, attrs, children,element,rte } = props;
+export const AudienceWrapperComponent = (props: { attributes: any; attrs: any, children: any, element: any, rte: IRteParam }) => {
+    const { attributes, attrs, children, element, rte } = props;
     const isWrapperTagsPresent = isPrePostTagsPresent(element.children);
     const childNode = []
-    
+
     if (!isWrapperTagsPresent) {
-       element.children.forEach((node)=>{
-            if(node.type === "audience-pre" || node.type === "audience-post"){
+        element.children.forEach((node) => {
+            if (node.type === "audience-pre" || node.type === "audience-post") {
                 rte.removeNode(node);
             }
             childNode.push(node)
         })
     }
-    
-    return isWrapperTagsPresent? <span
-            {...attributes}
-            className="audience-plugin"
-            data-type="audience-wrapper"
-            data-attrs={JSON.stringify(attrs)}
-            contentEditable={true}
-            style={{ userSelect: "none", margin: "0 3px" }}
-        >
-            {children}
-        </span>:<>{children}</>
+
+    return isWrapperTagsPresent ? <span
+        {...attributes}
+        className="audience-plugin audience-wrapper"
+        data-type="audience-wrapper"
+        data-attrs={JSON.stringify(attrs)}
+        contentEditable={true}
+        style={{ userSelect: "none", margin: "0 3px" }}
+    >
+        {children}
+    </span> : <>{children}</>
 };

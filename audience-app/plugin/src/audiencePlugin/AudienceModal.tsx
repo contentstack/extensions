@@ -19,22 +19,19 @@ import {
 } from "./icons";
 
 import CheckboxTree from "react-checkbox-tree";
-import EmptyStateComponent from "./UnconfiguredState";
 import 'react-checkbox-tree/lib/react-checkbox-tree.css';
 import "./modal.css";
 
-const AudienceModal = (props) => {
-    let { rte, savedSelection, audiences, attrs = {}, slatePath, invalidConfig } = props;
+const AudienceModal = (props: any) => {
+    let { rte, savedSelection, audiences, attrs = {}, slatePath } = props;
     const [checked, setChecked] = useState<any>(attrs.checked || []);
     const [expanded, setExpanded] = useState<any>(attrs.expanded || []);
-    const [isConfigured, setIsConfigured] = useState(audiences ? true : false)
+    const config = rte.getConfig().then((config) => config).catch((err) => console.error(err));
 
     useEffect(() => {
     }, [checked, expanded]);
     const handleAddRegion = (event) => {
         event.preventDefault();
-        console.log("event...", event);
-
         savedSelection = savedSelection || {
             anchor: rte.selection.getEnd([]),
             focus: rte.selection.getEnd([])
@@ -93,7 +90,6 @@ const AudienceModal = (props) => {
             });
 
             if (props.attrs) {
-
                 rte.setAttrs(audiencePre, {
                     at: slatePath,
                 });
@@ -105,19 +101,26 @@ const AudienceModal = (props) => {
                     at: endPath.path,
                 });
             } else {
-                const selectedElements = rte.selection.get();
-                const [getNode, path] = rte.getNode(selectedElements);
-                const newNode = [{ ...audiencePre }, {
-                    type: "fragment", uid: v4()
-                        .split("-")
-                        .join(""), children: [getNode],
-                        elementType:"block",
-                }, { ...audiencePost }]
-                   
+                if (!config?.useNewAudienceSchema) {
+                    rte.insertNode(audiencePost, { at: savedSelection.focus });
+                    rte.insertNode(audiencePre, { at: savedSelection.anchor });
+                } else {
+                    const selectedElements = rte.selection.get();
+                    const [getNode, path] = rte.getNode(selectedElements);
+                    const newNode = [{ ...audiencePre }, {
+                        type: "fragment",
+                        uid: v4()
+                            .split("-")
+                            .join(""),
+                        attrs:{class:"fragment-inline"},
+                        className:"fragment-inline",
+                        children: [getNode],
+                    }, { ...audiencePost }]
+
                     const newNode1 = audienceWrapper(newNode)
                     rte.removeNode(getNode);
                     rte.insertNode(newNode1, { at: path });
-
+                }
             }
 
             const savedSelectionPath = savedSelection.anchor.path;
@@ -129,6 +132,7 @@ const AudienceModal = (props) => {
                 ],
                 offset: 0,
             };
+
             rte.selection.set(rte.selection.getEnd([]));
         }
 
@@ -138,38 +142,36 @@ const AudienceModal = (props) => {
         <div>
             <ModalHeader title="Select Audience" closeModal={props.closeModal} />
             <ModalBody>
-                <EmptyStateComponent isConfigured={isConfigured} invalidConfig={invalidConfig}>
-                    <div
-                        style={{
-                            height: "234px",
-                        }}
-                    >
-                        <Field>
-                            <CheckboxTree
-                                iconsClass="fa5"
-                                showNodeIcon={false}
-                                nodes={audiences}
-                                checked={checked}
-                                expanded={expanded}
-                                onCheck={(checked) => {
-                                    setChecked(checked);
-                                }}
-                                onExpand={(expanded) => {
-                                    setExpanded(expanded);
-                                }}
-                                // nativeCheckboxes={true}
-                                checkModel="all"
-                                icons={{
-                                    check: <CheckedIcon />,
-                                    uncheck: <UncheckedIcon />,
-                                    halfCheck: <SemiCheckedIcon />,
-                                    expandOpen: <ExpandOpenIcon />,
-                                    expandClose: <ExpandCloseIcon />,
-                                }}
-                            />
-                        </Field>
-                    </div>
-                </EmptyStateComponent>
+                <div
+                    style={{
+                        height: "234px",
+                    }}
+                >
+                    <Field>
+                        <CheckboxTree
+                            iconsClass="fa5"
+                            showNodeIcon={false}
+                            nodes={audiences}
+                            checked={checked}
+                            expanded={expanded}
+                            onCheck={(checked) => {
+                                setChecked(checked);
+                            }}
+                            onExpand={(expanded) => {
+                                setExpanded(expanded);
+                            }}
+                            // nativeCheckboxes={true}
+                            checkModel="all"
+                            icons={{
+                                check: <CheckedIcon />,
+                                uncheck: <UncheckedIcon />,
+                                halfCheck: <SemiCheckedIcon />,
+                                expandOpen: <ExpandOpenIcon />,
+                                expandClose: <ExpandCloseIcon />,
+                            }}
+                        />
+                    </Field>
+                </div>
             </ModalBody>
 
             <ModalFooter>
@@ -178,7 +180,6 @@ const AudienceModal = (props) => {
                         Cancel
                     </Button>
                     <Button
-                        disabled={!isConfigured}
                         key="addButton"
                         id="addRegionBtn"
                         icon="CheckedWhite"
