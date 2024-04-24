@@ -2,9 +2,9 @@ import React from "react";
 import { cbModal } from "@contentstack/venus-components";
 import AudienceModal from "./AudienceModal";
 import { isPrePostTagsPresent } from "./lib";
+import { IRteParam } from "@contentstack/app-sdk/dist/src/RTE/types";
 
 import "./style.css";
-import { IRteParam } from "@contentstack/app-sdk/dist/src/RTE/types";
 
 export const AudiencePreTag = (props) => {
     const {
