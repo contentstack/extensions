@@ -26,11 +26,7 @@ export default ContentstackSDK.init()
     try {
       const AudiencePlugin = RTE("audience", async (rte) => {
         const config = await rte.getConfig();
-        // const config = {
-        //   content_type: "audience",
-        //   field: "group",
-        //   group_title: "grouptitle"
-        // };
+       
         if (config.content_type && config.field && config.group_title) {
           try {
             const query = await sdk.stack
@@ -99,36 +95,42 @@ export default ContentstackSDK.init()
         };
       });
 
-      const AudiencePre = RTE("audience-pre", (rte) => ({
-        render: (props) => {
-          const savedSelection = rte.selection.get();
-          return (
-            <AudiencePreTag
-              {...props}
-              rte={rte}
-              audienceList={audiences}
-              savedSelection={savedSelection}
-              invalidConfig={invalidConfig}
-            />
-          );
-        },
-        elementType: ["block"],
-        dnd: {
-          disable: true,
-          hideSelectionBackground: true,
-        },
-        displayOn: [],
-      }));
+      const AudiencePre = RTE("audience-pre", (rte) => {
+        const config = rte.getConfig();
+        return {
+          render: (props) => {
+            const savedSelection = rte.selection.get();
+            return (
+              <AudiencePreTag
+                {...props}
+                rte={rte}
+                audienceList={audiences}
+                savedSelection={savedSelection}
+                invalidConfig={invalidConfig}
+              />
+            );
+          },
+          elementType: config.useNewAudienceSchema ? ["block"] : ['inline', 'void'],
+          dnd: {
+            disable: true,
+            hideSelectionBackground: true,
+          },
+          displayOn: [],
+        }
+      });
 
-      const AudiencePost = RTE("audience-post", () => ({
-        render: AudiencePostTag,
-        elementType: ["block"],
-        dnd: {
-          disable: true,
-          hideSelectionBackground: true,
-        },
-        displayOn: [],
-      }));
+      const AudiencePost = RTE("audience-post", (rte) => {
+        const config = rte.getConfig();
+        return {
+          render: AudiencePostTag,
+          elementType: config.useNewAudienceSchema ? ["block"] : ['inline', 'void'],
+          dnd: {
+            disable: true,
+            hideSelectionBackground: true,
+          },
+          displayOn: [],
+        }
+      });
 
       const AudienceWrapper = RTE("audience-wrapper", (rte) => ({
 
@@ -152,8 +154,6 @@ export default ContentstackSDK.init()
 
       AudiencePlugin.on("exec", (rte) => {
         const savedSelection = rte.selection.get();
-        console.log("rte", rte);
-
         cbModal({
           component: (props) => (
             <AudienceModal
@@ -172,85 +172,6 @@ export default ContentstackSDK.init()
         });
       });
 
-      AudiencePre.on("deleteBackward", (props) => {
-        const { rte } = props;
-
-        const selection = rte.selection.get();
-        const previousElementLocation = rte.selection.before(selection);
-
-        if (previousElementLocation) {
-          const [match] = rte.getNodes({
-            at: previousElementLocation,
-            match: (n) => n.type === "audience-pre",
-            mode: "lowest",
-          });
-
-          if (match) {
-            const element: any = match[0];
-            const path = match[1];
-
-            const start = {
-              offset: 0,
-              path: [...path, 0],
-            };
-
-            if (rte.selection.isPointEqual(previousElementLocation, start)) {
-              const audienceId = element?.attrs?.audienceId;
-              if (audienceId) {
-                for (const [element] of rte.generators.elements()) {
-                  const entry: any = { ...element };
-                  if (entry.type === "audience-post") {
-                    if (audienceId === entry?.attrs?.audienceId) {
-                      rte.removeNode(element);
-                      return;
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      });
-
-      AudiencePost.on("deleteBackward", (props) => {
-        const { rte } = props;
-
-        const selection = rte.selection.get();
-        const previousElementLocation = rte.selection.before(selection);
-
-        if (previousElementLocation) {
-          const [match] = rte.getNodes({
-            at: previousElementLocation,
-            match: (n) => n.type === "audience-post",
-            mode: "lowest",
-          });
-
-          if (match) {
-            const element: any = match[0];
-            const path = match[1];
-
-            const start = {
-              offset: 0,
-              path: [...path, 0],
-            };
-
-            if (rte.selection.isPointEqual(previousElementLocation, start)) {
-              const audienceId = element?.attrs?.audienceId;
-              if (audienceId) {
-                for (const [element] of rte.generators.elements()) {
-                  const entry: any = { ...element };
-                  if (entry.type === "audience-pre") {
-                    if (audienceId === entry?.attrs?.audienceId) {
-                      rte.removeNode(element);
-                      return;
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      });
 
       AudiencePre.on("beforeRender", (rte) => {
         if (rte.element.type === "audience-pre") {
