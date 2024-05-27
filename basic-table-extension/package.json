@@ -1,0 +1,28 @@
+{
+  "name": "contentstack_table_field",
+  "version": "1.0.1",
+  "description": "The Table extension lets you add a table as a field in your content type. The content managers can then add values to the table, while creating entries. ",
+  "main": "gulpfile.js",
+  "scripts": {
+    "build": "gulp build"
+  },
+  "author": "Contentstack",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.24.6",
+    "@babel/preset-env": "^7.24.6",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "gulp": "^4.0.2",
+    "gulp-babel": "8.0.0",
+    "gulp-clean-css": "4.3.0",
+    "gulp-inline": "0.1.3",
+    "gulp-stylelint": "^13.0.0",
+    "gulp-uglify": "3.0.2",
+    "stylelint": "^13.13.1",
+    "stylelint-config-standard": "^22.0.0"
+  },
+  "dependencies": {
+    "gulp-eslint": "6.0.0"
+  }
+}

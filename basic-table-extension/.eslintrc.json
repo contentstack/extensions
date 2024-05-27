@@ -1,0 +1,24 @@
+{
+    "env": {
+        "browser": true,
+        "es6": true,
+        "jquery": true
+    },
+    "extends": "airbnb-base/legacy",
+    "parserOptions": {
+        "ecmaVersion": 2016,
+        "sourceType": "module"
+    },
+     "globals": {
+        "ContentstackUIExtension": false
+    },
+    "rules": {
+        "no-restricted-syntax": ["error", "LabeledStatement", "WithStatement"],
+        "no-use-before-define":"off",
+        "func-names":"off",
+        "consistent-return":"off",
+        "no-unused-vars":"off",
+        "no-plusplus":"off",
+        "no-shadow":"off"
+    }
+}
