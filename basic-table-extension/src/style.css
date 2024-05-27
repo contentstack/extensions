@@ -1,0 +1,50 @@
+table {
+  width: 100%;
+  margin-bottom: 2px;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+th,
+td {
+  border: 1px solid #cdcdcd;
+}
+
+table th,
+table td {
+  padding: 10px;
+  text-align: left;
+}
+
+td:last-child {
+  width: 100px;
+  border: none;
+  background-color: #fff;
+}
+
+tr:first-child {
+  background-color: #e6f0f2;
+}
+
+.deleteColumnButton,
+.deleteRowButton,
+.addColumnButton,
+.addRowButton {
+  cursor: pointer;
+}
+
+.icon-move {
+  cursor: grab;
+}
+
+.icon-plus {
+  color: #b3b3b3;
+}
+
+tr .icon-move {
+  display: none;
+}
+
+tr:hover .icon-move {
+  display: inline-block;
+}
