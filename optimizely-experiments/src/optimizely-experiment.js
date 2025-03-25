@@ -120,30 +120,28 @@ class Optimizely {
 function renderToShowExperimentDetails(response) {
   $('.experiment-data, .experiment-key, .audiences').empty();
   $('.experiment-key').append(
-    `<div class="btn-container"><button class="btn goBack" data-toggle="tooltip" title="Go Back" type="button"><i class="back fa fa-angle-left"></i></button> <div class="keyLabel">${response.key}</div> </div>`
+    `<div class="btn-container"><button class="btn goBack" data-toggle="tooltip" title="Go Back" type="button"><i class="back fa fa-angle-left"></i></button> <div class="keyLabel">${response.name}</div> </div>`
   );
   response.variations.forEach((data) => {
-    if (data.description === undefined) {
+    if (data.name === undefined) {
       $('.experiment-data').append(
-        `<tr><td id="${data.key}" class="key">${
-          data.key
-        }</td><td data-toggle="tooltip" title="Copy Variation Key"><button class="cpbtn" data-clipboard-target="#${
-          data.key
-        }"><i class="fa fa-copy"></i></button></td><td class="weight"> ${
-          data.weight / 100
-        }%</td>`
+        `<tr><td id="${data.variation_id}" data-toggle="tooltip" title="ID:  ${data.variation_id}" class="key">
+          ${data.variation_id}
+          </td>
+          <td data-toggle="tooltip" title="Copy Variation ID">
+            <button class="cpbtn" data-clipboard-text="${data.variation_id}"><i class="fa fa-copy"></i></button>
+          </td>
+          <td class="weight"> ${data.weight / 100}%</td>`
       );
     } else {
       $('.experiment-data').append(
-        `<tr><td data-toggle="tooltip" title="Description :  ${
-          data.description
-        }"  id="${data.key}" class="key">${
-          data.key
-        }</td><td data-toggle="tooltip" title="Copy Variation Key"><button class="cpbtn" data-clipboard-target="#${
-          data.key
-        }"><i class="fa fa-copy"></i></button></td><td class="weight"> ${
-          data.weight / 100
-        }%</td>`
+        `<tr><td id="${data.variation_id}" data-toggle="tooltip" title="ID:  ${data.variation_id}\nName :  ${data.name}" class="key">
+        ${data.name}
+          </td>
+          <td data-toggle="tooltip" title="Copy Variation ID">
+            <button class="cpbtn" data-clipboard-text="${data.variation_id}"><i class="fa fa-copy"></i></button>
+          </td>
+          <td class="weight"> ${data.weight / 100}%</td>`
       );
     }
   });
@@ -186,13 +184,13 @@ function renderToListExperiments(response) {
         dataSet.description.length <= 0
       ) {
         $('.experiment-list')
-          .append(`<tr><td data-toggle="tooltip" title="Type :  ${dataSet.type}" class="details" id="${dataSet.id}">${dataSet.key}</td>
+          .append(`<tr><td data-toggle="tooltip" title="Type :  ${dataSet.type}" class="details" id="${dataSet.id}">${dataSet.name}</td>
     + <td class="edit"><p data-placement="top" data-toggle="tooltip" title="Run"><button id="start" class="action" data-title="Run"><span><i class="fa fa-play"></i></span></button></p></td>
     + <td class="result"><p data-placement="top" data-toggle="tooltip" title="Result"><a target="_blank" href="" id="${dataSet.campaign_id}" class="result-icon disabled"><i class="fa fa-bar-chart"></i></a></p></td>
     + </tr>`);
       } else {
         $('.experiment-list')
-          .append(`<tr><td data-toggle="tooltip" title="Type :  ${dataSet.type} \n Description :  ${dataSet.description}" class="details" id="${dataSet.id}">${dataSet.key}</td>
+          .append(`<tr><td data-toggle="tooltip" title="Type :  ${dataSet.type} \n Description :  ${dataSet.description}" class="details" id="${dataSet.id}">${dataSet.name}</td>
     <td class="edit"><p data-placement="top" data-toggle="tooltip" title="Run"><button id="start" class="action" data-title="Run"><span><i class="fa fa-play"></i></span></button></p></td>
     <td class="result"><p data-placement="top" data-toggle="tooltip" title="Result"><a target="_blank" href="" id="${dataSet.campaign_id}" class="result-icon disabled"><i class="fa fa-bar-chart"></i></a></p></td>
     </tr>`);
@@ -204,13 +202,13 @@ function renderToListExperiments(response) {
         dataSet.description.length <= 0
       ) {
         $('.experiment-list')
-          .append(`<tr><td data-toggle="tooltip" title="Type :  ${dataSet.type}" class="details" id="${dataSet.id}">${dataSet.key}</td>
+          .append(`<tr><td data-toggle="tooltip" title="Type :  ${dataSet.type}" class="details" id="${dataSet.id}">${dataSet.name}</td>
     <td class="edit"><p data-placement="top" data-toggle="tooltip" title="Run"><button id="start" class="action" data-title="Run"><span><i class="fa fa-play"></i></span></button></p></td>
     <td class="result"><p data-placement="top" data-toggle="tooltip" title="Result"><a target="_blank" href="" id="${dataSet.campaign_id}"><button class="result-icon"><span><i class="fa fa-bar-chart"></i></span></button></p></td>
     </tr>`);
       } else {
         $('.experiment-list')
-          .append(`<tr><td data-toggle="tooltip" title="Type :  ${dataSet.type} \n Description :  ${dataSet.description}" class="details" id="${dataSet.id}">${dataSet.key}</td>
+          .append(`<tr><td data-toggle="tooltip" title="Type :  ${dataSet.type} \n Description :  ${dataSet.description}" class="details" id="${dataSet.id}">${dataSet.name}</td>
     <td class="edit"><p data-placement="top" data-toggle="tooltip" title="Run"><button id="start" class="action" data-title="Run"><span><i class="fa fa-play"></i></span></button></p></td>
     <td class="result"><p data-placement="top" data-toggle="tooltip" title="Result"><a target="_blank" href="" id="${dataSet.campaign_id}"><button class="result-icon"><span><i class="fa fa-bar-chart"></i></span></button></p></td>
     </tr>`);
@@ -222,13 +220,13 @@ function renderToListExperiments(response) {
         dataSet.description.length <= 0
       ) {
         $('.experiment-list')
-          .append(`<tr><td data-toggle="tooltip" title="Type :  ${dataSet.type}" class="details" id="${dataSet.id}">${dataSet.key}</td>
+          .append(`<tr><td data-toggle="tooltip" title="Type :  ${dataSet.type}" class="details" id="${dataSet.id}">${dataSet.name}</td>
    <td class="edit"><p data-placement="top" data-toggle="tooltip" title="Pause"><button id="pause" class="action" data-title="Pause"><span><i class="fa fa-pause"></i></span></button></p></td>
     <td class="result"><p data-placement="top" data-toggle="tooltip" title="Result"><a target="_blank" href="" id="${dataSet.campaign_id}"><button class="result-icon"><span><i class="fa fa-bar-chart"></i></span></button></p></td>
    </tr>`);
       } else {
         $('.experiment-list')
-          .append(`<tr><td data-toggle="tooltip" title="Type :  ${dataSet.type} \n Description :  ${dataSet.description}" class="details" id="${dataSet.id}">${dataSet.key}</td>
+          .append(`<tr><td data-toggle="tooltip" title="Type :  ${dataSet.type} \n Description :  ${dataSet.description}" class="details" id="${dataSet.id}">${dataSet.name}</td>
     <td class="edit"><p data-placement="top" data-toggle="tooltip" title="Pause"><button id="pause" class="action" data-title="Pause"><span><i class="fa fa-pause"></i></span></button></p></td>
    <td class="result"><p data-placement="top" data-toggle="tooltip" title="Result"><a target="_blank" href="" id="${dataSet.campaign_id}"><button class="result-icon"><span><i class="fa fa-bar-chart"></i></span></button></a></p></td>
     </tr>`);
