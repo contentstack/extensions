@@ -94,6 +94,9 @@ Allows you to place important content inside a colored panel to make it stand ou
 [Word Count](./word-count)
 Allows you to track the word count for your JSON Rich Text Editor content.
 
+[Content Intelligence](./content-intelligence)
+Provides content relatable suggestions for auto completion, grammar and spell correction for your JSON Rich Text Editor content.
+
 ### Other Documentation
 
 - [What are Extensions](https://www.contentstack.com/docs/guide/extensions)
