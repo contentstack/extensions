@@ -1,0 +1,99 @@
+***REMOVED***Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+***REMOVED***Build outputs
+dist/
+build/
+*.tsbuildinfo
+
+***REMOVED***Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+***REMOVED***IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+***REMOVED***OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+***REMOVED***Logs
+logs
+*.log
+
+***REMOVED***Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+***REMOVED***Coverage directory used by tools like istanbul
+coverage/
+*.lcov
+
+***REMOVED***nyc test coverage
+.nyc_output
+
+***REMOVED***Dependency directories
+jspm_packages/
+
+***REMOVED***Optional npm cache directory
+.npm
+
+***REMOVED***Optional eslint cache
+.eslintcache
+
+***REMOVED***Microbundle cache
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+
+***REMOVED***Optional REPL history
+.node_repl_history
+
+***REMOVED***Output of 'npm pack'
+*.tgz
+
+***REMOVED***Yarn Integrity file
+.yarn-integrity
+
+***REMOVED***parcel-bundler cache (https://parceljs.org/)
+.cache
+.parcel-cache
+
+***REMOVED***next.js build output
+.next
+
+***REMOVED***nuxt.js build output
+.nuxt
+
+***REMOVED***vuepress build output
+.vuepress/dist
+
+***REMOVED***Serverless directories
+.serverless
+
+***REMOVED***FuseBox cache
+.fusebox/
+
+***REMOVED***DynamoDB Local files
+.dynamodb/
+
+***REMOVED***TernJS port file
+.tern-port
