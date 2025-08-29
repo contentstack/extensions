@@ -1,0 +1,6 @@
+fileignoreconfig:
+- filename: dist/plugin.system.js
+  checksum: d8004f8c315e4c14044e826c78e25a70b39c07039a9d27d95b6e800c07f09fcb
+- filename: package-lock.json
+  checksum: afb26843ae8b59c4570bb4be331033193cc29a13c07ff161cb83a0ef07c87b0d
+version: "1.0"
