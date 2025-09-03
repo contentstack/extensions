@@ -14,7 +14,9 @@ const Table = ({fonts, deleteFont} : {fonts: any, deleteFont: any}) =>{
     <div className={styles["child1"]}>
       <div className={styles["subChild"]}>
         <span className={styles["name"]}>Name</span>
-        <ChevronIcon onClick={handleToggle}/>
+        <span className={styles["chevronIcon"]}>
+          <ChevronIcon onClick={handleToggle}/>
+        </span>
       </div>
       <div className={styles["subChild"]}>
         <span className={styles["url"]}>URL</span>
