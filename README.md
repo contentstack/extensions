@@ -1,4 +1,4 @@
-***REMOVED***Contentstack Extensions
+# Contentstack Extensions
 
 Contentstack provides Extensions that let you extend its UI. It provides four types of extensions: Custom Fields, Custom Widgets, Dashboard Widgets and JSON RTE Plugin.
 
@@ -13,7 +13,7 @@ The **JSON Rich Text Editor Plugins** lets you add/create custom plugins to exte
 
 This is a repository of example extensions created using Contentstack’s [App SDK](https://www.npmjs.com/package/@contentstack/app-sdk) for JSON RTE Plugins and for others [Extensions SDK](https://github.com/contentstack/ui-extensions-sdk).
 
-##***REMOVED***Examples of custom fields created using Extensions
+### Examples of custom fields created using Extensions
 
 Here are some examples/use cases of custom fields that can be created using Extensions. These examples come with readme files that explain how to install and get started with these fields.
 
@@ -53,7 +53,7 @@ This extension lets you fetch and display Youtube videos into a field of your co
 [External API Lookup](./external-api-lookup-template):
 This extension lets you fetch data from an external API and display the data as possible values for the field on an entry page in Contentstack.
 
-##***REMOVED***Examples of custom widgets created using Extensions
+### Examples of custom widgets created using Extensions
 
 Here are some examples/use cases of custom widgets that can be created using Extensions. These examples come with readme files that explain how to install and get started with these widgets.
 
@@ -69,7 +69,7 @@ This extension lets you retrieve and display Optimizely Experiments and their de
 [Developer Tools](./developer-tools):
 This widget extension provides developers with quick tools (API endpoint, JSON, etc.) to work with an entry or all entries of a content type and do a lot more.
 
-##***REMOVED***Examples of dashboard widgets created using Extensions
+### Examples of dashboard widgets created using Extensions
 
 Here are some examples/use cases of dashboard widgets that can be created using Extensions. These examples come with readme files that explain how to install and get started with these widgets.
 
@@ -79,7 +79,7 @@ This dashboard widget uses the Google Analytics data to display the traffic anal
 [Content Type Visualizer](./content-type-visualizer):
 Content Type Visualizer Dashboard Widget offers a graphical representation of all content types, along with their fields, in a particular stack.
 
-##***REMOVED***Examples of JSON RTE Plugin created using Extensions
+### Examples of JSON RTE Plugin created using Extensions
 
 Here are some examples/use cases of JSON RTE Plugin that can be created using Extensions. These examples come with readme files that explain how to install and get started with these plugins.
 
@@ -94,7 +94,7 @@ Allows you to place important content inside a colored panel to make it stand ou
 [Word Count](./word-count)
 Allows you to track the word count for your JSON Rich Text Editor content.
 
-##***REMOVED***Other Documentation
+### Other Documentation
 
 - [What are Extensions](https://www.contentstack.com/docs/guide/extensions)
 - [Extensions SDK](https://github.com/contentstack/ui-extensions-sdk)

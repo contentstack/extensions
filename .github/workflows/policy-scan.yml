@@ -31,7 +31,7 @@ jobs:
           for license_file in "${expected_license_files[@]}"; do
               if  [ -f "$license_file" ]; then
                  license_file_found=true
-                 ***REMOVED***check the license file for the current year, if not exists, exit with error
+                 # check the license file for the current year, if not exists, exit with error
                   if  ! grep -q "$current_year" "$license_file"; then
                       echo "License file $license_file does not contain the current year."
                       exit 2
