@@ -1,6 +1,6 @@
 [![Contentstack](/youtube/youtube-extension/public/contentstack.png)](https://www.contentstack.com/)
 
-#***REMOVED***Steps required to create new build
+## Steps required to create new build
 
 First the app in vscode or any editor if your preference.
 Then fire up the terminal in root directory of the project and used following command
