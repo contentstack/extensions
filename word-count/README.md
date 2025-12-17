@@ -8,7 +8,7 @@ The Word Count plugin allows you to track the word count for your JSON Rich Text
 #### How to use this plugin
 The Word Count plugin is available as a prebuilt plugin that you can use instantly. Login to your Contentstack account, add it into your stack, and start using it.
 
-Learn how to [add a prebuilt extension](http://www.contentstack.com/docs/guide/extensions/color-picker-extension-setup-guide) to your stack.  
+Learn how to [add a prebuilt extension](https://www.contentstack.com/docs/developers/create-custom-fields/use-prebuilt-custom-fields/color-picker) to your stack.  
 
 #### Other Documentation
 - [Extensions guide](https://www.contentstack.com/docs/guide/extensions)
