@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { AxiosResponse } from 'axios';
 import Brightcove from '../helper/brightcove';
 import { ConfigObj } from '../model/config.model';
 
@@ -48,16 +49,16 @@ const Modal: React.FC<ModelProps> = ({
     };
     brightcove
       .getVideos(data)
-      .then(({ data }) => {
-        setCount(data.count);
-        offset >= data.count &&
+      .then((response: AxiosResponse) => {
+        setCount(response.data.count);
+        offset >= response.data.count &&
           Array.from(
             document.getElementsByClassName(
               'load-more'
             ) as HTMLCollectionOf<HTMLElement>
           )[0].style.setProperty('display', 'none');
 
-        setErrorFound(data.count === 0 ? true : false);
+        setErrorFound(response.data.count === 0 ? true : false);
       })
       .catch((error) => {
         setErrorFound(true);
@@ -67,8 +68,8 @@ const Modal: React.FC<ModelProps> = ({
     data.videoUrl = `${newconfigData.brightcoveUrl}?limit=${limit}&offset=${offset}`;
     brightcove
       .getVideos(data)
-      .then((res: BrightCoveResponse) => {
-        setRenderVideos(res.data);
+      .then((response: AxiosResponse<BrightCoveResponse>) => {
+        setRenderVideos(response.data.data);
         setOffset((preOffset) => preOffset + limit);
       })
       .catch((err: object) => console.error(err));
@@ -96,9 +97,9 @@ const Modal: React.FC<ModelProps> = ({
             config.searchUrl + searchQuery
           }&limit=${limit}&offset=${offset}`;
         }
-        const { data } = await brightcove?.getVideos(body);
+        const response = await brightcove?.getVideos(body);
         let newVideos = renderVideos;
-        newVideos = newVideos?.concat(data);
+        newVideos = newVideos?.concat(response.data);
         newVideos = newVideos?.filter(
           (video, index, videosCollection) =>
             index ===
@@ -108,7 +109,7 @@ const Modal: React.FC<ModelProps> = ({
         );
         setRenderVideos(newVideos);
         setOffset((preOffset) => preOffset + limit);
-        setErrorFound(data.length === 0 ? true : false);
+        setErrorFound(response.data.length === 0 ? true : false);
         newVideos.length >= counts &&
           event.currentTarget.style.setProperty('display', 'none');
       } else {
@@ -144,16 +145,16 @@ const Modal: React.FC<ModelProps> = ({
     if (event.code === 'Enter' && brightcove) {
       const { oauthUrl, videocountUrl, searchUrl } = config;
       try {
-        const {
-          data: { count },
-        } = await brightCove.getVideos({
+        const countResponse = await brightCove.getVideos({
           authUrl: oauthUrl,
           videoUrl: `${videocountUrl}?q=${query}&limit=${limit}&offset=0`,
         });
-        const { data: queryVideos } = await brightcove.getVideos({
+        const videosResponse = await brightcove.getVideos({
           authUrl: oauthUrl,
           videoUrl: `${searchUrl + query}&limit=${limit}&offset=0`,
         });
+        const count = countResponse.data.count;
+        const queryVideos = videosResponse.data;
         setOffset(0);
         setCount(count);
         setRenderVideos(queryVideos);
@@ -168,16 +169,16 @@ const Modal: React.FC<ModelProps> = ({
     try {
       if (brightcove) {
         const { oauthUrl, searchUrl, videocountUrl } = config;
-        const {
-          data: { count },
-        } = await brightCove.getVideos({
+        const countResponse = await brightCove.getVideos({
           authUrl: oauthUrl,
           videoUrl: `${videocountUrl}?q=${searchQuery}&limit=${limit}&offset=0`,
         });
-        const { data: queryVideos } = await brightcove.getVideos({
+        const videosResponse = await brightcove.getVideos({
           authUrl: oauthUrl,
           videoUrl: `${searchUrl + searchQuery}&limit=${limit}&offset=0`,
         });
+        const count = countResponse.data.count;
+        const queryVideos = videosResponse.data;
         setOffset(0);
         setCount(count);
         setRenderVideos(queryVideos);
@@ -191,16 +192,16 @@ const Modal: React.FC<ModelProps> = ({
   const refreshHandler = async () => {
     if (brightcove) {
       const { oauthUrl, videocountUrl, brightcoveUrl } = config;
-      const {
-        data: { count },
-      } = await brightCove.getVideos({
+      const countResponse = await brightCove.getVideos({
         authUrl: oauthUrl,
         videoUrl: videocountUrl,
       });
-      const { data: videos } = await brightcove.getVideos({
+      const videosResponse = await brightcove.getVideos({
         authUrl: oauthUrl,
         videoUrl: `${brightcoveUrl}?limit=${limit}&offset=0`,
       });
+      const count = countResponse.data.count;
+      const videos = videosResponse.data;
       setCount(count);
       setRenderVideos(videos);
       setOffset(8);
