@@ -28,6 +28,9 @@ module.exports = {
                 use: [
                     {
                         loader: "ts-loader",
+                        options: {
+                            transpileOnly: true,
+                        },
                     },
                 ],
             },
@@ -35,5 +38,9 @@ module.exports = {
     },
     resolve: {
         extensions: [".ts", ".tsx", ".js", ".jsx"],
+        fallback: {
+            url: require.resolve("url/"),
+            path: require.resolve("path-browserify"),
+        },
     },
 };
