@@ -4,8 +4,9 @@
   "private": true,
   "type": "module",
   "dependencies": {
+    "@babel/runtime": "^7.26.10",
     "@contentstack/app-sdk": "^1.1.0",
-    "@contentstack/venus-components": "2.2.5",
+    "@contentstack/venus-components": "3.0.2",
     "@types/react": "^18.0.9",
     "@types/react-dom": "^18.0.4",
     "react": "^18.1.0",
