@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 
 const headers = {
     'Content-Type': 'application/json'
@@ -10,12 +10,12 @@ class Brightcove {
         this.url = url;
     }
 
-    getVideos = async (data: object) => {
+    getVideos = async (data: object): Promise<AxiosResponse> => {
         try {
             return await axios({ method: "POST", url: this.url, headers, data });
         } catch (error) {
             console.error(error);
-            return error
+            throw error;
         }
     }
 }
