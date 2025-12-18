@@ -16,3 +16,11 @@
 .info__content {
     flex: 1;
 }
+
+.info-icon-blue path {
+    fill: #4D67F0;
+}
+
+.icon--dark path {
+    fill: #647696;
+}
