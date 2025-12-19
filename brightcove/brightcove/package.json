@@ -57,5 +57,11 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "gulp-inline-source": "^4.0.0",
     "vite": "^7.3.0"
+  },
+  "overrides": {
+    "nth-check": "^2.1.1",
+    "terser": "^5.36.0",
+    "svgo": "^3.3.2",
+    "css-select": "^5.1.0"
   }
 }
