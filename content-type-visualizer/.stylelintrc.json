@@ -1,0 +1,13 @@
+{
+  "extends": "stylelint-config-standard",
+  "rules": {
+    "unit-allowed-list": null,
+    "selector-class-pattern": null,
+    "property-no-vendor-prefix": null,
+    "declaration-block-no-redundant-longhand-properties": null,
+    "color-function-notation": null,
+    "alpha-value-notation": null,
+    "declaration-block-no-duplicate-properties": null,
+    "function-url-quotes": null
+  }
+}
