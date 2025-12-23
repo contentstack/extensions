@@ -15,12 +15,8 @@ module.exports = {
     module: {
         rules: [
             {
-                rules: [
-                    {
-                        test: /\.css$/i,
-                        use: ["style-loader", "css-loader"],
-                    },
-                ],
+                test: /\.css$/i,
+                use: ["style-loader", "css-loader"],
             },
             {
                 test: /\.(ts|tsx)$/,
@@ -28,6 +24,9 @@ module.exports = {
                 use: [
                     {
                         loader: "ts-loader",
+                        options: {
+                            transpileOnly: true,
+                        },
                     },
                 ],
             },
