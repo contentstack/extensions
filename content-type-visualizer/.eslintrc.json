@@ -1,18 +1,20 @@
 {
     "env": {
         "browser": true,
-        "es6": true,
+        "es2017": true,
         "jquery": true
     },
-    "extends": "airbnb-base/legacy",
+    "extends": "airbnb-base",
     "parserOptions": {
-        "ecmaVersion": 2016,
+        "ecmaVersion": 2017,
         "sourceType": "module"
     },
-     "globals": {
+    "globals": {
         "ContentstackUIExtension": false
     },
     "rules": {
-        "no-restricted-syntax": ["error", "LabeledStatement", "WithStatement"]
+        "no-restricted-syntax": ["error", "LabeledStatement", "WithStatement"],
+        "func-names": "off",
+        "object-shorthand": "off"
     }
 }

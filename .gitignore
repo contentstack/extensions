@@ -13,3 +13,12 @@ bower_components
 psd
 thumb
 sketch
+
+### npm audit reports ###
+npm_audit_consolidated_report.txt
+npm_audit_report*.txt
+npm_audit*.txt
+
+### scripts ###
+npm_audit_all.sh
+npm_audit*.sh

@@ -10,13 +10,13 @@
 /* eslint-disable no-prototype-builtins */
 
 let extensionField;
-let referenceConnections = {};
-let labels = {};
-let json = {};
+const referenceConnections = {};
+const labels = {};
+const json = {};
 let count = {};
-let entryCount = {};
-let env = [];
-let loader = $('.reference-loading');
+const entryCount = {};
+const env = [];
+const loader = $('.reference-loading');
 let envArray;
 let apiKey;
 let appHost;
@@ -30,21 +30,21 @@ function countFields(schema, uid) {
   } else {
     Object.defineProperty(count, uid, {
       value: schema.length,
-      writable: true
+      writable: true,
     });
   }
 }
 
 // Reads the content type schema
 function readSchema(schema, uid) {
-  schema.forEach(field => {
+  schema.forEach((field) => {
     if (field.data_type === 'group' || field.data_type === 'global_field') {
       readSchema(field.schema, uid);
     }
 
     if (field.data_type === 'blocks') {
       blockLength += field.blocks.length;
-      field.blocks.forEach(block => {
+      field.blocks.forEach((block) => {
         readSchema(block.schema, uid);
       });
     }
@@ -53,10 +53,10 @@ function readSchema(schema, uid) {
       if (referenceConnections.hasOwnProperty(uid)) {
         referenceConnections[uid] = referenceConnections[uid].concat(field.reference_to);
       } else {
-        let references = [field.reference_to];
+        const references = [field.reference_to];
         Object.defineProperty(referenceConnections, uid, {
           value: references.flat(1),
-          writable: true
+          writable: true,
         });
       }
     }
@@ -67,17 +67,17 @@ function readSchema(schema, uid) {
 
 // To add labels on the connections
 function connectorLabel(source, target) {
-  let sourceLabel = (labels[source] === true) ? '1' : 'M';
-  let targetLabel = (labels[target] === true) ? '1' : 'M';
-  return sourceLabel + ':' + targetLabel;
+  const sourceLabel = (labels[source] === true) ? '1' : 'M';
+  const targetLabel = (labels[target] === true) ? '1' : 'M';
+  return `${sourceLabel}:${targetLabel}`;
 }
 
 function removeDuplicates(originalArray, prop) {
   /* eslint-disable guard-for-in */
   /* eslint-disable vars-on-top */
-  var newArray = [];
-  var lookupObject = {};
-  /* eslint-disable block-scoped-var */
+  const newArray = [];
+  const lookupObject = {};
+  /* eslint-disable block-scoped-var, no-var */
   for (var i in originalArray) {
     lookupObject[originalArray[i][prop]] = originalArray[i];
   }
@@ -88,18 +88,18 @@ function removeDuplicates(originalArray, prop) {
 }
 
 function updateSidebarDetails(id) {
-  envArray.forEach(envData => {
+  envArray.forEach((envData) => {
     extensionField.stack.ContentType(id).Entry
       .Query()
       .environment(envData.env)
       .includeCount()
       .find()
-      .then(result => {
+      .then((result) => {
         if (entryCount.hasOwnProperty(id)) {
           entryCount[id][envData.env] = result.count;
         } else {
           entryCount[id] = {
-            [envData.env]: result.count
+            [envData.env]: result.count,
           };
         }
       });
@@ -107,26 +107,26 @@ function updateSidebarDetails(id) {
 
   $('.copy-btn').attr('data-clipboard-text', JSON.stringify(json[id], null, 2));
   $('#json-collapsed').JSONView(json[id], {
-    collapsed: false
+    collapsed: false,
   });
   $('.title').text(json[id].title);
   $('.edit-icon').attr('href', `https://${appHost}/#!/stack/${apiKey}/content-type/${id}/content-type-builder`);
-  $('.count').text('Field count: ' + count[id]);
+  $('.count').text(`Field count: ${count[id]}`);
   $('#environments').val('default').change();
   $('#entry-count').text('Entry count: _');
   $('#environments').click(function () {
-    let selectedEnv = $(this).children('option:selected').val();
+    const selectedEnv = $(this).children('option:selected').val();
     if (selectedEnv === 'default') {
       $('#entry-count').text('Entry count: _');
     } else {
-      $('#entry-count').text('Entry count: ' + entryCount[id][selectedEnv]);
+      $('#entry-count').text(`Entry count: ${entryCount[id][selectedEnv]}`);
     }
   });
 }
 
 function init() {
-  let diagramSource = $('#diagram-template').html();
-  let diagramTemplate = Handlebars.compile(diagramSource);
+  const diagramSource = $('#diagram-template').html();
+  const diagramTemplate = Handlebars.compile(diagramSource);
 
   // Helper that handles if else conditions
   Handlebars.registerHelper('if_eq', function (a, b, opts) {
@@ -138,7 +138,7 @@ function init() {
   });
 
   // Helper that returns field icon image url for each field in the content type
-  Handlebars.registerHelper('fieldIcon', function (type, metaData, displayType) {
+  Handlebars.registerHelper('fieldIcon', (type, metaData, displayType) => {
     let iconUrl = 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4NCjxzdmcgd2lkdGg9IjI4cHgiIGhlaWdodD0iMjBweCIgdmlld0JveD0iMCAwIDI4IDIwIiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPg0KICAgIDwhLS0gR2VuZXJhdG9yOiBTa2V0Y2ggNTEuMiAoNTc1MTkpIC0gaHR0cDovL3d3dy5ib2hlbWlhbmNvZGluZy5jb20vc2tldGNoIC0tPg0KICAgIDx0aXRsZT5OdW1iZXIgSWNvbiBDb3B5PC90aXRsZT4NCiAgICA8ZGVzYz5DcmVhdGVkIHdpdGggU2tldGNoLjwvZGVzYz4NCiAgICA8ZGVmcz48L2RlZnM+DQogICAgPGcgaWQ9IlBhZ2UtMSIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+DQogICAgICAgIDxnIGlkPSJuZXctYnVpbGRlci0tLXdpdGgtc2VsZWN0LWZpZWxkLWNob2ljZXMtYWRkZWQtY29weS01IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMTk4LjAwMDAwMCwgLTYwMS4wMDAwMDApIj4NCiAgICAgICAgICAgIDxnIGlkPSJEYXRhLXR5cGVzIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNS4wMDAwMDAsIDE5NS4wMDAwMDApIj4NCiAgICAgICAgICAgICAgICA8ZyBpZD0iQm9vbGVhbi1maWVsZCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTM0LjAwMDAwMCwgMzYwLjAwMDAwMCkiPg0KICAgICAgICAgICAgICAgICAgICA8ZyBpZD0iTnVtYmVyLUljb24tQ29weSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNDkuMDAwMDAwLCA0Ni4wMDAwMDApIj4NCiAgICAgICAgICAgICAgICAgICAgICAgIDxyZWN0IGlkPSJSZWN0YW5nbGUtNCIgc3Ryb2tlPSIjNUE1QTVBIiBmaWxsLXJ1bGU9Im5vbnplcm8iIHg9IjAuNSIgeT0iMC41IiB3aWR0aD0iMjciIGhlaWdodD0iMTkiIHJ4PSIxIj48L3JlY3Q+DQogICAgICAgICAgICAgICAgICAgICAgICA8dGV4dCBpZD0iMC0xIiBmb250LWZhbWlseT0iVGltZXNOZXdSb21hblBTTVQsIFRpbWVzIE5ldyBSb21hbiIgZm9udC1zaXplPSIxMyIgZm9udC13ZWlnaHQ9Im5vcm1hbCIgZmlsbD0iIzVBNUE1QSI+DQogICAgICAgICAgICAgICAgICAgICAgICAgICAgPHRzcGFuIHg9IjYuMzc1IiB5PSIxNCI+MCAxPC90c3Bhbj4NCiAgICAgICAgICAgICAgICAgICAgICAgIDwvdGV4dD4NCiAgICAgICAgICAgICAgICAgICAgPC9nPg0KICAgICAgICAgICAgICAgIDwvZz4NCiAgICAgICAgICAgIDwvZz4NCiAgICAgICAgPC9nPg0KICAgIDwvZz4NCjwvc3ZnPg==';
 
     if (type === 'text') {
@@ -199,7 +199,7 @@ function init() {
   });
 
   // Helper that returns the url which redirects to the particular content type builder
-  Handlebars.registerHelper('contentTypeBuilderUrl', function (uid) {
+  Handlebars.registerHelper('contentTypeBuilderUrl', (uid) => {
     let url;
     if (uid) {
       url = `https://${appHost}/#!/stack/${apiKey}/content-type/${uid}/content-type-builder`;
@@ -209,7 +209,7 @@ function init() {
 
   // Retrieves all the content types from the stack
   extensionField.stack.getContentTypes('', { include_count: true, include_global_field_schema: true })
-    .then(res => {
+    .then((res) => {
       res.content_types.forEach((contentType) => {
         labels[contentType.uid] = contentType.options.singleton;
         json[contentType.uid] = contentType;
@@ -227,12 +227,12 @@ function init() {
       const mainContainer = document.querySelector('.container');
       const button = document.querySelector('.toggle');
 
-      var defaultId = Object.keys(json)[0];
+      const defaultId = Object.keys(json)[0];
       updateSidebarDetails(defaultId);
 
       document.querySelector('.toggle').onclick = function (e) {
         e.preventDefault();
-        var defaultJsonId = Object.keys(json)[0];
+        const defaultJsonId = Object.keys(json)[0];
         updateSidebarDetails(defaultJsonId);
         sidebar.classList.toggle('toggle-sidebar');
         mainContainer.classList.toggle('toggle-container');
@@ -241,7 +241,7 @@ function init() {
 
       // Event listener for jsonview tab
       $('.icon-eye-open').on('click', function () {
-        var id = $(this).data('id');
+        const id = $(this).data('id');
         updateSidebarDetails(id);
         sidebar.classList.remove('toggle-sidebar');
         mainContainer.classList.remove('toggle-container');
@@ -249,13 +249,13 @@ function init() {
       });
 
       // Copy button text change
-      let clipboard = new ClipboardJS('.btn');
+      const clipboard = new ClipboardJS('.btn');
 
       $('.copy-btn').on('click', function () {
-        let copyBtn = $(this);
-        clipboard.on('success', function (e) {
+        const copyBtn = $(this);
+        clipboard.on('success', (e) => {
           copyBtn.text('Copied');
-          setTimeout(function () {
+          setTimeout(() => {
             copyBtn.text('Copy');
           }, 1000);
           e.clearSelection();
@@ -263,39 +263,39 @@ function init() {
       });
 
       // Building diagram using jsplumb
-      jsPlumb.ready(function () {
-        let $container = $('.container');
+      jsPlumb.ready(() => {
+        const $container = $('.container');
         let $panzoom = null;
-        let sourceAnchors = [
+        const sourceAnchors = [
             [0.2, 0, 0, -1, 0, 0],
             [1, 0.2, 1, 0, 0, 0],
             [0.8, 1, 0, 1, 0, 0],
-            [0, 0.8, -1, 0, 0, 0]
+            [0, 0.8, -1, 0, 0, 0],
           ],
           targetAnchors = [
             [0.6, 0, 0, -1],
             [1, 0.6, 1, 0],
             [0.4, 1, 0, 1],
-            [0, 0.4, -1, 0]
+            [0, 0.4, -1, 0],
           ],
           connector = ['Flowchart',
             {
               cornerRadius: 5,
-              stub: 16
-            }
+              stub: 16,
+            },
           ],
           connectorStyle = {
             gradient: {
               stops: [
                 [0, '#00f'],
                 [0.5, '#09098e'],
-                [1, '#00f']
-              ]
+                [1, '#00f'],
+              ],
             },
             strokeWidth: 3,
             stroke: '#00f',
             outlineStroke: 'white',
-            outlineWidth: 4
+            outlineWidth: 4,
           },
           endpoint = ['Dot', { cssClass: 'endpointClass', radius: 10, hoverClass: 'endpointHoverClass' }],
           anEndpoint = {
@@ -305,38 +305,38 @@ function init() {
             isTarget: true,
             maxConnections: -1,
             connector: connector,
-            connectorStyle: connectorStyle
+            connectorStyle: connectorStyle,
           };
 
-        let plumb = jsPlumb.getInstance({
+        const plumb = jsPlumb.getInstance({
           DragOptions: { cursor: 'pointer', zIndex: 2000 },
           Anchors: [['Left', 'Right', 'Bottom'], ['Top', 'Bottom']],
-          Container: $container.find('.diagram')
+          Container: $container.find('.diagram'),
         });
 
-        plumb.batch(function () {
-          let endpoints = {},
+        plumb.batch(() => {
+          const endpoints = {},
             divsWithWindowClass = jsPlumb.getSelector('.container .window');
 
           // Adding endpoints for each content type element
           for (let i = 0; i < divsWithWindowClass.length; i++) {
-            let id = plumb.getId(divsWithWindowClass[i]);
+            const id = plumb.getId(divsWithWindowClass[i]);
             endpoints[id] = [
               plumb.addEndpoint(id, anEndpoint, { anchor: sourceAnchors }),
-              plumb.addEndpoint(id, anEndpoint, { anchor: targetAnchors })
+              plumb.addEndpoint(id, anEndpoint, { anchor: targetAnchors }),
             ];
           }
 
           // Adding connections between the content type elements
-          for (let e in endpoints) {
+          for (const e in endpoints) {
             if (referenceConnections[e]) {
               for (let j = 0; j < referenceConnections[e].length; j++) {
                 plumb.connect({
                   source: endpoints[e][0],
                   target: endpoints[referenceConnections[e][j]][1],
                   overlays: [
-                    ['Label', { label: connectorLabel((endpoints[e][0]).elementId, (endpoints[referenceConnections[e][j]][1]).elementId), cssClass: 'aLabel', location: 0.5 }]
-                  ]
+                    ['Label', { label: connectorLabel((endpoints[e][0]).elementId, (endpoints[referenceConnections[e][j]][1]).elementId), cssClass: 'aLabel', location: 0.5 }],
+                  ],
                 });
               }
             }
@@ -345,36 +345,36 @@ function init() {
           plumb.draggable(divsWithWindowClass);
 
           // Positioning and laying out all the content type elements on the canvas
-          let dg = new dagre.graphlib.Graph();
+          const dg = new dagre.graphlib.Graph();
           dg.setGraph({
-            nodesep: 30, ranksep: 30, marginx: 50, marginy: 50
+            nodesep: 30, ranksep: 30, marginx: 50, marginy: 50,
           });
-          dg.setDefaultEdgeLabel(function () { return {}; });
+          dg.setDefaultEdgeLabel(() => ({}));
           $container.find('.window').each(
-            function (idx, node) {
-              let $n = $(node);
-              let box = {
+            (idx, node) => {
+              const $n = $(node);
+              const box = {
                 width: Math.round($n.outerWidth()),
-                height: Math.round($n.outerHeight())
+                height: Math.round($n.outerHeight()),
               };
               dg.setNode($n.attr('id'), box);
-            }
+            },
           );
           plumb.getAllConnections()
-            .forEach(function (edge) { dg.setEdge(edge.source.id, edge.target.id); });
+            .forEach((edge) => { dg.setEdge(edge.source.id, edge.target.id); });
           dagre.layout(dg);
           dg.nodes().forEach(
-            function (n) {
-              let node = dg.node(n);
-              let top = Math.round(node.y - node.height / 2) + 100 + 'px';
-              let left = Math.round(node.x - node.width / 2) - 400 + 'px';
-              $('#' + n).css({ left: left, top: top });
-            }
+            (n) => {
+              const node = dg.node(n);
+              const top = `${Math.round(node.y - node.height / 2) + 100}px`;
+              const left = `${Math.round(node.x - node.width / 2) - 400}px`;
+              $(`#${n}`).css({ left: left, top: top });
+            },
           );
           plumb.repaintEverything();
 
           // Zooming and paning the diagram
-          _.defer(function () {
+          _.defer(() => {
             $panzoom = $container.find('.panzoom').panzoom({
               $zoomIn: $('.zoom-in'),
               $zoomOut: $('.zoom-out'),
@@ -384,50 +384,52 @@ function init() {
               cursor: '',
               disablePan: true,
               startTransform: 'scale(0.5)',
-              ignoreChildrensEvents: true
-            }).on('panzoomstart', function () {
+              ignoreChildrensEvents: true,
+            }).on('panzoomstart', () => {
               $panzoom.css('cursor', 'move');
             })
-              .on('panzoomend', function () {
+              .on('panzoomend', () => {
                 $panzoom.css('cursor', '');
               });
 
             $panzoom.parent()
-              .on('mousewheel.focal', function (e) {
+              .on('mousewheel.focal', (e) => {
                 if (e.ctrlKey || e.originalEvent.ctrlKey) {
                   e.preventDefault();
-                  let delta = e.delta || e.originalEvent.wheelDelta;
-                  let zoomOut = delta ? delta < 0 : e.originalEvent.deltaY > 0;
+                  const delta = e.delta || e.originalEvent.wheelDelta;
+                  const zoomOut = delta ? delta < 0 : e.originalEvent.deltaY > 0;
                   $panzoom.panzoom('zoom', zoomOut, {
                     animate: true,
-                    exponential: false
+                    exponential: false,
                   });
                 } else {
                   e.preventDefault();
-                  let deltaY = e.deltaY || e.originalEvent.wheelDeltaY || (-e.originalEvent.deltaY);
-                  let deltaX = e.deltaX || e.originalEvent.wheelDeltaX || (-e.originalEvent.deltaX);
+                  const deltaY = e.deltaY || e.originalEvent.wheelDeltaY
+                    || (-e.originalEvent.deltaY);
+                  const deltaX = e.deltaX || e.originalEvent.wheelDeltaX
+                    || (-e.originalEvent.deltaX);
                   $panzoom.panzoom('pan', deltaX / 2, deltaY / 2, {
                     animate: true,
-                    relative: true
+                    relative: true,
                   });
                 }
               })
               .on('mousedown touchstart', function (ev) {
-                let matrix = $container.find('.panzoom').panzoom('getMatrix');
-                let offsetX = matrix[4];
-                let offsetY = matrix[5];
-                let dragstart = {
-                  x: ev.pageX, y: ev.pageY, dx: offsetX, dy: offsetY
+                const matrix = $container.find('.panzoom').panzoom('getMatrix');
+                const offsetX = matrix[4];
+                const offsetY = matrix[5];
+                const dragstart = {
+                  x: ev.pageX, y: ev.pageY, dx: offsetX, dy: offsetY,
                 };
                 $(ev.target).css('cursor', 'move');
                 $(this).data('dragstart', dragstart);
               })
               .on('mousemove touchmove', function (ev) {
-                let dragstart = $(this).data('dragstart');
+                const dragstart = $(this).data('dragstart');
                 if (dragstart) {
-                  let deltaX = dragstart.x - ev.pageX;
-                  let deltaY = dragstart.y - ev.pageY;
-                  let matrix = $container.find('.panzoom').panzoom('getMatrix');
+                  const deltaX = dragstart.x - ev.pageX;
+                  const deltaY = dragstart.y - ev.pageY;
+                  const matrix = $container.find('.panzoom').panzoom('getMatrix');
                   matrix[4] = parseInt(dragstart.dx) - deltaX;
                   matrix[5] = parseInt(dragstart.dy) - deltaY;
                   $container.find('.panzoom').panzoom('setMatrix', matrix);
@@ -444,8 +446,8 @@ function init() {
           $container.find('.diagram .window').draggable({
             /* eslint-disable no-unused-vars */
             start: function (e) {
-              let pz = $container.find('.panzoom');
-              currentScale = pz.panzoom('getMatrix')[0];
+              const pz = $container.find('.panzoom');
+              [currentScale] = pz.panzoom('getMatrix');
               $(this).css('cursor', 'move');
               pz.panzoom('disable');
             },
@@ -457,13 +459,13 @@ function init() {
               }
             },
             stop: function (e, ui) {
-              let nodeId = $(this).attr('id');
+              const nodeId = $(this).attr('id');
               if ($(this).hasClass('jsplumb-connected')) {
                 plumb.repaint(nodeId, ui.position);
               }
               $(this).css('cursor', '');
               $container.find('.panzoom').panzoom('enable');
-            }
+            },
           });
         });
       });
@@ -482,24 +484,24 @@ function refresh() {
 }
 
 $(document).ready(() => {
-  ContentstackUIExtension.init().then(extension => {
+  ContentstackUIExtension.init().then((extension) => {
     extensionField = extension;
     Object.assign(extensionField.config, extensionField.fieldConfig);
     apiKey = extensionField.stack._data.api_key;
     appHost = extensionField.config.appHost;
 
-    extensionField.stack.getEnvironments().then(res => {
-      res.environments.forEach(environment => {
+    extensionField.stack.getEnvironments().then((res) => {
+      res.environments.forEach((environment) => {
         env.push({
-          env: environment.name
+          env: environment.name,
         });
       });
       envArray = removeDuplicates(env, 'env');
-      $.each(envArray, function (i, item) {
+      $.each(envArray, (i, item) => {
         $('#environments').append($('<option>', {
           value: item.env,
           text: item.env,
-          id: 'envValue'
+          id: 'envValue',
         }));
       });
       init();

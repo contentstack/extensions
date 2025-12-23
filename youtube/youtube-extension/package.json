@@ -5,31 +5,18 @@
   "author": "Contentstack",
   "dependencies": {
     "@contentstack/ui-extensions-sdk": "^2.2.0",
-    "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.1.0",
-    "@testing-library/user-event": "^12.1.10",
-    "axios": "^0.21.1",
-    "gulp-inline-source": "^4.0.0",
-    "gulp-replace": "^1.1.2",
+    "axios": "1.12.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-dragula": "^1.1.17",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.3",
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build && gulp",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "start": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "browserslist": {
     "production": [
@@ -44,9 +31,11 @@
     ]
   },
   "devDependencies": {
+    "@vitejs/plugin-react": "latest",
     "eslint": "^7.25.0",
     "eslint-plugin-react": "^7.23.2",
-    "gulp": "^4.0.2"
+    "vite": "latest",
+    "vite-plugin-singlefile": "^2.3.0"
   },
   "license": "MIT"
 }

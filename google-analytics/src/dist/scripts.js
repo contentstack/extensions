@@ -1,39 +1,33 @@
 "use strict";
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 var extensionField;
 var analytics;
 var pagePath;
-
 var Analytics = /*#__PURE__*/function () {
   function Analytics(_ref) {
     var url = _ref.url,
-        viewId = _ref.view_id,
-        xApiKey = _ref['x-api-key'];
-
+      viewId = _ref.view_id,
+      xApiKey = _ref['x-api-key'];
     _classCallCheck(this, Analytics);
-
     this.baseUrl = url;
     this.viewId = viewId;
     this.xApiKey = xApiKey;
   }
-
-  _createClass(Analytics, [{
+  return _createClass(Analytics, [{
     key: "getData",
     value: function getData(path) {
       var days = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 30;
       var request = this;
       var headers = {};
-
       if (request.xApiKey) {
         headers['x-api-key'] = request.xApiKey;
       }
-
       return fetch("".concat(request.baseUrl, "?view_id=").concat(request.viewId, "&start_date=").concat(days, "daysAgo&end_date=today&metrics=ga:pageviews,ga:uniquePageviews,ga:users,ga:newUsers,ga:avgTimeOnPage,ga:pageLoadTime,ga:bounceRate&dimensions=ga:date&filters=ga:pagePath==").concat(path), {
         method: 'GET',
         headers: headers
@@ -41,42 +35,32 @@ var Analytics = /*#__PURE__*/function () {
         if (res.status === 200) {
           return res.json();
         }
-
         throw new Error('Error in fetching data.</br>Please check extension configuration.');
       })["catch"](function (e) {
         return Promise.reject(e);
       });
     }
   }]);
-
-  return Analytics;
 }();
-
 function toggleLoader(state) {
   document.getElementById('loader').style.display = state ? 'block' : 'none';
 }
-
 function toggleButtons(state) {
   var buttons = document.getElementsByClassName('btn cs-btn-primary');
-
   for (var i = 0; i < buttons.length; i += 1) {
     buttons[i].disabled = state;
   }
-
   toggleLoader(state);
 }
-
 function formatDate(date) {
   var year = date[0] + date[1] + date[2] + date[3];
   var month = date[4] + date[5];
   var day = date[6] + date[7];
   return "".concat(year, "-").concat(month, "-").concat(day);
 }
-
 function addPadding(time) {
   return time.length === 1 ? "0".concat(time) : "".concat(time);
 }
-
 function formatTime(timeInSeconds) {
   var hour;
   var minutes;
@@ -90,7 +74,6 @@ function formatTime(timeInSeconds) {
   seconds = remainder.toFixed();
   return "".concat(addPadding(hour), ":").concat(addPadding(minutes), ":").concat(addPadding(seconds));
 }
-
 function drawChart(analyticsData, chartIndex) {
   var dataTable = google.visualization.arrayToDataTable(analyticsData);
   var chart = new google.visualization.AreaChart(document.getElementById('chart_container_' + chartIndex));
@@ -106,7 +89,6 @@ function drawChart(analyticsData, chartIndex) {
   };
   chart.draw(dataTable, options);
 }
-
 function renderMetric(analyticsData, sum, chartIndex, name) {
   var mainBody = document.getElementById('canvasbody');
   mainBody.innerHTML += "<div class=\"metric-details\"><p>".concat(name, "</p><h1>").concat(sum, "</h1></div><div id=\"chart_container_").concat(chartIndex, "\"></div><hr class=\"line\">");
@@ -115,12 +97,10 @@ function renderMetric(analyticsData, sum, chartIndex, name) {
   });
   google.charts.setOnLoadCallback(drawChart.bind(null, analyticsData, chartIndex));
 }
-
 function displayError(message) {
   var errorbody = document.getElementById('error');
   errorbody.innerHTML = "<p>".concat(message, "</p>");
 }
-
 function renderData(response) {
   var pageViews;
   var uniquePageViews;
@@ -145,7 +125,6 @@ function renderData(response) {
   pageLoadTime = [['year', 'count']];
   bounceRate = [['year', 'count']];
   responseLength = response.rows.length;
-
   for (var i = 0; i < responseLength; i += 1) {
     pageViews.push([formatDate(response.rows[i][0]), Number(response.rows[i][1])]);
     uniquePageViews.push([formatDate(response.rows[i][0]), Number(response.rows[i][2])]);
@@ -155,7 +134,6 @@ function renderData(response) {
     pageLoadTime.push([formatDate(response.rows[i][0]), Number(response.rows[i][6])]);
     bounceRate.push([formatDate(response.rows[i][0]), Number(response.rows[i][7])]);
   }
-
   if (Number(totalPageViews) || Number(totalUniquePageViews) || Number(totalUser) || Number(totalNewUser) || Number(totalAverageTimeOnPage) || Number(totalPageLoadTime) || Number(totalBounceRate)) {
     document.getElementById('error').innerHTML = '';
     document.getElementById('link').style.display = 'block';
@@ -172,7 +150,6 @@ function renderData(response) {
     displayError('No data available');
   }
 }
-
 function loadIntervalData(days, button) {
   // eslint-disable-line no-unused-lets
   document.getElementById('error').innerHTML = ' ';
@@ -180,11 +157,7 @@ function loadIntervalData(days, button) {
   document.getElementById('canvasbody').innerHTML = '';
   var buttons = document.getElementsByClassName('btn cs-btn-primary');
   var that = button;
-
-  for (var j = 0; j < buttons.length; j += 1) {
-    buttons[j].style.backgroundColor = 'white';
-  }
-
+  for (var j = 0; j < buttons.length; j += 1) buttons[j].style.backgroundColor = 'white';
   that.style.backgroundColor = '#e6eaf2';
   toggleButtons(true);
   analytics.getData(pagePath, days).then(function (response) {
@@ -195,7 +168,6 @@ function loadIntervalData(days, button) {
     toggleButtons(false);
   });
 }
-
 ContentstackUIExtension.init().then(function (extension) {
   var buttons = document.getElementsByClassName('btn cs-btn-primary');
   extensionField = extension;

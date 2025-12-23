@@ -1,5 +1,5 @@
 const gulp = require('gulp'),
-  inline = require('gulp-inline'),
+  inlinesource = require('gulp-inline-source'),
   uglify = require('gulp-uglify'),
   minifyCss = require('gulp-clean-css'),
   babel = require('gulp-babel'),
@@ -13,21 +13,26 @@ gulp.task('js', function () {
         presets: ['@babel/env'],
       })
     )
+    .pipe(uglify())
+    .pipe(gulp.dest('./src/dist'));
+});
+gulp.task('css', function () {
+  return gulp
+    .src('./src/style.css')
+    .pipe(minifyCss())
     .pipe(gulp.dest('./src/dist'));
 });
 gulp.task('inline', function () {
   return gulp
     .src('./src/index.html')
-    .pipe(
-      inline({
-        css: [minifyCss],
-        js: uglify,
-      })
-    )
+    .pipe(inlinesource({
+      compress: false,
+      rootpath: './src'
+    }))
     .pipe(gulp.dest('./'));
 });
 gulp.task('watch', function () {
   gulp.watch(['src/dist/*', 'src/*'], gulp.series('build'));
 });
-gulp.task('build', gulp.series('js', 'inline'));
+gulp.task('build', gulp.series('js', 'css', 'inline'));
 gulp.task('default', gulp.series('build'));

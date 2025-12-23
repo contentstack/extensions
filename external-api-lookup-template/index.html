@@ -4,9 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>External API Lookup Template</title>
-    <style media="all">
-body{line-height:1}
-</style>
+    <style type="text/css" media="all">body{line-height:1}</style>
     <link href="https://www.contentstack.com/sdks/contentstack-ui-extensions/dist/latest/ui-extension-sdk.css" rel="stylesheet" type="text/css" media="all">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <script src="https://www.contentstack.com/sdks/contentstack-ui-extensions/dist/latest/ui-extension-sdk.js"></script>
@@ -20,9 +18,7 @@ body{line-height:1}
             </select>
         </div>
     </form>
-    <script>
-let extensionField;class Request{constructor({configArg1:e,configArg2:t}){this.configArg1=e,this.configArg2=t}get(){let e=this,r;return new Promise((t,n)=>{fetch(`https://reqres.in/api/users?$configArg1={request.configArg1}&configArg2=${e.configArg2}`,{method:"GET"}).then(e=>(r=e.status,e.json())).then(e=>{throw 200===r&&t(e),Error("Failed to fetch resource")}).catch(e=>{n(e)})})}search(e){let r=this,o;return new Promise((t,n)=>{fetch(`https://reqres.in/api/users?$keyword=${e}&configArg2=${r.configArg2}`,{method:"GET"}).then(e=>(o=e.status,e.json())).then(e=>{throw 200===o&&t(e),Error("Failed to fetch resource")}).catch(e=>{n(e)})})}}function domChangeListner(){$("#resource-select").on("change",()=>{var e=$("#resource-select").val();return extensionField.field.setData(e)})}function render(e){let n=extensionField.field.getData();e.data.forEach(e=>{let t=$("<option></option>").attr("value",e.id).text(`${e.first_name} ${e.last_name}`);n===e.id.toString()&&t.attr("selected","selected"),$("#resource-select").append(t)}),domChangeListner()}$(document).ready(()=>{ContentstackUIExtension.init().then(e=>{extensionField=e;let t=new Request(e.config);t.get().then(e=>{render(e)}),extensionField.window.enableAutoResizing()})});
-</script>
+    <script>undefined</script>
 </body>
 
 </html>
