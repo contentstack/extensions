@@ -1,5 +1,5 @@
 const gulp = require('gulp'),
-  inline = require('gulp-inline'),
+  inlineSource = require('gulp-inline-source'),
   uglify = require('gulp-uglify'),
   minifyCss = require('gulp-clean-css'),
   babel = require('gulp-babel'),
@@ -19,9 +19,8 @@ gulp.task('inline', function () {
   return gulp
     .src('./src/index.html')
     .pipe(
-      inline({
-        css: [minifyCss],
-        js: uglify,
+      inlineSource({
+        compress: true
       })
     )
     .pipe(gulp.dest('./'));
