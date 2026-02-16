@@ -1,16 +1,17 @@
 let extensionField;
 
 class Request {
-  constructor({ configArg1, configArg2 }) {
-    this.configArg1 = configArg1;
-    this.configArg2 = configArg2;
+  constructor(config = {}) {
+    this.url = config.url || 'https://reqres.in/api/users';
+    this.configArg1 = config.configArg1 || '';
+    this.configArg2 = config.configArg2 || '';
   }
 
   get() {
     let request = this;
     let statusCode;
     return new Promise((resolve, reject) => {
-      fetch(`https://reqres.in/api/users?$configArg1={request.configArg1}&configArg2=${request.configArg2}`, {
+      fetch(request.url, {
         method: 'GET'
       }).then((response) => {
         statusCode = response.status;
@@ -28,7 +29,7 @@ class Request {
     let request = this;
     let statusCode;
     return new Promise((resolve, reject) => {
-      fetch(`https://reqres.in/api/users?$keyword=${keyword}&configArg2=${request.configArg2}`, {
+      fetch(`${request.url}?keyword=${keyword}`, {
         method: 'GET'
       }).then((response) => {
         statusCode = response.status;
@@ -53,8 +54,15 @@ function domChangeListner() {
 function render(response) {
   //  to get previously selected
   let fieldData = extensionField.field.getData();
-  response.data.forEach((dataSet) =>{
-    let option = $('<option></option>').attr('value', dataSet.id).text(`${dataSet.first_name} ${dataSet.last_name}`);
+  
+  // Handle different response formats
+  // reqres.in returns { data: [...] }, jsonplaceholder returns [...] directly
+  let users = Array.isArray(response) ? response : (response.data || []);
+  
+  users.forEach((dataSet) =>{
+    // Handle different field names: first_name/last_name (reqres) vs name (jsonplaceholder)
+    let displayName = dataSet.name || `${dataSet.first_name || ''} ${dataSet.last_name || ''}`.trim();
+    let option = $('<option></option>').attr('value', dataSet.id).text(displayName);
     if (fieldData === dataSet.id.toString()) {
       option.attr('selected', 'selected');
     }
