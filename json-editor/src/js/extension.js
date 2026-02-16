@@ -43,18 +43,11 @@ NewTag.className = 'invalid';
 var text = document.createTextNode("Invalid JSON format !!");
 NewTag.appendChild(text);
 
-async function updateFieldValue() {
-  try {
-    value = await jsonEditor.get();
-    await extensionField.field.setData(value).then(function(){
-      value = typeof value !== "string"
-          ? JSON.stringify(value)
-          : value;
-      json = JSON.parse(value);
-      element.removeChild(NewTag);
-      return json;
-  })} catch (error) {
-      element.appendChild(NewTag);
-      document.getElementsByClassName("save-btn").disabled = true;
-  }
+function updateFieldValue () {
+  var value = jsonEditor.get();
+  extensionField.field.setData(value).then(function(){
+        console.log('data set on child')
+      }).catch(function(error){
+        console.log('error in setting data',error)
+      })
 }
