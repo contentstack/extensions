@@ -34,8 +34,8 @@
   "license": "MIT",
   "devDependencies": {
     "@vitejs/plugin-react": "latest",
-    "eslint": "^7.25.0",
-    "eslint-plugin-react": "^7.23.2",
+    "eslint": "^10.0.0",
+    "eslint-plugin-react": "^7.37.5",
     "vite": "latest",
     "vite-plugin-singlefile": "^2.3.0"
   }
