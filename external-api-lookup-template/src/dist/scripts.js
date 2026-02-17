@@ -8,12 +8,12 @@ function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" 
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 var extensionField;
 var Request = /*#__PURE__*/function () {
-  function Request(_ref) {
-    var configArg1 = _ref.configArg1,
-      configArg2 = _ref.configArg2;
+  function Request() {
+    var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     _classCallCheck(this, Request);
-    this.configArg1 = configArg1;
-    this.configArg2 = configArg2;
+    this.url = config.url || 'https://reqres.in/api/users';
+    this.configArg1 = config.configArg1 || '';
+    this.configArg2 = config.configArg2 || '';
   }
   _createClass(Request, [{
     key: "get",
@@ -21,7 +21,7 @@ var Request = /*#__PURE__*/function () {
       var request = this;
       var statusCode;
       return new Promise(function (resolve, reject) {
-        fetch("https://reqres.in/api/users?$configArg1={request.configArg1}&configArg2=".concat(request.configArg2), {
+        fetch(request.url, {
           method: 'GET'
         }).then(function (response) {
           statusCode = response.status;
@@ -41,7 +41,7 @@ var Request = /*#__PURE__*/function () {
       var request = this;
       var statusCode;
       return new Promise(function (resolve, reject) {
-        fetch("https://reqres.in/api/users?$keyword=".concat(keyword, "&configArg2=").concat(request.configArg2), {
+        fetch("".concat(request.url, "?keyword=").concat(keyword), {
           method: 'GET'
         }).then(function (response) {
           statusCode = response.status;
@@ -66,8 +66,14 @@ function domChangeListner() {
 function render(response) {
   //  to get previously selected
   var fieldData = extensionField.field.getData();
-  response.data.forEach(function (dataSet) {
-    var option = $('<option></option>').attr('value', dataSet.id).text("".concat(dataSet.first_name, " ").concat(dataSet.last_name));
+
+  // Handle different response formats
+  // reqres.in returns { data: [...] }, jsonplaceholder returns [...] directly
+  var users = Array.isArray(response) ? response : response.data || [];
+  users.forEach(function (dataSet) {
+    // Handle different field names: first_name/last_name (reqres) vs name (jsonplaceholder)
+    var displayName = dataSet.name || "".concat(dataSet.first_name || '', " ").concat(dataSet.last_name || '').trim();
+    var option = $('<option></option>').attr('value', dataSet.id).text(displayName);
     if (fieldData === dataSet.id.toString()) {
       option.attr('selected', 'selected');
     }

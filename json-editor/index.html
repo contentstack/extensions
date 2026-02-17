@@ -1,106 +1,95 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
+
+<head>
+    <meta charset="utf-8">
     <!-- We use lodash.throttle to avoid spamming the API with changes -->
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.4/lodash.min.js"></script>
 
     <!-- load a custom version of Ace editor -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ace.js"></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/9.5.5/jsoneditor.min.js"
-      integrity="sha512-j54mlrSyC7F9BRZhRiEjFTq6ESmJYXdznKy8lJeqIVlQOxkVNkn8lCveNphcX7MMXnyNU774ZeiDDahKl3YyYg=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/9.5.5/jsoneditor.css"
-      integrity="sha512-Sbn0ZCJ/Sq+RcpmI2np6vYlQBolmDPIrx95V3kOQU7RfEOWRCgEmDvj5lD4oNnx55KVIUfadYs8rk3OudD+dFA=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/9.5.5/jsoneditor.min.js"
+        integrity="sha512-j54mlrSyC7F9BRZhRiEjFTq6ESmJYXdznKy8lJeqIVlQOxkVNkn8lCveNphcX7MMXnyNU774ZeiDDahKl3YyYg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/9.5.5/jsoneditor.css"
+        integrity="sha512-Sbn0ZCJ/Sq+RcpmI2np6vYlQBolmDPIrx95V3kOQU7RfEOWRCgEmDvj5lD4oNnx55KVIUfadYs8rk3OudD+dFA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://unpkg.com/@contentstack/ui-extensions-sdk@2.2.0/dist/ui-extension-sdk.js"></script>
     <title>json-editor</title>
-    <script type="module" crossorigin>
-      !(function () {
-        const e = document.createElement('link').relList;
-        if (!(e && e.supports && e.supports('modulepreload'))) {
-          for (const e of document.querySelectorAll('link[rel="modulepreload"]')) t(e);
-          new MutationObserver((e) => {
-            for (const n of e)
-              if ('childList' === n.type)
-                for (const e of n.addedNodes) 'LINK' === e.tagName && 'modulepreload' === e.rel && t(e);
-          }).observe(document, { childList: !0, subtree: !0 });
-        }
-        function t(e) {
-          if (e.ep) return;
-          e.ep = !0;
-          const t = (function (e) {
-            const t = {};
-            return (
-              e.integrity && (t.integrity = e.integrity),
-              e.referrerPolicy && (t.referrerPolicy = e.referrerPolicy),
-              'use-credentials' === e.crossOrigin
-                ? (t.credentials = 'include')
-                : 'anonymous' === e.crossOrigin
-                ? (t.credentials = 'omit')
-                : (t.credentials = 'same-origin'),
-              t
-            );
-          })(e);
-          fetch(e.href, t);
-        }
-      })();
-      let e = {},
-        t = 0;
-      var n = document.getElementById('jsoneditor'),
-        o = {};
-      ContentstackUIExtension.init().then(function (r) {
-        (e = r), e.window.updateHeight(400);
-        var i = e.field.getData() || {},
-          a = {
-            modes: ['text', 'code', 'tree', 'form', 'view'],
-            mode: 'code',
-            ace: ace,
-            onChange: function () {
-              clearTimeout(t), (t = setTimeout(s, 600));
-            },
-          };
-        (o = new JSONEditor(n, a)).set(i);
-      });
-      var r = document.getElementById('jsoneditor'),
-        i = document.createElement('span');
-      i.className = 'invalid';
-      var a = document.createTextNode('Invalid JSON format !!');
-      async function s() {
-        try {
-          (value = await o.get()),
-            await e.field.setData(value).then(function () {
-              return (
-                (value = 'string' != typeof value ? JSON.stringify(value) : value),
-                (json = JSON.parse(value)),
-                r.removeChild(i),
-                json
-              );
-            });
-        } catch (t) {
-          r.appendChild(i), (document.getElementsByClassName('save-btn').disabled = !0);
-        }
-      }
-      i.appendChild(a);
-    </script>
-    <style rel="stylesheet" crossorigin>
-      body {
-        margin: 0;
-      }
-      #jsoneditor {
-        height: 380px;
-      }
-    </style>
-  </head>
+  <script type="module" crossorigin>(function polyfill() {
+  const relList = document.createElement("link").relList;
+  if (relList && relList.supports && relList.supports("modulepreload")) return;
+  for (const link of document.querySelectorAll('link[rel="modulepreload"]')) processPreload(link);
+  new MutationObserver((mutations) => {
+    for (const mutation of mutations) {
+      if (mutation.type !== "childList") continue;
+      for (const node of mutation.addedNodes) if (node.tagName === "LINK" && node.rel === "modulepreload") processPreload(node);
+    }
+  }).observe(document, {
+    childList: true,
+    subtree: true
+  });
+  function getFetchOpts(link) {
+    const fetchOpts = {};
+    if (link.integrity) fetchOpts.integrity = link.integrity;
+    if (link.referrerPolicy) fetchOpts.referrerPolicy = link.referrerPolicy;
+    if (link.crossOrigin === "use-credentials") fetchOpts.credentials = "include";
+    else if (link.crossOrigin === "anonymous") fetchOpts.credentials = "omit";
+    else fetchOpts.credentials = "same-origin";
+    return fetchOpts;
+  }
+  function processPreload(link) {
+    if (link.ep) return;
+    link.ep = true;
+    const fetchOpts = getFetchOpts(link);
+    fetch(link.href, fetchOpts);
+  }
+})();
+let extensionField = {};
+let typingTimer = 0;
+var jsoneditorElement = document.getElementById("jsoneditor");
+var jsonEditor = {};
+ContentstackUIExtension.init().then(function(extension) {
+  extensionField = extension;
+  extensionField.window.updateHeight(400);
+  var value = extensionField.field.getData() || {};
+  var options = {
+    modes: ["text", "code", "tree", "form", "view"],
+    mode: "code",
+    ace,
+    onChange: function() {
+      clearTimeout(typingTimer);
+      typingTimer = setTimeout(updateFieldValue, 600);
+    }
+  };
+  jsonEditor = new JSONEditor(jsoneditorElement, options);
+  jsonEditor.set(value);
+});
+document.getElementById("jsoneditor");
+var NewTag = document.createElement("span");
+NewTag.className = "invalid";
+var text = document.createTextNode("Invalid JSON format !!");
+NewTag.appendChild(text);
+function updateFieldValue() {
+  var value = jsonEditor.get();
+  extensionField.field.setData(value).then(function() {
+    console.log("data set on child");
+  }).catch(function(error) {
+    console.log("error in setting data", error);
+  });
+}</script>
+  <style rel="stylesheet" crossorigin>body {
+  margin: 0;
+}
 
-  <body>
+#jsoneditor {
+  height: 380px;
+}</style>
+</head>
+
+<body>
     <div id="jsoneditor"></div>
-  </body>
+
+</body>
+
 </html>

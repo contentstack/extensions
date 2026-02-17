@@ -1,7 +1,7 @@
-import { defineConfig } from 'vite';
-import { viteSingleFile } from 'vite-plugin-singlefile';
 import { copyFileSync } from 'fs';
 import { resolve } from 'path';
+import { defineConfig } from 'vite';
+import { viteSingleFile } from 'vite-plugin-singlefile';
 
 export default defineConfig({
   plugins: [
@@ -21,7 +21,7 @@ export default defineConfig({
     rollupOptions: {
       input: './src/index.html',
     },
-    minify: 'terser',
+    minify: 'false',
     terserOptions: {
       compress: {
         drop_console: false,

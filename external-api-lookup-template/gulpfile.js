@@ -16,13 +16,14 @@ gulp.task('js', function () {
     .pipe(gulp.dest('./src/dist'));
 });
 gulp.task('inline', function () {
+  var options = {
+    rootpath: require('path').resolve(__dirname, 'src'),
+    compress: false,
+    attribute: 'inline'
+  };
   return gulp
     .src('./src/index.html')
-    .pipe(
-      inlineSource({
-        compress: true
-      })
-    )
+    .pipe(inlineSource(options))
     .pipe(gulp.dest('./'));
 });
 gulp.task('watch', function () {
