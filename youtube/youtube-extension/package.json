@@ -37,5 +37,8 @@
     "vite": "latest",
     "vite-plugin-singlefile": "^2.3.0"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "overrides": {
+    "follow-redirects": "^1.16.0"
+  }
 }
