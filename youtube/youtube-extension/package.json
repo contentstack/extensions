@@ -39,6 +39,7 @@
   },
   "license": "MIT",
   "overrides": {
-    "follow-redirects": "^1.16.0"
+    "follow-redirects": "^1.16.0",
+    "form-data": "^4.0.6"
   }
 }
