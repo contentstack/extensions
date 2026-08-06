@@ -52,7 +52,8 @@
     "prismjs": "^1.30.0",
     "minimist": "^1.2.6",
     "axios": "^1.18.0",
-    "brace-expansion": "^2.1.4"
+    "brace-expansion": "^2.1.4",
+    "dompurify": "^3.4.12"
   },
   "keywords": [
     "rte",
