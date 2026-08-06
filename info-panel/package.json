@@ -45,7 +45,7 @@
   },
   "overrides": {
     "@babel/runtime": "^7.26.10",
-    "follow-redirects": "^1.15.6",
+    "follow-redirects": "^1.16.0",
     "moment": "^2.29.4",
     "nanoid": "^3.3.8",
     "postcss": "^8.4.31",
