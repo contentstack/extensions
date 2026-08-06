@@ -11,5 +11,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Contentstack",
-  "license": "ISC"
+  "license": "ISC",
+  "overrides": {
+    "brace-expansion": "^2.1.4"
+  }
 }
