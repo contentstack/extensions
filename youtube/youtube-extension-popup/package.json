@@ -38,5 +38,8 @@
     "eslint-plugin-react": "^7.23.2",
     "vite": "latest",
     "vite-plugin-singlefile": "^2.3.0"
+  },
+  "overrides": {
+    "follow-redirects": "^1.16.0"
   }
 }
