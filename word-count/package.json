@@ -45,7 +45,8 @@
   },
   "overrides": {
     "@babel/runtime": ">=7.26.10",
-    "axios": "^1.18.0"
+    "axios": "^1.18.0",
+    "brace-expansion": "^2.1.4"
   },
   "keywords": [
     "rte",
