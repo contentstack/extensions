@@ -52,7 +52,8 @@
     "@babel/runtime": "^7.26.10",
     "axios": "^1.18.0",
     "brace-expansion": "^2.1.4",
-    "dompurify": "^3.4.12"
+    "dompurify": "^3.4.12",
+    "follow-redirects": "^1.16.0"
   },
   "keywords": [
     "rte",
