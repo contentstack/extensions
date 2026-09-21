@@ -1,5 +1,6 @@
 import React from "react";
 import ColorPicker from "./colorpicker";
+import { addMark } from "../rteRef";
 
 export const ColorComponent = (props: any) => {
     const { leaf } = props;
@@ -18,8 +19,7 @@ export function FCIcon() {
     return (
         <ColorPicker
             onChange={(value: string) => {
-                const { rte } = window;
-                rte.addMark("font-color", value);
+                addMark("font-color", value);
             }}
         />
     );

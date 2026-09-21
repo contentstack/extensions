@@ -1,18 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Allura&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Allura&family=Lora&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Allura&family=Caveat&family=Lora&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Allura&family=Caveat&family=Dancing+Script&family=Lora&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Allura&family=Caveat&family=Comfortaa:wght@300&family=Dancing+Script&family=Lora&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Allura&family=Caveat&family=Comfortaa:wght@300&family=Dancing+Script&family=EB+Garamond&family=Lora&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Allura&family=Caveat&family=Comfortaa:wght@300&family=Dancing+Script&family=EB+Garamond&family=Lora&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Allura&family=Caveat&family=Comfortaa:wght@300&family=Dancing+Script&family=EB+Garamond&family=Lora&family=Montserrat:wght@100&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Allura&family=Caveat&family=Comfortaa:wght@300&family=Dancing+Script&family=EB+Garamond&family=Lora&family=Montserrat:wght@100&family=Nanum+Pen+Script&display=swap'); 
-@import url('https://fonts.googleapis.com/css2?family=Allura&family=Caveat&family=Comfortaa:wght@300&family=Dancing+Script&family=EB+Garamond&family=Lora&family=Montserrat:wght@100&family=Nanum+Pen+Script&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Shizuru&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Akaya+Telivigala&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Niconne&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Redressed&display=swap');
+/*
+ * Webfonts are loaded at runtime by fontLoader.ts, not with @import here.
+ *
+ * The JSON RTE renders inside an iframe whose document is shared with the
+ * editor chrome and with every other plugin on the field, so fonts are
+ * registered through the CSS Font Loading API — which can only add a family —
+ * instead of by injecting a stylesheet URL that could carry any CSS at all.
+ * That is also the only way a font added on the app's configuration screen can
+ * be previewed, since its URL is not known at build time.
+ */
 .full-button, .ColorPicker, .ColorPicker__wrapper {
     width: 100%;
     height: 100%;
