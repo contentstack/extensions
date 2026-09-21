@@ -2,6 +2,7 @@ import React from "react";
 import { Dropdown } from "@contentstack/venus-components";
 
 import SIZES from "./size";
+import { addMark } from "../rteRef";
 
 // Component to be rendered
 export const FontSizeComponent = (props: any) => {
@@ -45,8 +46,7 @@ const list = SIZES.map((size: number) => {
         value: size,
         showActive: true,
         action: () => {
-            const { rte } = window;
-            rte.addMark("font-size", size);
+            addMark("font-size", size);
         },
     };
 });

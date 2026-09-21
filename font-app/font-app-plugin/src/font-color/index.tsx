@@ -1,15 +1,12 @@
-import { IRTEPluginInitializer } from "@contentstack/app-sdk/dist/src/RTE/types";
+import { IRTEPluginInitializer, IRteParam } from "@contentstack/app-sdk/dist/src/RTE/types";
 import React from "react";
-import { IRteParamWithConfig } from "../font-family/types";
 import { ColorComponent, FCIcon } from "./components";
+import { setRte } from "../rteRef";
 
 export const createFontColor = (RTE: IRTEPluginInitializer) => {
     //@ts-ignore
-    const FontColor = RTE("font-color", (rte: IRteParamWithConfig) => {
-        // setting rte to window object to access later
-        if (!window.rte && rte) {
-            window.rte = rte;
-        }
+    const FontColor = RTE("font-color", (rte: IRteParam) => {
+        setRte(rte);
         return {
             title: "Font Color",
             icon: <FCIcon />,
