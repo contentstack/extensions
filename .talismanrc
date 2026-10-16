@@ -1,4 +1,68 @@
 fileignoreconfig:
+- filename: brightcove/brightcove/package-lock.json
+  ignore_detectors:
+    - filecontent
+    - base64content
+- filename: brightcove/brightcove-popup/package-lock.json
+  ignore_detectors:
+    - filecontent
+    - base64content
+- filename: brightcove/lambda/package-lock.json
+  ignore_detectors:
+    - filecontent
+    - base64content
+- filename: dashboard-widget-google-analytics/package-lock.json
+  ignore_detectors:
+    - filecontent
+    - base64content
+- filename: dashboard-widget-google-analytics/lambda/package-lock.json
+  ignore_detectors:
+    - filecontent
+    - base64content
+- filename: external-api-lookup-template/package-lock.json
+  ignore_detectors:
+    - filecontent
+    - base64content
+- filename: google-analytics/package-lock.json
+  ignore_detectors:
+    - filecontent
+    - base64content
+- filename: google-analytics/lambda/package-lock.json
+  ignore_detectors:
+    - filecontent
+    - base64content
+- filename: json-editor/package-lock.json
+  ignore_detectors:
+    - filecontent
+    - base64content
+- filename: marketo-forms/package-lock.json
+  ignore_detectors:
+    - filecontent
+    - base64content
+- filename: optimizely/package-lock.json
+  ignore_detectors:
+    - filecontent
+    - base64content
+- filename: optimizely-experiments/package-lock.json
+  ignore_detectors:
+    - filecontent
+    - base64content
+- filename: text-intelligence/package-lock.json
+  ignore_detectors:
+    - filecontent
+    - base64content
+- filename: variable-app/package-lock.json
+  ignore_detectors:
+    - filecontent
+    - base64content
+- filename: youtube/youtube-extension/package-lock.json
+  ignore_detectors:
+    - filecontent
+    - base64content
+- filename: youtube/youtube-extension-popup/package-lock.json
+  ignore_detectors:
+    - filecontent
+    - base64content
 - filename: .github/workflows/secrets-scan.yml
   ignore_detectors:
     - filecontent
