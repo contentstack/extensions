@@ -1,3 +1,6 @@
+> [!WARNING]
+> **This repo is deprecated and no longer maintained. Security updates are not supported. We recommend avoiding its use.**
+
 # Contentstack Extensions
 
 Contentstack provides Extensions that let you extend its UI. It provides four types of extensions: Custom Fields, Custom Widgets, Dashboard Widgets and JSON RTE Plugin.
